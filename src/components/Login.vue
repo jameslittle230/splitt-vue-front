@@ -30,7 +30,6 @@ export default {
                 email: this.email,
                 password: this.password
             }).then(function(response) {
-                console.log(self.$store);
                 self.$store.commit('setApiKey', response.data.api_token);
             }).catch(function(error) {
                 console.error(error);

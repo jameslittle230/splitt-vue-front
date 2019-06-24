@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <Login/>
+    <Login v-if="this.loggedIn"/>
+    {{ this.$store.state.apiToken }}
   </div>
 </template>
 
@@ -9,6 +10,11 @@ import Login from './components/Login.vue'
 
 export default {
   name: 'app',
+  computed: {
+    loggedIn () {
+      return this.$store.state.apiToken == null;
+    }
+  },
   components: {
     Login
   }
