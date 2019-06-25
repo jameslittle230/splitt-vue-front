@@ -1,6 +1,15 @@
 <template>
     <div>
-        SplitCreate
+        <h2>New Split</h2>
+        $<input 
+            type="text"
+            v-model="amount"
+            v-on:blur="inputIsFocused = false"
+            v-on:focus="inputIsFocused = true">
+        <p v-if="active">
+            <label for="memo">Memo: <input type="text" name="memo"></label>&nbsp;
+            <button type="submit">Create Split</button>
+        </p>
     </div>
 </template>
 
@@ -14,8 +23,14 @@ const a = axios.create({
 export default {
     data() {
         return {
-            email: "1@gmail.com",
-            password: "qwerty",
+            amount: "",
+            inputIsFocused: false
+        }
+    },
+
+    computed: {
+        active: function() {
+            return (this.amount != "") || this.inputIsFocused;
         }
     },
 
