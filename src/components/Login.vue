@@ -18,8 +18,8 @@ const a = axios.create({
 export default {
     data() {
         return {
-            email: "1@gmail.com",
-            password: "qwerty",
+            email: "1561495840@gmail.com",
+            password: "asdf",
         }
     },
 
@@ -30,7 +30,7 @@ export default {
                 email: this.email,
                 password: this.password
             }).then(function(response) {
-                self.$store.commit('setApiKey', response.data.api_token);
+                self.$store.dispatch('postLogin', response.data);
             }).catch(function(error) {
                 console.error(error);
             })

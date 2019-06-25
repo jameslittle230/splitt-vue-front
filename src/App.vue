@@ -2,7 +2,7 @@
   <div id="app">
     <Login v-if="!this.loggedIn"/>
     <div v-if="this.loggedIn">
-      <UserInfo v-bind:user="this.user"/>
+      <UserInfo />
       <SplitCreate />
       <TransactionList />
       <DebtsList />

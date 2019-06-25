@@ -11,6 +11,5 @@ new Vue({
 
   beforeCreate() {
     this.$store.commit('initialiseStore');
-    console.log("Got here")
 	}
 }).$mount('#app')

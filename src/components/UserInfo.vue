@@ -1,6 +1,10 @@
 <template>
     <div class="userinfo">
-        User Info
+        <p>Welcome, {{this.$store.state.me.name}}</p>
+        <p v-if="txns">{{ txns.length }} transaction{{txns.length == 1 ? "" : "s"}}</p>
+        <p>
+            <button @click="this.logout">Log out</button>
+        </p>
     </div>
 </template>
 
@@ -12,24 +16,18 @@ const a = axios.create({
 })
 
 export default {
-    data() {
-        return {
-            email: "1@gmail.com",
-            password: "qwerty",
+    data() {return {}},
+
+    computed: {
+        txns: function() {
+            return this.$store.state.me.transactions
         }
     },
 
     methods: {
-        submit: function() {
-            var self = this;
-            a.post('/login', {
-                email: this.email,
-                password: this.password
-            }).then(function(response) {
-                self.$store.commit('setApiKey', response.data.api_token);
-            }).catch(function(error) {
-                console.error(error);
-            })
+        logout: function() {
+            this.$store.commit('logout');
+            console.log("ahhhh");
         }
     }
 }
