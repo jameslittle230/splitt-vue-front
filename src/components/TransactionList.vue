@@ -1,6 +1,12 @@
 <template>
     <div>
-        TXN List
+        <h2>{{ txns.length }} Transaction{{txns.length == 1 ? "" : "s"}}</h2>
+        <ul>
+            <li v-for="transaction in txns">
+                <strong>{{transaction.full_amount}}</strong>: 
+                {{transaction.description}}
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -16,6 +22,12 @@ export default {
         return {
             email: "1@gmail.com",
             password: "qwerty",
+        }
+    },
+
+    computed: {
+        txns: function() {
+            return this.$store.state.me.transactions
         }
     },
 
