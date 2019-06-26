@@ -1,12 +1,14 @@
 <template>
-    <div>
+    <div v-if="this.$store.state.currentGroup">
         <h2>New Split</h2>
         <form action="#" method="post" v-on:submit.prevent="submit">
-            $<input 
-                type="text"
+            $<VueNumeric  
+                separator=","
+                v-bind:precision="2"
+                v-bind:min="0" v-bind:max="100000"
                 v-model="amount"
                 v-on:blur="inputIsFocused = false"
-                v-on:focus="inputIsFocused = true">
+                v-on:focus="inputIsFocused = true" />
             <p v-if="active">
                 <label for="memo">Memo: <input type="text" name="memo" v-model="memo"></label>&nbsp;
                 <button type="submit">Create Split</button>
@@ -17,6 +19,7 @@
 
 <script>
 import axios from 'axios';
+import VueNumeric from 'vue-numeric';
 
 const a = axios.create({
     baseURL: 'http://back.test/api/'
@@ -37,11 +40,12 @@ export default {
         }
     },
 
+    components: {VueNumeric},
+
     methods: {
         submit: function() {
             var self = this;
-            var currentGroup = this.$store.state.currentGroup;
-            currentGroup = "6e29436e-32d1-47e8-9c17-f037dc1910f7";
+            var currentGroup = this.$store.state.currentGroupId;
             a.request({
                 url: `/groups/${currentGroup}/transactions`,
                 method: 'post',
@@ -53,8 +57,10 @@ export default {
                     api_token: this.$store.state.apiToken
                 }
             }).then(function(response) {
-                console.log(response.data);
                 self.$store.commit('addTransaction', response.data);
+                self.amount = "";
+                self.memo = "";
+                self.inputIsFocused = false;
             }).catch(function(error) {
                 console.error(error);
             })
