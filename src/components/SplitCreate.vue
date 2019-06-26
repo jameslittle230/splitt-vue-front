@@ -54,7 +54,7 @@ export default {
                 }
             }).then(function(response) {
                 console.log(response.data);
-                self.$store.addTransaction(response.data);
+                self.$store.commit('addTransaction', response.data);
             }).catch(function(error) {
                 console.error(error);
             })
