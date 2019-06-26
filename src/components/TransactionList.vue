@@ -3,7 +3,7 @@
         <h2>{{ txns.length }} Transaction{{txns.length == 1 ? "" : "s"}}</h2>
         <ul>
             <li v-for="transaction in txns">
-                <strong>{{transaction.full_amount}}</strong>: 
+                <strong><MoneyDisplay v-bind:amount="transaction.full_amount" />:</strong>
                 {{transaction.description}}
             </li>
         </ul>
@@ -12,6 +12,7 @@
 
 <script>
 import axios from 'axios';
+import MoneyDisplay from './MoneyDisplay';
 
 const a = axios.create({
     baseURL: 'http://back.test/api/'
@@ -43,6 +44,8 @@ export default {
                 console.error(error);
             })
         }
-    }
+    },
+
+    components: {MoneyDisplay},
 }
 </script>

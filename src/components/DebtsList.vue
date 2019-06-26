@@ -3,7 +3,7 @@
         <h2>Debts List</h2>
         <ul>
             <li v-for="debt in debts">
-                <strong>{{debt.amount}}</strong>
+                <strong><MoneyDisplay v-bind:amount="debt.amount" />:</strong>
                 {{debt.transaction}} ({{debt.percentage}}%)
             </li>
         </ul>
@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import MoneyDisplay from './MoneyDisplay';
 
 export default {
     computed: {
@@ -19,5 +20,6 @@ export default {
         }
     },
 
+    components: {MoneyDisplay}
 }
 </script>
