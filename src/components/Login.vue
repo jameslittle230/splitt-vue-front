@@ -1,6 +1,6 @@
 <template>
     <div class="login">
-        <form action="#" v-on:submit.prevent="submit">
+        <form action="#" method="POST" v-on:submit.prevent="submit">
             <p><label for="email">Email: <input type="text" name="email" v-model="email"></label></p>
             <p><label for="password">Password: <input type="password" name="password" id="" v-model="password"></label></p>
             <p><button type="submit">Log in</button></p>
