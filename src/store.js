@@ -23,13 +23,8 @@ const store = new Vuex.Store({
       state.me = userObject;
     },
 
-    initialiseStore(state) {
-      // Check if the ID exists
-      if (localStorage.getItem("store")) {
-        this.replaceState(
-          Object.assign(state, JSON.parse(localStorage.getItem("store")))
-        );
-      }
+    addTransaction(state, txnObject) {
+      state.me.transactions.append(txnObject);
     },
 
     logout(state) {
@@ -52,7 +47,27 @@ const store = new Vuex.Store({
       }).catch(function(error) {
         console.log(error)
       })
-    }
+    },
+
+    initialiseStore(state) {
+      const self = this;
+      if (localStorage.getItem("store")) {
+        var savedState = JSON.parse(localStorage.getItem("store"))
+        this.replaceState(
+          Object.assign(state, savedState)
+        );
+
+        a.get('/me', {
+          params: {
+            "api_token": savedState.apiToken
+          }
+        }).then(function(response) {
+          self.commit('setUserFromMe', response.data)
+        }).catch(function(error) {
+          console.log(error)
+        })
+      }
+    },
   }
 });
 
