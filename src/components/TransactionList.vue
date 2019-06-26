@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="txns">
         <h2>{{ txns.length }} Transaction{{txns.length == 1 ? "" : "s"}}</h2>
         <ul>
             <li v-for="transaction in txns">
