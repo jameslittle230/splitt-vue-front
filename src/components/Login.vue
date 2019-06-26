@@ -18,7 +18,7 @@ const a = axios.create({
 export default {
     data() {
         return {
-            email: "1561495840@gmail.com",
+            email: "j@gmail.com",
             password: "asdf",
         }
     },
