@@ -27,6 +27,7 @@ const store = new Vuex.Store({
 
     addTransaction(state, txnObject) {
       state.me.transactions.push(txnObject);
+      state.currentGroup.transactions.push(txnObject);
     },
 
     setCurrentGroupId(state, groupId) {
@@ -79,23 +80,37 @@ const store = new Vuex.Store({
       })
     },
 
-    initialiseStore(state) {
+    initialiseStore(context) {
       const self = this;
       if (localStorage.getItem("store")) {
         var savedState = JSON.parse(localStorage.getItem("store"))
         this.replaceState(
-          Object.assign(state, savedState)
+          Object.assign(context.state, savedState)
         );
 
-        a.get('/me', {
-          params: {
-            "api_token": savedState.apiToken
+        if(context.state.apiToken) {
+          a.get('/me', {
+            params: {
+              "api_token": savedState.apiToken
+            }
+          }).then(function(response) {
+            self.commit('setUserFromMe', response.data)
+          }).catch(function(error) {
+            console.log(error)
+          })
+
+          if(context.state.currentGroupId) {
+            a.get(`/groups/${context.state.currentGroupId}`, {
+              params: {
+                "api_token": context.state.apiToken
+              }
+            }).then(function(response) {
+              context.commit('setGroupObject', response.data)
+            }).catch(function(error) {
+              console.log(error)
+            })
           }
-        }).then(function(response) {
-          self.commit('setUserFromMe', response.data)
-        }).catch(function(error) {
-          console.log(error)
-        })
+        }
       }
     },
   }
