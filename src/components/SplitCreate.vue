@@ -5,7 +5,7 @@
             $<input 
                 type="text"
                 v-model="amount"
-                v-on:blur="inputIsFocused = false; memo = ''"
+                v-on:blur="inputIsFocused = false"
                 v-on:focus="inputIsFocused = true">
             <p v-if="active">
                 <label for="memo">Memo: <input type="text" name="memo" v-model="memo"></label>&nbsp;
