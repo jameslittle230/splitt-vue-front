@@ -1,6 +1,12 @@
 <template>
     <div>
-        Debts List
+        <h2>Debts List</h2>
+        <ul>
+            <li v-for="debt in debts">
+                <strong>{{debt.amount}}</strong>
+                {{debt.transaction}} ({{debt.percentage}}%)
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -19,18 +25,13 @@ export default {
         }
     },
 
-    methods: {
-        submit: function() {
-            var self = this;
-            a.post('/login', {
-                email: this.email,
-                password: this.password
-            }).then(function(response) {
-                self.$store.commit('setApiKey', response.data.api_token);
-            }).catch(function(error) {
-                console.error(error);
-            })
+    computed: {
+        debts: function() {
+            return this.$store.state.me.splits
         }
+    },
+
+    methods: {
     }
 }
 </script>
