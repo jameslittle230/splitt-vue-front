@@ -1,15 +1,17 @@
 <template>
     <div>
         <h2>New Split</h2>
-        $<input 
-            type="text"
-            v-model="amount"
-            v-on:blur="inputIsFocused = false"
-            v-on:focus="inputIsFocused = true">
-        <p v-if="active">
-            <label for="memo">Memo: <input type="text" name="memo"></label>&nbsp;
-            <button type="submit">Create Split</button>
-        </p>
+        <form action="#" method="post" v-on:submit.prevent="submit">
+            $<input 
+                type="text"
+                v-model="amount"
+                v-on:blur="inputIsFocused = false; memo = ''"
+                v-on:focus="inputIsFocused = true">
+            <p v-if="active">
+                <label for="memo">Memo: <input type="text" name="memo" v-model="memo"></label>&nbsp;
+                <button type="submit">Create Split</button>
+            </p>
+        </form>
     </div>
 </template>
 
@@ -24,6 +26,7 @@ export default {
     data() {
         return {
             amount: "",
+            memo: "",
             inputIsFocused: false
         }
     },
@@ -37,11 +40,21 @@ export default {
     methods: {
         submit: function() {
             var self = this;
-            a.post('/login', {
-                email: this.email,
-                password: this.password
+            var currentGroup = this.$store.state.currentGroup;
+            currentGroup = "6e29436e-32d1-47e8-9c17-f037dc1910f7";
+            a.request({
+                url: `/groups/${currentGroup}/transactions`,
+                method: 'post',
+                data: {
+                    full_amount: this.amount,
+                    description: this.memo,
+                },
+                params: {
+                    api_token: this.$store.state.apiToken
+                }
             }).then(function(response) {
-                self.$store.commit('setApiKey', response.data.api_token);
+                console.log(response.data);
+                self.$store.addTransaction(response.data);
             }).catch(function(error) {
                 console.error(error);
             })
