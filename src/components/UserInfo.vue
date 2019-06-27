@@ -19,35 +19,53 @@
       </button>
     </p>
 
-    <div v-if="isCreatingNewGroup" style="border: 1px dashed black; padding: 20px;">
-      <form action="#" method="POST" v-on:submit.prevent="submitNewGroupForm">
-        <p>
+    <div style="display: flex;" v-if="isCreatingNewGroup">
+      <div style="border: 1px dashed black; padding: 20px; margin-right: 20px;">
+        <h3>Create a New Group</h3>
+        <form action="#" method="POST" v-on:submit.prevent="submitNewGroupForm">
+          <p>
+            <label for="name">
+              Name:
+              <input type="text" name="name" v-model="newGroupName">
+            </label>
+          </p>
+          <p>
+            <i>Member 1: {{this.$store.state.me.email}}</i>
+          </p>
+          <p v-for="(email, idx) in newGroupMembers" v-bind:key="idx">
+            <label v-bind:for="`email${idx}`">
+              Email of Member {{idx + 2}}:
+              <input
+                type="email"
+                v-bind:name="`email${idx}`"
+                v-model="newGroupMembers[idx]"
+              >
+              <button v-on:click="newGroupMembers.splice(idx, 1);">x</button>
+            </label>
+          </p>
+          <p>
+            <button v-on:click="newGroupMembers.push('')">Add Someone Else</button>
+          </p>
+          <p>
+            <button type="submit">Create a Group</button>
+          </p>
+        </form>
+      </div>
+
+
+
+      <div style="border: 1px dashed black; padding: 20px">
+        <h3>Join an Existing Group</h3>
+        <form action="#" method="POST" v-on:submit.prevent="submitJoinGroupForm">
           <label for="name">
-            Name:
-            <input type="text" name="name" v-model="newGroupName">
+            Code:
+            <input type="text" name="name" v-model="joinCode">
           </label>
-        </p>
-        <p>
-          <i>Member 1: {{this.$store.state.me.email}}</i>
-        </p>
-        <p v-for="(email, idx) in newGroupMembers" v-bind:key="idx">
-          <label v-bind:for="`email${idx}`">
-            Email of Member {{idx + 2}}:
-            <input
-              type="email"
-              v-bind:name="`email${idx}`"
-              v-model="newGroupMembers[idx]"
-            >
-            <button v-on:click="newGroupMembers.splice(idx, 1);">x</button>
-          </label>
-        </p>
-        <p>
-          <button v-on:click="newGroupMembers.push('')">Add Someone Else</button>
-        </p>
-        <p>
-          <button type="submit">Create a Group</button>
-        </p>
-      </form>
+          <p>
+            <button type="submit">Join Group</button>
+          </p>
+        </form>
+      </div>
     </div>
 
     <p
@@ -70,7 +88,9 @@ export default {
       isCreatingNewGroup: false,
       newGroupName: "",
       newGroupMembers: [""],
-      postGroupCreationMessage: null
+      postGroupCreationMessage: null,
+
+      joinCode: "",
     };
   },
 
@@ -122,7 +142,42 @@ export default {
         .catch(function(error) {
           console.error(error);
         });
+    },
+
+    submitJoinGroupForm: function() {
+      const self = this;
+      a.get(`/groupsearch`, {
+        params: {
+          api_token: this.$store.state.apiToken,
+          q: this.joinCode
+        }
+      })
+        .then(function(response) {
+          const groupId = response.data[0].id;
+          a.request({
+            url: `/groups/${groupId}`,
+            method: "put",
+            data: {
+              members: [self.$store.state.me.email],
+            },
+            params: {
+              api_token: self.$store.state.apiToken
+            }
+          })
+          .then(function(response) {
+            self.$store.dispatch('refreshMe');
+            self.$store.dispatch('setGroup', response.data.group.id);
+            self.resetGroupCreationBox();
+          })
+          .catch(function(error) {
+            console.log("Inner Error");
+            console.log(error);
+          })
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
-  }
+  },
 };
 </script>
