@@ -50,10 +50,13 @@ const store = new Vuex.Store({
     postLogin(context, data) {
       const self = this;
       context.commit("setUserFromLogin", data);
+      context.dispatch('refreshMe');
+    },
 
+    refreshMe(context) {
       a.get("/me", {
         params: {
-          api_token: data.api_token
+          api_token: context.state.apiToken
         }
       })
         .then(function(response) {
@@ -69,7 +72,6 @@ const store = new Vuex.Store({
 
     setGroup(context, groupId) {
       context.commit("setCurrentGroupId", groupId);
-      const self = this;
       a.get(`/groups/${groupId}`, {
         params: {
           api_token: context.state.apiToken
