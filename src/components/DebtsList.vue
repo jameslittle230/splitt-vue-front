@@ -34,10 +34,13 @@ export default {
   computed: {
     debts: function() {
       const myId = this.$store.state.me.id;
-      return this.$store.state.currentGroup.transactions
-        .filter(txn => txn.creator != myId)
-        .map(txn => txn.splits.filter(split => split.debtor == myId)[0])
-        .filter(split => split.reconciled == 0);
+      const txns = this.$store.state.currentGroup.transactions
+      const notMyTxns = txns.filter(txn => txn.creator != myId)
+      const mySplits = notMyTxns.map(function(txn) {
+        const mySplitList = txn.splits.filter(split => split.debtor == myId)
+        return mySplitList.length == 1 ? mySplitList[0] : null;
+      });
+      return mySplits.filter(split => split && (split.reconciled == 0));
     },
 
     groupMembers: function() {
