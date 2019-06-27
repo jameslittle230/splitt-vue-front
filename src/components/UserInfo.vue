@@ -135,8 +135,14 @@ export default {
       })
         .then(function(response) {
           self.postGroupCreationMessage = `Group "${
-            response.data.name
+            response.data.group.name
           }" has been created.`;
+          
+          // @TODO: This and the same pattern below (line 172) need to be
+          // made synchronous, since refreshMe makes an async call then
+          // sets the group itself.
+          self.$store.dispatch('refreshMe');
+          self.$store.dispatch('setGroup', response.data.group.id);
           self.resetGroupCreationBox();
         })
         .catch(function(error) {
