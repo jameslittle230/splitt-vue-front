@@ -15,7 +15,7 @@
         <span
           v-if="debt.percentage != 100"
         >({{debt.percentage}}%)</span>
-        <button v-on:click="reconcile(debt.id)">Paid (not wired yet)</button>
+        <button v-on:click="reconcile(debt.id)">Paid</button>
       </li>
     </ul>
     <p v-if="debts.length == 0">No debts yet!</p>
@@ -23,7 +23,12 @@
 </template>
 
 <script>
+import axios from "axios";
 import MoneyDisplay from "./MoneyDisplay";
+
+const a = axios.create({
+  baseURL: "http://back.test/api/"
+});
 
 export default {
   computed: {
@@ -31,7 +36,8 @@ export default {
       const myId = this.$store.state.me.id;
       return this.$store.state.currentGroup.transactions
         .filter(txn => txn.creator != myId)
-        .map(txn => txn.splits.filter(split => split.debtor == myId)[0]);
+        .map(txn => txn.splits.filter(split => split.debtor == myId)[0])
+        .filter(split => split.reconciled == 0);
     },
 
     groupMembers: function() {
@@ -57,6 +63,35 @@ export default {
       }
 
       return this.debts.map(split => parseFloat(split.amount)).reduce(sum);
+    }
+  },
+
+  methods: {
+    reconcile: function(splitId) {
+      var self = this;
+      a.request({
+        url: `/splits/${splitId}`,
+        method: "put",
+        data: {
+          reconciled: 1,
+        },
+        params: {
+          api_token: this.$store.state.apiToken
+        }
+      })
+        .then(function(response) {
+          // oof I love functional programming
+          txnIdOfReconciledSplit = self.debts
+            .filter(split => split.id == splitId)[0].transaction
+
+          self.$store.state.currentGroup.transactions
+            .filter(txn => txn.id == txnIdOfReconciledSplit)[0]
+            .splits.filter(split => split.id == splitId)[0]
+            .reconciled = 1;
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
     }
   },
 
