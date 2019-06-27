@@ -26,7 +26,6 @@ const store = new Vuex.Store({
     },
 
     addTransaction(state, txnObject) {
-      state.me.transactions.push(txnObject);
       state.currentGroup.transactions.push(txnObject);
     },
 
