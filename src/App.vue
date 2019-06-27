@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <Login v-if="!this.loggedIn"/>
+    <div v-if="!this.loggedIn">
+      <Login />
+      <hr>
+      <SignUp />
+    </div>
     <div v-if="this.loggedIn">
       <UserInfo />
       <SplitCreate />
@@ -12,6 +16,7 @@
 
 <script>
 import Login from './components/Login.vue'
+import SignUp from './components/SignUp.vue'
 import UserInfo from './components/UserInfo.vue'
 import SplitCreate from './components/SplitCreate.vue'
 import TransactionList from './components/TransactionList.vue'
@@ -25,7 +30,7 @@ export default {
     }
   },
   components: {
-    Login, UserInfo, SplitCreate, TransactionList, DebtsList
+    Login, UserInfo, SplitCreate, TransactionList, DebtsList, SignUp
   }
 }
 </script>
