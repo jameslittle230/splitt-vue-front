@@ -39,6 +39,7 @@ export default {
 
     computed: {
         txns: function() {
+            if(!this.$store.state.currentGroup) { return null; }
             var txns = [...this.$store.state.currentGroup.transactions].reverse();
             return txns.filter(t => this.txnFilterAllows(t))
         },
