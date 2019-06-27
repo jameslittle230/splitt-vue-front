@@ -5,15 +5,15 @@ import Axios from "axios";
 Vue.use(Vuex);
 
 const a = Axios.create({
-  baseURL: 'http://back.test/api/'
-})
+  baseURL: "http://back.test/api/"
+});
 
 const store = new Vuex.Store({
   state: {
     apiToken: null,
     me: null,
     currentGroupId: null,
-    currentGroup: null,
+    currentGroup: null
   },
   mutations: {
     setUserFromLogin(state, userObject) {
@@ -49,69 +49,75 @@ const store = new Vuex.Store({
   actions: {
     postLogin(context, data) {
       const self = this;
-      context.commit('setUserFromLogin', data);
+      context.commit("setUserFromLogin", data);
 
-      a.get('/me', {
+      a.get("/me", {
         params: {
-          "api_token": data.api_token
+          api_token: data.api_token
         }
-      }).then(function(response) {
-        context.commit('setUserFromMe', response.data);
-        if(context.state.me.groups.length > 0) {
-          context.dispatch('setGroup', context.state.me.groups[0].id)
-        }
-      }).catch(function(error) {
-        console.log(error)
       })
+        .then(function(response) {
+          context.commit("setUserFromMe", response.data);
+          if (context.state.me.groups.length > 0) {
+            context.dispatch("setGroup", context.state.me.groups[0].id);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
 
     setGroup(context, groupId) {
-      context.commit('setCurrentGroupId', groupId);
+      context.commit("setCurrentGroupId", groupId);
       const self = this;
       a.get(`/groups/${groupId}`, {
         params: {
-          "api_token": context.state.apiToken
+          api_token: context.state.apiToken
         }
-      }).then(function(response) {
-        context.commit('setGroupObject', response.data)
-      }).catch(function(error) {
-        console.log(error)
       })
+        .then(function(response) {
+          context.commit("setGroupObject", response.data);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
 
     initialiseStore(context) {
       const self = this;
       if (localStorage.getItem("store")) {
-        var savedState = JSON.parse(localStorage.getItem("store"))
-        this.replaceState(
-          Object.assign(context.state, savedState)
-        );
+        var savedState = JSON.parse(localStorage.getItem("store"));
+        this.replaceState(Object.assign(context.state, savedState));
 
-        if(context.state.apiToken) {
-          a.get('/me', {
+        if (context.state.apiToken) {
+          a.get("/me", {
             params: {
-              "api_token": savedState.apiToken
+              api_token: savedState.apiToken
             }
-          }).then(function(response) {
-            self.commit('setUserFromMe', response.data)
-          }).catch(function(error) {
-            console.log(error)
           })
+            .then(function(response) {
+              self.commit("setUserFromMe", response.data);
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
 
-          if(context.state.currentGroupId) {
+          if (context.state.currentGroupId) {
             a.get(`/groups/${context.state.currentGroupId}`, {
               params: {
-                "api_token": context.state.apiToken
+                api_token: context.state.apiToken
               }
-            }).then(function(response) {
-              context.commit('setGroupObject', response.data)
-            }).catch(function(error) {
-              console.log(error)
             })
+              .then(function(response) {
+                context.commit("setGroupObject", response.data);
+              })
+              .catch(function(error) {
+                console.log(error);
+              });
           }
         }
       }
-    },
+    }
   }
 });
 
