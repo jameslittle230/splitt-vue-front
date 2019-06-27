@@ -34,6 +34,7 @@ export default {
   computed: {
     debts: function() {
       const myId = this.$store.state.me.id;
+
       const txns = this.$store.state.currentGroup.transactions
       const notMyTxns = txns.filter(txn => txn.creator != myId)
       const mySplits = notMyTxns.map(function(txn) {
@@ -84,7 +85,7 @@ export default {
       })
         .then(function(response) {
           // oof I love functional programming
-          txnIdOfReconciledSplit = self.debts
+          const txnIdOfReconciledSplit = self.debts
             .filter(split => split.id == splitId)[0].transaction
 
           self.$store.state.currentGroup.transactions
