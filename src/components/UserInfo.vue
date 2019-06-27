@@ -14,11 +14,12 @@
     </p>
     <p>
       <button @click="this.logout">Log out</button>
-      <button v-on:click="isCreatingNewGroup = true">New group</button>
+      <button v-on:click="isCreatingNewGroup = !isCreatingNewGroup">
+        {{isCreatingNewGroup ? "nvm" : "New group"}}
+      </button>
     </p>
 
     <div v-if="isCreatingNewGroup" style="border: 1px dashed black; padding: 20px;">
-      <button v-on:click="isCreatingNewGroup = false">nvm</button>
       <form action="#" method="POST" v-on:submit.prevent="submitNewGroupForm">
         <p>
           <label for="name">
