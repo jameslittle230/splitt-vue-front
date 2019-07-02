@@ -137,6 +137,7 @@ export default {
     },
 
     resetSplitViewModel: function() {
+      if(!this.groupMembers) { return null }
       var memberData = {};
       const self = this;
       this.groupMembers.forEach(function(member) {
@@ -182,6 +183,7 @@ export default {
     },
 
     resetPercentages: function(type) {
+      if(!this.groupMembers) { return null }
       const percentageOffset = type == "reimbursement" ? 1 : 0
       const myEmail = this.$store.state.me.email;
 
