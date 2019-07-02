@@ -76,9 +76,9 @@ export default {
     },
 
     percentageSum: function() {
-      return Object.keys(this.splitViewModel.memberData)
+      return Math.round(Object.keys(this.splitViewModel.memberData)
         .map(k => this.splitViewModel.memberData[k])
-        .reduce((a, curr) => a + curr.percentage, 0);
+        .reduce((a, curr) => a + curr.percentage, 0));
     },
 
     percentageWatchKey: function() {
@@ -108,6 +108,10 @@ export default {
 
   methods: {
     submit: function() {
+      if(this.amount == 0 || this.memo == "") {
+        alert("You need a memo (or you need to make a split that's >$0)");
+        return;
+      }
       var self = this;
       var currentGroup = this.$store.state.currentGroupId;
       Networker.createTransactionWithSplits(
@@ -126,7 +130,9 @@ export default {
     },
 
     resetSplitViewModel: function() {
-      if(!this.groupMembers) { return null }
+      while(!this.groupMembers) {
+        console.log("waiting...")
+       }
       var memberData = {};
       const self = this;
       this.groupMembers.forEach(function(member) {
