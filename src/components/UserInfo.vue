@@ -15,7 +15,7 @@
     <p>
       <button @click="this.logout">Log out</button>
       <button v-on:click="isCreatingNewGroup = !isCreatingNewGroup">
-        {{isCreatingNewGroup ? "nvm" : "New group"}}
+        {{isCreatingNewGroup ? "Never mind" : "New group or Join Group"}}
       </button>
     </p>
 
@@ -40,7 +40,9 @@
                 v-bind:name="`email${idx}`"
                 v-model="newGroupMembers[idx]"
               >
-              <button v-on:click="newGroupMembers.splice(idx, 1);">x</button>
+              <button 
+                v-on:click="newGroupMembers.splice(idx, 1);"
+                v-if="idx != 0">x</button>
             </label>
           </p>
           <p>
