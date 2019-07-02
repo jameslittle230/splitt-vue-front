@@ -3,7 +3,7 @@ import store from "./store.js";
 
 export default {
   a: axios.create({
-    baseURL: "http://back.test/api/"
+    baseURL: process.env.VUE_APP_API_URL
   }),
 
   _getMe: function(apiToken) {
