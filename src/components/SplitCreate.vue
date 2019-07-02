@@ -130,9 +130,7 @@ export default {
     },
 
     resetSplitViewModel: function() {
-      while(!this.groupMembers) {
-        console.log("waiting...")
-       }
+      if (!this.groupMembers) { return null }
       var memberData = {};
       const self = this;
       this.groupMembers.forEach(function(member) {
