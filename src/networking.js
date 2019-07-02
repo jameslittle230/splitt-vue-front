@@ -6,6 +6,22 @@ export default {
     baseURL: "http://back.test/api/"
   }),
 
+  _getMe: function(apiToken) {
+    return this.a.get('/me', {
+      params: {
+        api_token: apiToken
+      }
+    })
+  },
+
+  _getGroup: function(apiToken, groupID) {
+    return this.a.get(`/groups/${groupID}`, {
+      params: {
+        api_token: apiToken
+      }
+    })
+  },
+
   /**
    * @param splitID {String} The ID of the split that gets reconciled
    * @returns {AxiosPromise}

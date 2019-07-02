@@ -1,12 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import Axios from "axios";
+import networking from "./networking";
 
 Vue.use(Vuex);
-
-const a = Axios.create({
-  baseURL: "http://back.test/api/"
-});
 
 const store = new Vuex.Store({
   state: {
@@ -54,11 +50,7 @@ const store = new Vuex.Store({
     },
 
     refreshMe(context) {
-      a.get("/me", {
-        params: {
-          api_token: context.state.apiToken
-        }
-      })
+      networking._getMe(context.state.apiToken)
         .then(function(response) {
           context.commit("setUserFromMe", response.data);
           if (context.state.me.groups.length > 0) {
@@ -72,11 +64,7 @@ const store = new Vuex.Store({
 
     setGroup(context, groupId) {
       context.commit("setCurrentGroupId", groupId);
-      a.get(`/groups/${groupId}`, {
-        params: {
-          api_token: context.state.apiToken
-        }
-      })
+      networking._getGroup(context.state.apiToken, groupId)
         .then(function(response) {
           context.commit("setGroupObject", response.data);
         })
@@ -92,11 +80,7 @@ const store = new Vuex.Store({
         this.replaceState(Object.assign(context.state, savedState));
 
         if (context.state.apiToken) {
-          a.get("/me", {
-            params: {
-              api_token: savedState.apiToken
-            }
-          })
+          networking._getMe(savedState.apiToken)
             .then(function(response) {
               self.commit("setUserFromMe", response.data);
             })
@@ -105,11 +89,7 @@ const store = new Vuex.Store({
             });
 
           if (context.state.currentGroupId) {
-            a.get(`/groups/${context.state.currentGroupId}`, {
-              params: {
-                api_token: context.state.apiToken
-              }
-            })
+            networking._getGroup(context.state.apiToken, context.state.currentGroupId)
               .then(function(response) {
                 context.commit("setGroupObject", response.data);
               })
