@@ -12,9 +12,7 @@
         </strong>
         for
         {{txns[debt.transaction].description}}
-        <span
-          v-if="debt.percentage != 100"
-        >({{debt.percentage}}%)</span>
+        <span>({{debt.percentage}}%)</span>
         <button v-on:click="reconcile(debt.id)">Paid</button>
       </li>
     </ul>

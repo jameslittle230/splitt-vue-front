@@ -118,7 +118,7 @@ export default {
         url: `/groups/${currentGroup}/transactions`,
         method: "post",
         data: {
-          full_amount: this.amount,
+          full_amount: Math.round(this.amount * 100),
           description: this.memo,
           splits: this.splitNetworkObject,
         },

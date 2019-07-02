@@ -1,5 +1,5 @@
 <template>
-  <span>${{(parseFloat(this.amount)).toFixed(2)}}</span>
+  <span>${{(parseInt(this.amount) / 100).toFixed(2)}}</span>
 </template>
 
 <script>
