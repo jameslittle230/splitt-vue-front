@@ -28,11 +28,7 @@
 </template>
 
 <script>
-import axios from "axios";
-
-const a = axios.create({
-  baseURL: "http://back.test/api/"
-});
+import networking from '../networking';
 
 export default {
   data() {
@@ -46,11 +42,7 @@ export default {
   methods: {
     submit: function() {
       var self = this;
-      a.post("/group_members", {
-        name: this.name,
-        email: this.email,
-        password: this.password
-      })
+      Networker.createUser(this.name, this.email, this.password)
         .then(function(response) {
           self.$store.dispatch("postLogin", response.data);
         })

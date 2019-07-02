@@ -22,11 +22,7 @@
 </template>
 
 <script>
-import axios from "axios";
-
-const a = axios.create({
-  baseURL: "http://back.test/api/"
-});
+import Networker from '../networking';
 
 export default {
   data() {
@@ -39,10 +35,7 @@ export default {
   methods: {
     submit: function() {
       var self = this;
-      a.post("/login", {
-        email: this.email,
-        password: this.password
-      })
+      Networker.login(this.email, this.password)
         .then(function(response) {
           self.$store.dispatch("postLogin", response.data);
         })

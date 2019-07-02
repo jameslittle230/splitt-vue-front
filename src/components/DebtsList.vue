@@ -21,12 +21,8 @@
 </template>
 
 <script>
-import axios from "axios";
+import Networker from "../networking";
 import MoneyDisplay from "./MoneyDisplay";
-
-const a = axios.create({
-  baseURL: "http://back.test/api/"
-});
 
 export default {
   computed: {
@@ -74,16 +70,7 @@ export default {
   methods: {
     reconcile: function(splitId) {
       var self = this;
-      a.request({
-        url: `/splits/${splitId}`,
-        method: "put",
-        data: {
-          reconciled: 1,
-        },
-        params: {
-          api_token: this.$store.state.apiToken
-        }
-      })
+      Networker.reconcileSplit(splitId)
         .then(function(response) {
           // oof I love functional programming
           const txnIdOfReconciledSplit = self.debts

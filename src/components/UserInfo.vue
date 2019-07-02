@@ -82,11 +82,7 @@
 </template>
 
 <script>
-import axios from "axios";
-
-const a = axios.create({
-  baseURL: "http://back.test/api/"
-});
+import Networker from "../networking";
 
 export default {
   data() {
@@ -128,17 +124,7 @@ export default {
 
     submitNewGroupForm: function() {
       const self = this;
-      a.request({
-        url: `/groups`,
-        method: "post",
-        data: {
-          name: this.newGroupName,
-          members: this.newGroupMembers.filter(x => x != "")
-        },
-        params: {
-          api_token: this.$store.state.apiToken
-        }
-      })
+      Networker.createNewGroup(this.newGroupName, this.newGroupMembers.filter(x => x != ""))
         .then(function(response) {
           self.postGroupCreationMessage = `Group "${
             response.data.group.name
@@ -158,24 +144,9 @@ export default {
 
     submitJoinGroupForm: function() {
       const self = this;
-      a.get(`/groupsearch`, {
-        params: {
-          api_token: this.$store.state.apiToken,
-          q: this.joinCode
-        }
-      })
+      Networker.groupSearch(this.joinCode)
         .then(function(response) {
-          const groupId = response.data[0].id;
-          a.request({
-            url: `/groups/${groupId}`,
-            method: "put",
-            data: {
-              members: [self.$store.state.me.email],
-            },
-            params: {
-              api_token: self.$store.state.apiToken
-            }
-          })
+          Networker.addSelfToGroup(response.data[0].id)
           .then(function(response) {
             self.$store.dispatch('refreshMe');
             self.$store.dispatch('setGroup', response.data.group.id);

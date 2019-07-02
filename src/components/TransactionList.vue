@@ -24,13 +24,8 @@
 </template>
 
 <script>
-import axios from "axios";
 import MoneyDisplay from "./MoneyDisplay";
 import DateFmt from "../filters/Datefmt";
-
-const a = axios.create({
-  baseURL: "http://back.test/api/"
-});
 
 export default {
   data() {
@@ -56,20 +51,6 @@ export default {
   },
 
   methods: {
-    submit: function() {
-      var self = this;
-      a.post("/login", {
-        email: this.email,
-        password: this.password
-      })
-        .then(function(response) {
-          self.$store.commit("setApiKey", response.data.api_token);
-        })
-        .catch(function(error) {
-          console.error(error);
-        });
-    },
-
     txnIsMine: function(txn) {
       return txn.creator === this.$store.state.me.id;
     },
@@ -85,7 +66,6 @@ export default {
         default:
           // throw error
           return false;
-          break;
       }
     }
   },

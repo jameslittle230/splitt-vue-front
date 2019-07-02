@@ -52,12 +52,8 @@
 </template>
 
 <script>
-import axios from "axios";
+import Networker from "../networking";
 import VueNumeric from "vue-numeric";
-
-const a = axios.create({
-  baseURL: "http://back.test/api/"
-});
 
 export default {
   data() {
@@ -114,18 +110,11 @@ export default {
     submit: function() {
       var self = this;
       var currentGroup = this.$store.state.currentGroupId;
-      a.request({
-        url: `/groups/${currentGroup}/transactions`,
-        method: "post",
-        data: {
-          full_amount: Math.round(this.amount * 100),
-          description: this.memo,
-          splits: this.splitNetworkObject,
-        },
-        params: {
-          api_token: this.$store.state.apiToken
-        }
-      })
+      Networker.createTransactionWithSplits(
+        Math.round(this.amount * 100), 
+        this.memo, 
+        this.splitNetworkObject
+      )
         .then(function(response) {
           self.$store.commit("addTransaction", response.data);
           self.amount = "";
