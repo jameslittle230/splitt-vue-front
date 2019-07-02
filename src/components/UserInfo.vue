@@ -20,6 +20,10 @@
     </p>
 
     <div style="display: flex;" v-if="isCreatingNewGroup">
+      <!--
+        @TODO: Extract these friends into their own components
+        @TODO: Form validation
+      -->
       <div style="border: 1px dashed black; padding: 20px; margin-right: 20px;">
         <h3>Create a New Group</h3>
         <form action="#" method="POST" v-on:submit.prevent="submitNewGroupForm">
