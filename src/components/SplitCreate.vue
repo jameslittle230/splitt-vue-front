@@ -75,6 +75,7 @@ export default {
     },
 
     groupMembers: function() {
+      if(!this.$store.state.currentGroup) { return null }
       return this.$store.state.currentGroup.members
     },
 

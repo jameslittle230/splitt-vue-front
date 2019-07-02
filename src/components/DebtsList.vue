@@ -33,6 +33,7 @@ const a = axios.create({
 export default {
   computed: {
     debts: function() {
+      if(!this.$store.state.currentGroup) { return null }
       const myId = this.$store.state.me.id;
 
       const txns = this.$store.state.currentGroup.transactions
@@ -45,6 +46,7 @@ export default {
     },
 
     groupMembers: function() {
+      if(!this.$store.state.currentGroup) { return null }
       var output = [];
       for (const member of this.$store.state.currentGroup.members) {
         output[member.id] = member;
@@ -53,6 +55,7 @@ export default {
     },
 
     txns: function() {
+      if(!this.$store.state.currentGroup) { return null }
       var output = [];
       for (const txn of this.$store.state.currentGroup.transactions) {
         output[txn.id] = txn;
