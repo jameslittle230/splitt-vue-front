@@ -59,12 +59,9 @@ export default {
       switch (this.txnFilter) {
         case "mine":
           return this.txnIsMine(txn);
-          break;
         case "all":
           return true;
-          break;
         default:
-          // throw error
           return false;
       }
     }

@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import networking from '../networking';
+import Networker from '../networking';
 
 export default {
   data() {

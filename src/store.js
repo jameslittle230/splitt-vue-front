@@ -44,7 +44,6 @@ const store = new Vuex.Store({
 
   actions: {
     postLogin(context, data) {
-      const self = this;
       context.commit("setUserFromLogin", data);
       context.dispatch('refreshMe');
     },

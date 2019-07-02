@@ -71,7 +71,7 @@ export default {
     reconcile: function(splitId) {
       var self = this;
       Networker.reconcileSplit(splitId)
-        .then(function(response) {
+        .then(function() {
           // oof I love functional programming
           const txnIdOfReconciledSplit = self.debts
             .filter(split => split.id == splitId)[0].transaction

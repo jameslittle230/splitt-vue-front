@@ -113,7 +113,6 @@ export default {
         return;
       }
       var self = this;
-      var currentGroup = this.$store.state.currentGroupId;
       Networker.createTransactionWithSplits(
         Math.round(this.amount * 100), 
         this.memo, 
