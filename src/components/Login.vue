@@ -27,8 +27,8 @@ import Networker from '../networking';
 export default {
   data() {
     return {
-      email: "j@gmail.com",
-      password: "asdf"
+      email: "",
+      password: ""
     };
   },
 
