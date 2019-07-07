@@ -9,7 +9,8 @@ const store = new Vuex.Store({
     apiToken: null,
     me: null,
     currentGroupId: null,
-    currentGroup: null
+    currentGroup: null,
+    debts: null,
   },
   mutations: {
     setUserFromLogin(state, userObject) {
@@ -32,6 +33,10 @@ const store = new Vuex.Store({
 
     setGroupObject(state, groupObject) {
       state.currentGroup = groupObject;
+    },
+
+    setDebtsObject(state, debtsObject) {
+      state.debts = debtsObject;
     },
 
     logout(state) {
@@ -63,6 +68,7 @@ const store = new Vuex.Store({
 
     setGroup(context, groupId) {
       context.commit("setCurrentGroupId", groupId);
+      
       networking._getGroup(context.state.apiToken, groupId)
         .then(function(response) {
           context.commit("setGroupObject", response.data);
@@ -70,6 +76,14 @@ const store = new Vuex.Store({
         .catch(function(error) {
           console.log(error);
         });
+
+      networking.getDebts(context.state.apiToken, groupId)
+        .then(function(response) {
+          context.commit("setDebtsObject", response.data);
+        })
+        .catch(function(error) {
+          console.log(error);
+        })
     },
 
     initialiseStore(context) {
