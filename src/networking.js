@@ -22,6 +22,27 @@ export default {
     })
   },
 
+  getDebts: function(apiToken, groupID) {
+    return this.a.get(`/groups/${groupID}/debts/`, {
+      params: {
+        api_token: apiToken
+      }
+    })
+  },
+
+  reconcileDebt: function(groupID, memberID) {
+    var data = {};
+    data["reconciled"][memberID] = 1;
+    return this.a.request({
+      url: `/groups/${groupID}/debts`,
+      method: "put",
+      data: data,
+      params: {
+        api_token: store.state.apiToken
+      }
+    });
+  },
+
   /**
    * @param splitID {String} The ID of the split that gets reconciled
    * @returns {AxiosPromise}
