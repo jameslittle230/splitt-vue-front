@@ -87,29 +87,12 @@ const store = new Vuex.Store({
     },
 
     initialiseStore(context) {
-      const self = this;
       if (localStorage.getItem("store")) {
         var savedState = JSON.parse(localStorage.getItem("store"));
         this.replaceState(Object.assign(context.state, savedState));
 
         if (context.state.apiToken) {
-          networking._getMe(savedState.apiToken)
-            .then(function(response) {
-              self.commit("setUserFromMe", response.data);
-            })
-            .catch(function(error) {
-              console.log(error);
-            });
-
-          if (context.state.currentGroupId) {
-            networking._getGroup(context.state.apiToken, context.state.currentGroupId)
-              .then(function(response) {
-                context.commit("setGroupObject", response.data);
-              })
-              .catch(function(error) {
-                console.log(error);
-              });
-          }
+          context.dispatch("refreshMe")
         }
       }
     }
