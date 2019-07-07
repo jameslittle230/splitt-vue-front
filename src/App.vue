@@ -8,7 +8,7 @@
     <div v-if="this.loggedIn">
       <UserInfo />
       <SplitCreate />
-      <TransactionList />
+      <!-- <TransactionList /> -->
       <DebtsList />
     </div>
   </div>
@@ -19,7 +19,7 @@ import Login from './components/Login.vue'
 import SignUp from './components/SignUp.vue'
 import UserInfo from './components/UserInfo.vue'
 import SplitCreate from './components/SplitCreate.vue'
-import TransactionList from './components/TransactionList.vue'
+// import TransactionList from './components/TransactionList.vue'
 import DebtsList from './components/DebtsList.vue'
 
 export default {
@@ -30,7 +30,7 @@ export default {
     }
   },
   components: {
-    Login, UserInfo, SplitCreate, TransactionList, DebtsList, SignUp
+    Login, UserInfo, SplitCreate, DebtsList, SignUp
   }
 }
 </script>

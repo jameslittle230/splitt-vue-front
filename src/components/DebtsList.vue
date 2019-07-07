@@ -1,22 +1,32 @@
 <template>
   <div v-if="this.$store.state.currentGroup">
-    <h2>
-      Debts List (You owe
-      <MoneyDisplay v-bind:amount="debtTotal"/>)
-    </h2>
-    <ul>
-      <li v-for="debt in debts" v-bind:key="debt.id">
-        You owe {{ groupMembers[txns[debt.transaction].creator].name }}
-        <strong>
-          <MoneyDisplay v-bind:amount="debt.amount"/>
-        </strong>
-        for
-        {{txns[debt.transaction].description}}
-        <span>({{debt.percentage}}%)</span>
-        <button v-on:click="reconcile(debt.id)">Paid</button>
-      </li>
-    </ul>
-    <p v-if="debts.length == 0">No debts yet!</p>
+    <h2>Debts</h2>
+    
+    <details v-for="memberObject in debts">
+      <summary v-if="memberObject.net < 0">
+        You owe {{memberObject.member.name}} 
+        <MoneyDisplay v-bind:amount="memberObject.net * -1" />
+      </summary>
+      
+      <summary v-if="memberObject.net > 0">
+        {{memberObject.member.name}} owes you 
+        <MoneyDisplay v-bind:amount="memberObject.net" />
+      </summary>
+
+      <h4>You owe {{memberObject.member.name}} <MoneyDisplay v-bind:amount="memberObject.owedTotal" /></h4>
+      <ul>
+        <li v-for="split in memberObject.owed">
+          <MoneyDisplay v-bind:amount="split.amount" />: {{split.transaction.description}}
+        </li>
+      </ul>
+
+      <h4>{{memberObject.member.name}} owes you <MoneyDisplay v-bind:amount="memberObject.createdTotal" /></h4>
+      <ul>
+        <li v-for="split in memberObject.created">
+          <MoneyDisplay v-bind:amount="split.amount" />: {{split.transaction.description}}
+        </li>
+      </ul>
+    </details>
   </div>
 </template>
 
@@ -27,44 +37,16 @@ import MoneyDisplay from "./MoneyDisplay";
 export default {
   computed: {
     debts: function() {
-      if(!this.$store.state.currentGroup) { return null }
-      const myId = this.$store.state.me.id;
-
-      const txns = this.$store.state.currentGroup.transactions
-      const notMyTxns = txns.filter(txn => txn.creator != myId)
-      const mySplits = notMyTxns.map(function(txn) {
-        const mySplitList = txn.splits.filter(split => split.debtor == myId)
-        return mySplitList.length == 1 ? mySplitList[0] : null;
-      });
-      return mySplits.filter(split => split && (split.reconciled == 0));
+      return this.$store.state.debts
     },
 
     groupMembers: function() {
-      if(!this.$store.state.currentGroup) { return null }
-      var output = [];
-      for (const member of this.$store.state.currentGroup.members) {
-        output[member.id] = member;
-      }
-      return output;
+      return this.$store.state.currentGroup.members
     },
 
     txns: function() {
-      if(!this.$store.state.currentGroup) { return null }
-      var output = [];
-      for (const txn of this.$store.state.currentGroup.transactions) {
-        output[txn.id] = txn;
-      }
-      return output;
+      return this.$store.state.currentGroup.transactions
     },
-
-    debtTotal: function() {
-      const sum = (accumulator, currentValue) => accumulator + currentValue;
-      if (this.debts.length < 1) {
-        return 0;
-      }
-
-      return this.debts.map(split => parseFloat(split.amount)).reduce(sum);
-    }
   },
 
   methods: {
