@@ -12,6 +12,7 @@
         >{{group.name}}</option>
       </select>
     </p>
+    <p>Group code: <code>{{ this.$store.state.currentGroup.name }}@{{ this.$store.state.currentGroup.id.substring(0,8) }}</code></p>
     <p>
       <button @click="this.logout">Log out</button>
       <button v-on:click="isCreatingNewGroup = !isCreatingNewGroup">
