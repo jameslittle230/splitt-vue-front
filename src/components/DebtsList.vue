@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.$store.state.currentGroup">
+  <div v-if="this.$store.state.debts">
     <h2>Debts</h2>
 
     <p v-if="debts.length == 0">No debts yet!</p>
