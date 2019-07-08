@@ -1,7 +1,9 @@
 <template>
   <div class="userinfo">
     <h1>Welcome, {{this.$store.state.me.name}}</h1>
-    <p v-if="this.$store.state.currentGroup">
+    
+    <div v-if="this.$store.state.currentGroup">
+    <p>
       Group:
       <select v-model="selectedGroup">
         <option disabled value>Please select one</option>
@@ -12,13 +14,17 @@
         >{{group.name}}</option>
       </select>
     </p>
+    
     <p>Group code: <code>{{ this.$store.state.currentGroup.name }}@{{ this.$store.state.currentGroup.id.substring(0,8) }}</code></p>
+    
     <p>
       <button @click="this.logout">Log out</button>
       <button v-on:click="isCreatingNewGroup = !isCreatingNewGroup">
         {{isCreatingNewGroup ? "Never mind" : "New group or Join Group"}}
       </button>
     </p>
+
+    </div>
 
     <div style="display: flex;" v-if="isCreatingNewGroup">
       <!--
