@@ -67,7 +67,7 @@
 
 
 
-      <div style="border: 1px dashed black; padding: 20px">
+      <div style="border: 1px dashed black; padding: 20px; margin-right: 20px;">
         <h3>Join an Existing Group</h3>
         <form action="#" method="POST" v-on:submit.prevent="submitJoinGroupForm">
           <label for="name">
@@ -78,6 +78,11 @@
             <button type="submit">Join Group</button>
           </p>
         </form>
+      </div>
+
+      <div style="border: 1px dashed black; padding: 20px" v-if="this.$store.state.currentGroup">
+        <h3>Add people to {{ this.$store.state.currentGroup.name }}</h3>
+        <p><i>Coming soon</i></p>
       </div>
     </div>
 
