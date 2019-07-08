@@ -83,7 +83,7 @@
 
     <p
       v-if="postGroupCreationMessage"
-      style="background-color: #DA5A57"
+      style="background-color: #DA5A57; padding: 20px; color: white; text-shadow: 1px 1px 1px black; font-weight: bold; border-radius: 8px; border: 1px solid black;"
     >{{postGroupCreationMessage}}</p>
   </div>
 </template>
