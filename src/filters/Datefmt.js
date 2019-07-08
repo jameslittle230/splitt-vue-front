@@ -1,4 +1,3 @@
-import DateFns from "date-fns";
 import { parse, formatRelative } from "date-fns/esm";
 
 export default function(datestring) {
