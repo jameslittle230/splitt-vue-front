@@ -71,7 +71,7 @@ export default {
     },
 
     groupMembers: function() {
-      if(!this.$store.state.currentGroup) { return null }
+      if(!this.$store.state.currentGroup) { return [] }
       return this.$store.state.currentGroup.members
     },
 
@@ -146,17 +146,8 @@ export default {
       };
     },
 
-    // resetManualSets: function() {
-    //   for (const email in this.splitViewModel.memberData) {
-    //     if (this.splitViewModel.memberData.hasOwnProperty(email)) {
-    //       const element = this.splitViewModel.memberData[email];
-    //       // element.amountManuallySet = false;
-    //       element.percentageManuallySet = false;
-    //     }
-    //   }
-    // },
-
     recalculateValues: function() {
+      if(!this.groupMembers) { return null }
       const myEmail = this.$store.state.me.email;
       var totalSoFar = 0;
 
@@ -189,21 +180,30 @@ export default {
   },
 
   mounted: function() {
+    if(!this.groupMembers) { return null }
     this.resetSplitViewModel();
   },
 
   watch: {
     amount: function() {
+      if(!this.groupMembers) { return null }
       this.recalculateValues();
     },
 
+    groupMembers: function() {
+      if(!this.groupMembers) { return null }
+      this.resetSplitViewModel();
+    },
+
     "splitViewModel.type": function(newVal) {
+      if(!this.groupMembers) { return null }
       this.resetPercentages(newVal)
       this.recalculateValues();
       // this.resetManualSets();
     },
 
     percentageWatchKey: function() {
+      if(!this.groupMembers) { return null }
       this.recalculateValues();
     },
   }

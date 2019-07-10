@@ -31,7 +31,7 @@ export default {
   },
 
   reconcileDebt: function(groupID, memberID) {
-    var data = {};
+    var data = {"reconciled": {}};
     data["reconciled"][memberID] = 1;
     return this.a.request({
       url: `/groups/${groupID}/debts`,
