@@ -28,7 +28,6 @@ const store = new Vuex.Store({
 
     setCurrentGroupId(state, groupId) {
       state.currentGroupId = groupId;
-      state.currentGroup = null;
     },
 
     setGroupObject(state, groupObject) {
@@ -44,6 +43,7 @@ const store = new Vuex.Store({
       state.me = null;
       state.currentGroup = null;
       state.currentGroupId = null;
+      state.debts = null;
     }
   },
 

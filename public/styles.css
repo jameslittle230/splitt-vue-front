@@ -1,6 +1,90 @@
 @import url('https://rsms.me/inter/inter.css');
-html { font-family: 'Inter', sans-serif; }
-@supports (font-variation-settings: normal) {
-  html { font-family: 'Inter var', sans-serif; }
+
+html, input, button { 
+  font-family: 'Inter', sans-serif; 
 }
-body { max-width: 800px; margin: 0 auto }
+
+@supports (font-variation-settings: normal) {
+  html, input, button { 
+    font-family: 'Inter var', sans-serif; 
+  }
+}
+
+body { 
+  width: 90%; 
+  max-width: 800px; 
+  margin: 0 auto; 
+  background: rgb(237, 183, 89); 
+}
+
+input, select {
+  background: hsla(0, 0%, 100%, 0.7);
+  border: 2px solid hsla(0, 0%, 0%, 0.4);
+  border-radius: 3px;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+}
+
+button {
+  font-size: 1rem;
+  font-weight: 800;
+  background: hsl(213, 100%, 42%);
+  border: 2px solid hsla(0, 0%, 0%, 0.4);
+  padding: 5px 15px;
+  border-radius: 5px;
+  color: white;
+  letter-spacing: 0.035em;
+  position: relative;
+}
+
+button + button {
+  margin: 0 1em;
+}
+
+button:hover {
+  background: hsl(213, 100%, 62%);
+}
+
+button:disabled, button:disabled:hover, button:disabled:active {
+  background: hsl(0, 0%, 62%);
+  top: 0;
+  opacity: 0.8;
+}
+
+button:active, button.active {
+  background: hsl(213, 100%, 32%);
+  top: 2px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid black;
+}
+
+.dropdown {
+  background: hsl(214, 29%, 83%);
+  border: 2px solid hsla(0, 0%, 0%, 0.4);
+  padding: 5px 0px;
+  border-radius: 5px;
+
+  text-align: left;
+
+  position: absolute;
+  right: 0;
+  z-index: 1000;
+}
+
+.dropdown-item {
+  display: block;
+  cursor: pointer;
+  padding: 0.5em 0.8em;
+  margin: 0;
+}
+
+.dropdown-item:hover {
+  background: hsl(214, 29%, 73%);
+}
+
+.dropdown-wrapper {
+  position: relative;
+}

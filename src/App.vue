@@ -5,10 +5,10 @@
       <hr>
       <SignUp />
     </div>
+
     <div v-if="this.loggedIn">
       <UserInfo />
       <SplitCreate />
-      <!-- <TransactionList /> -->
       <DebtsList />
     </div>
   </div>

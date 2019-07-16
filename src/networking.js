@@ -131,6 +131,13 @@ export default {
     return this.a.post("/login", {
       email: email,
       password: password
-    })
+    });
+  },
+
+  log: function(object) {
+    return true;
+    // return this.a.post("/log", {
+    //   object: object
+    // })
   }
 };
