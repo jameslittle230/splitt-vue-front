@@ -1,51 +1,99 @@
 <template>
-  <div v-if="this.$store.state.currentGroup">
-    <h2>New Split</h2>
-    <form action="#" method="post" v-on:submit.prevent="submit"
-      v-bind:style="boxStyle"
-    >
-      <p v-if="active"><button v-on:click="active = false">Never Mind</button></p>
-      $
-      <VueNumeric
-        separator=","
-        v-bind:precision="2"
-        v-bind:min="0"
-        v-bind:max="100000"
-        v-model="amount"
-        v-on:focus="active = true"
-      />
+  <div v-if="this.$store.state.currentGroup" style="margin: 1em auto;">
+    <form v-on:submit.prevent="submit">
+      <div class="big-number">
+        <span class="big-number-prefix">$</span>
+        <VueNumeric
+          separator=","
+          v-bind:precision="2"
+          v-bind:min="0"
+          v-bind:max="100000"
+          v-model="amount"
+          v-on:focus="active = true"
+          class="big-number-input"
+        />
+        <button class="active-button" v-on:click="loseFocus" v-if="active" tabindex="18">&times;</button>
+      </div>
+
+      <div v-if="active">
+        <div>
+          <p>
+            <label for="memo">
+              Memo:
+              <input type="text" name="memo" v-model="memo" />
+            </label>
+          </p>
+
+          <!-- <p>
+            <label for="desc">
+              <div style="margin-bottom: 0.2em;">
+                Description:
+                <small>(optional)</small>
+              </div>
+              <textarea name="description" v-model="description" />
+            </label>
+          </p> -->
+        </div>
+
+        <p>
+          <!-- <h4>Type</h4> -->
+
+          <input
+            type="radio"
+            id="reimbursement"
+            value="reimbursement"
+            v-model="splitViewModel.type"
+          />
+
+          <label for="reimbursement">Reimbursement</label>
+          <br />
+          
+          <input type="radio" id="split" value="split" v-model="splitViewModel.type" />
+          <label for="split">Split</label>
+        </p>
+
+        <div>
+          <!-- <h4>Splits</h4> -->
+
+          <table>
+            <thead>
+              <th>Group Member</th>
+              <th>Percentage</th>
+              <th>Amount Owed</th>
+            </thead>
+            <tbody>
+              <tr v-for="(member, idx) in groupMembers" v-bind:key="idx">
+                <td>{{member.name}}</td>
+                <td>
+                  <VueNumeric
+                    separator=","
+                    v-bind:precision="2"
+                    v-bind:min="0"
+                    v-bind:max="100"
+                    v-model="splitViewModel['memberData'][member.email]['percentageString']"
+                    v-on:blur="handlePercentageInput(member.email)"
+                    output-type="String"
+                    style="width: 3em"
+                    v-bind:class="{manuallySet: splitViewModel['memberData'][member.email]['percentageManuallySet']}"
+                  />%
+                </td>
+                <td
+                  v-bind:data-amount="splitViewModel['memberData'][member.email]['amount']"
+                >${{ (splitViewModel['memberData'][member.email]['amount'] / 100).toFixed(2) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
       <div v-if="active">
         <p>
-          <label for="memo">
-            Memo:
-            <input type="text" name="memo" v-model="memo">
-          </label>
+          <button
+            type="submit"
+            v-bind:disabled="percentageSum != 1"
+          >{{percentageSum == 1 ? "Create Split" : "Percentages must sum to 100%"}}</button>
         </p>
-
-        <input type="radio" id="reimbursement" value="reimbursement" v-model="splitViewModel.type">
-        <label for="reimbursement">reimbursement</label>
-        <input type="radio" id="split" value="split" v-model="splitViewModel.type">
-        <label for="split">split</label>
-
-        <p v-for="(member, idx) in groupMembers" v-bind:key="idx">
-          <label>{{member.name}}
-
-            <VueNumeric 
-              separator=","
-              v-bind:precision="0"
-              v-bind:min="0"
-              v-bind:max="100"
-
-              v-model="splitViewModel['memberData'][member.email]['percentage']"
-            />
-
-            % — ${{ (splitViewModel['memberData'][member.email]['amount'] / 100).toFixed(2) }}
-          </label>
-        </p>
-
-        <p><button type="submit" v-bind:disabled="percentageSum != 100">
-          {{percentageSum == 100 ? "Create Split" : "Percentages must sum to 100%"}}</button></p>
+        <hr />
       </div>
     </form>
   </div>
@@ -60,152 +108,247 @@ export default {
     return {
       amount: 0,
       memo: "",
+      description: "",
       active: false,
-      splitViewModel: {},
+      splitViewModel: {}
     };
   },
 
   computed: {
-    boxStyle: function() {
-      return this.active ? {border: `1px dashed black`, padding: `20px`} : {}
-    },
-
     groupMembers: function() {
-      if(!this.$store.state.currentGroup) { return [] }
-      return this.$store.state.currentGroup.members
+      if (!this.$store.state.currentGroup) {
+        return null;
+      }
+
+      return this.$store.state.currentGroup.members;
     },
 
     percentageSum: function() {
-      return Math.round(Object.keys(this.splitViewModel.memberData)
-        .map(k => this.splitViewModel.memberData[k])
-        .reduce((a, curr) => a + curr.percentage, 0));
+      var sumSoFar = 0;
+      for (const email in this.splitViewModel.memberData) {
+        if (this.splitViewModel.memberData.hasOwnProperty(email)) {
+          const element = this.splitViewModel.memberData[email];
+          sumSoFar += element.percentage;
+        }
+      }
+      
+      return sumSoFar;
     },
 
-    percentageWatchKey: function() {
-      return this.splitViewModel.memberData ? Object.keys(this.splitViewModel.memberData)
-        .map(k => this.splitViewModel.memberData[k])
-        .reduce((a, curr) => `${a} ${curr.percentage}`, "") : null
+    penceAmount: function() {
+      return Math.round(this.amount * 100);
     },
 
     splitNetworkObject: function() {
-      const obj = this.splitViewModel.memberData
+      const obj = this.splitViewModel.memberData;
       const myEmail = this.$store.state.me.email;
 
       return Object.keys(obj)
         .map(function(k) {
-          var out = JSON.parse(JSON.stringify(obj[k]))
-          out.user = k
-          out.amount = parseFloat(out.amount)
-          delete out.percentageManuallySet
-          return out
+          var out = JSON.parse(JSON.stringify(obj[k]));
+          out.user = k;
+
+          delete out.percentageManuallySet;
+          delete out.percentageString;
+
+          return out;
         })
         .filter(o => o.amount > 0)
-        .filter(o => o.user != myEmail)
+        .filter(o => o.user != myEmail);
     }
   },
 
   components: { VueNumeric },
 
   methods: {
+    loseFocus: function() {
+      this.amount = 0;
+      this.active = 0;
+      this.memo = "";
+      this.description = "";
+      this.resetSplitViewModel();
+    },
+
     submit: function() {
-      if(this.amount == 0 || this.memo == "") {
+      if (this.penceAmount == 0 || this.memo == "") {
         alert("You need a memo (or you need to make a split that's >$0)");
         return;
       }
       var self = this;
       Networker.createTransactionWithSplits(
-        Math.round(this.amount * 100), 
-        this.memo, 
+        this.penceAmount,
+        this.memo,
         this.splitNetworkObject
       )
         .then(function(response) {
-          self.$store.commit("addTransaction", response.data);
-          self.amount = "";
-          self.memo = "";
+          self.loseFocus();
+          self.$store.dispatch('refreshDebts');
         })
         .catch(function(error) {
-          console.error(error);
+          Networker.log(error);
         });
     },
 
-    resetSplitViewModel: function() {
-      if (!this.groupMembers) { return null }
+    resetSplitViewModel: function(type="split") {
+      if (!this.groupMembers) {
+        return null;
+      }
       var memberData = {};
       const self = this;
       this.groupMembers.forEach(function(member) {
         memberData[member.email] = {
           amount: 0,
-          percentage: 100 / self.groupMembers.length,
-          percentageManuallySet: false,
+          percentage: 0,
+          percentageManuallySet: false
         };
       });
 
       this.splitViewModel = {
-        type: "split",
-        memberData: memberData,
+        type: type,
+        memberData: memberData
       };
+
+      this.resetPercentages(type);
+      this.recalculateValues();
     },
 
     recalculateValues: function() {
-      if(!this.groupMembers) { return null }
+      if (!this.groupMembers) {
+        return null;
+      }
+
       const myEmail = this.$store.state.me.email;
-      var totalSoFar = 0;
+      var sumSoFar = 0;
 
       for (const email in this.splitViewModel.memberData) {
         if (this.splitViewModel.memberData.hasOwnProperty(email)) {
           const element = this.splitViewModel.memberData[email];
-          const amount = Math.floor(Math.round(this.amount * 100) * (element.percentage / 100));
-          element.amount = amount;
-          totalSoFar += amount;
+          const splitAmountInPence = Math.floor(
+            this.penceAmount * element.percentage
+          );
+          element.amount = splitAmountInPence;
+          sumSoFar += splitAmountInPence;
         }
       }
 
-
-      var amountLeftOver = this.amount * 100 - totalSoFar
+      var amountLeftOver = this.penceAmount - sumSoFar;
       this.splitViewModel.memberData[myEmail].amount += amountLeftOver;
     },
 
-    resetPercentages: function(type) {
-      if(!this.groupMembers) { return null }
-      const percentageOffset = type == "reimbursement" ? 1 : 0
+    resetPercentages: function() {
+      const type = this.splitViewModel.type;
+      const percentageOffset = type == "reimbursement" ? 1 : 0;
       const myEmail = this.$store.state.me.email;
+
+      var manuallySetPercentageSumSoFar = 0;
+      var manuallySetCountSoFar = 0;
+      for (const email in this.splitViewModel.memberData) {
+        if (this.splitViewModel.memberData.hasOwnProperty(email)) {
+          const element = this.splitViewModel.memberData[email];
+          if (element.percentageManuallySet) {
+            manuallySetPercentageSumSoFar += element.percentage;
+            manuallySetCountSoFar++;
+          }
+        }
+      }
 
       for (const email in this.splitViewModel.memberData) {
         if (this.splitViewModel.memberData.hasOwnProperty(email)) {
           const element = this.splitViewModel.memberData[email];
-          element.percentage = (type == "reimbursement" && email == myEmail) ? 0 : 100 / (this.groupMembers.length - percentageOffset);
+          if (element.percentageManuallySet) {
+            continue;
+          }
+          element.percentage =
+            type == "reimbursement" && email == myEmail
+              ? 0
+              : (1 - manuallySetPercentageSumSoFar) /
+                (this.groupMembers.length -
+                  percentageOffset -
+                  manuallySetCountSoFar);
+          element.percentageString = (element.percentage * 100).toFixed(2);
         }
       }
+
+      if (this.percentageSum < 1) {
+        this.splitViewModel.memberData[myEmail].percentage +=
+          1 - this.percentageSum;
+      }
     },
+
+    handlePercentageInput: function(email) {
+      const element = this.splitViewModel.memberData[email];
+      if (element.percentageString == (element.percentage * 100).toFixed(2)) {
+        return;
+      }
+      element.percentage = parseFloat(element.percentageString) / 100;
+      element.percentageManuallySet = true;
+      this.resetPercentages(this.type);
+      this.recalculateValues();
+    }
   },
 
   mounted: function() {
-    if(!this.groupMembers) { return null }
-    this.resetSplitViewModel();
+    this.resetSplitViewModel("split");
   },
 
   watch: {
     amount: function() {
-      if(!this.groupMembers) { return null }
+      if (!this.groupMembers) {
+        return null;
+      }
       this.recalculateValues();
     },
 
     groupMembers: function() {
-      if(!this.groupMembers) { return null }
-      this.resetSplitViewModel();
+      if (!this.groupMembers) {
+        return null;
+      }
+      this.resetSplitViewModel("split");
     },
 
     "splitViewModel.type": function(newVal) {
-      if(!this.groupMembers) { return null }
-      this.resetPercentages(newVal)
-      this.recalculateValues();
-      // this.resetManualSets();
-    },
+      if (!this.groupMembers) {
+        return null;
+      }
 
-    percentageWatchKey: function() {
-      if(!this.groupMembers) { return null }
-      this.recalculateValues();
-    },
+      this.resetSplitViewModel(newVal);
+    }
   }
 };
 </script>
+
+<style scoped>
+.big-number {
+  font-size: 3rem;
+  background: hsla(0, 0%, 0%, 0.05);
+  border-radius: 8px;
+  border: 2px solid hsla(0, 0%, 0%, 0.3);
+  padding: 0.1em;
+  display: flex;
+}
+
+.big-number-prefix {
+  color: hsla(0, 0%, 0%, 0.7);
+  margin-right: 0.2em;
+}
+
+.big-number-input {
+  border: none;
+  background: none;
+  font-size: 1em;
+  font-weight: 600;
+  padding: 0;
+  flex-grow: 1;
+}
+
+.active-button {
+  background: none;
+  border: none;
+  color: hsla(0, 0%, 0%, 0.7);
+  padding: 0 10px;
+}
+
+.manuallySet {
+  border-color: red;
+}
+</style>

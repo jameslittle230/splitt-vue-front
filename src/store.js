@@ -93,6 +93,17 @@ const store = new Vuex.Store({
         });
     },
 
+    refreshDebts(context) {
+      networking
+        .getDebts(context.state.apiToken, context.state.currentGroupId)
+        .then(function(response) {
+          context.commit("setDebtsObject", response.data);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+
     initialiseStore(context) {
       if (localStorage.getItem("store")) {
         var savedState = JSON.parse(localStorage.getItem("store"));

@@ -5,7 +5,7 @@ html, input, button {
 }
 
 @supports (font-variation-settings: normal) {
-  html, input, button { 
+  html, input, button, textarea { 
     font-family: 'Inter var', sans-serif; 
   }
 }
@@ -17,16 +17,16 @@ body {
   background: rgb(237, 183, 89); 
 }
 
-input, select {
+input, select, textarea {
   background: hsla(0, 0%, 100%, 0.7);
   border: 2px solid hsla(0, 0%, 0%, 0.4);
   border-radius: 3px;
   padding: 4px 8px;
-  font-size: 0.8rem;
+  font-size: 0.8em;
 }
 
 button {
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: 800;
   background: hsl(213, 100%, 42%);
   border: 2px solid hsla(0, 0%, 0%, 0.4);
@@ -35,10 +35,12 @@ button {
   color: white;
   letter-spacing: 0.035em;
   position: relative;
+  cursor: pointer;
+  margin: 0 0.2em;
 }
 
 button + button {
-  margin: 0 1em;
+  /* margin: 0 1em; */
 }
 
 button:hover {
@@ -87,4 +89,24 @@ hr {
 
 .dropdown-wrapper {
   position: relative;
+}
+
+table {
+  border: 1px solid hsla(0, 0%, 0%, 0.3)
+}
+
+thead {
+  border-bottom: 1px solid hsla(0, 0%, 0%, 0.3);
+}
+
+tr, th {
+  padding: 0.5em;
+}
+
+tr:nth-of-type(2n) {
+  background: hsla(0, 0%, 0%, 0.05)
+}
+
+td {
+  padding: 0.1em 0.3em;
 }

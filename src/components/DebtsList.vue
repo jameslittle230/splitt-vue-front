@@ -1,6 +1,5 @@
 <template>
-  <div v-if="this.$store.state.debts">
-    <h2>Debts</h2>
+  <div v-if="this.$store.state.debts" style="margin: 1em 0">
 
     <p v-if="debts.length == 0">No debts yet!</p>
     
@@ -70,7 +69,7 @@ export default {
       var self = this;
       Networker.reconcileDebt(this.$store.state.currentGroupId, memberId)
         .then(function() {
-          self.$store.dispatch("setGroup", self.$store.state.currentGroupId);
+          self.$store.dispatch("refreshDebts");
         })
         .catch(function(error) {
           console.error(error);
@@ -84,13 +83,16 @@ export default {
 
 <style scoped>
 .expanded {
-  border-left: 1px solid #aaa;
   padding: 1em;
   margin-left: 0.25em;
 }
 
+details {
+  margin-bottom: 1em;
+}
+
 summary {
-  font-size: 1.4em;
+  font-size: 1.8em;
   font-weight: bold;
 }
 
