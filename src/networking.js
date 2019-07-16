@@ -7,11 +7,11 @@ export default {
   }),
 
   _getMe: function(apiToken) {
-    return this.a.get('/me', {
+    return this.a.get("/me", {
       params: {
         api_token: apiToken
       }
-    })
+    });
   },
 
   _getGroup: function(apiToken, groupID) {
@@ -19,7 +19,7 @@ export default {
       params: {
         api_token: apiToken
       }
-    })
+    });
   },
 
   getDebts: function(apiToken, groupID) {
@@ -27,11 +27,11 @@ export default {
       params: {
         api_token: apiToken
       }
-    })
+    });
   },
 
   reconcileDebt: function(groupID, memberID) {
-    var data = {"reconciled": {}};
+    var data = { reconciled: {} };
     data["reconciled"][memberID] = 1;
     return this.a.request({
       url: `/groups/${groupID}/debts`,
@@ -61,7 +61,7 @@ export default {
   },
 
   /**
-   * 
+   *
    * @param {number} full_amount The amount of the transaction
    * @param {string} description The transaction's memo
    * @param {[Object]} splits Array of split objects
@@ -103,7 +103,7 @@ export default {
         api_token: store.state.apiToken,
         q: q
       }
-    })
+    });
   },
 
   addSelfToGroup: function(groupID) {
@@ -111,7 +111,7 @@ export default {
       url: `/groups/${groupID}`,
       method: "put",
       data: {
-        members: [store.state.me.email],
+        members: [store.state.me.email]
       },
       params: {
         api_token: store.state.apiToken

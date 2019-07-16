@@ -11,7 +11,11 @@ const store = new Vuex.Store({
     currentGroupId: null,
     currentGroup: null,
     debts: null,
+
+    openDropdown: null,
+    openModal: null
   },
+
   mutations: {
     setUserFromLogin(state, userObject) {
       state.me = userObject;
@@ -22,9 +26,9 @@ const store = new Vuex.Store({
       state.me = userObject;
     },
 
-    addTransaction(state, txnObject) {
-      state.currentGroup.transactions.push(txnObject);
-    },
+    // addTransaction(state, txnObject) {
+    //   state.currentGroup.transactions.push(txnObject);
+    // },
 
     setCurrentGroupId(state, groupId) {
       state.currentGroupId = groupId;
@@ -50,11 +54,12 @@ const store = new Vuex.Store({
   actions: {
     postLogin(context, data) {
       context.commit("setUserFromLogin", data);
-      context.dispatch('refreshMe');
+      context.dispatch("refreshMe");
     },
 
     refreshMe(context) {
-      networking._getMe(context.state.apiToken)
+      networking
+        ._getMe(context.state.apiToken)
         .then(function(response) {
           context.commit("setUserFromMe", response.data);
           if (context.state.me.groups.length > 0) {
@@ -68,8 +73,9 @@ const store = new Vuex.Store({
 
     setGroup(context, groupId) {
       context.commit("setCurrentGroupId", groupId);
-      
-      networking._getGroup(context.state.apiToken, groupId)
+
+      networking
+        ._getGroup(context.state.apiToken, groupId)
         .then(function(response) {
           context.commit("setGroupObject", response.data);
         })
@@ -77,13 +83,14 @@ const store = new Vuex.Store({
           console.log(error);
         });
 
-      networking.getDebts(context.state.apiToken, groupId)
+      networking
+        .getDebts(context.state.apiToken, groupId)
         .then(function(response) {
           context.commit("setDebtsObject", response.data);
         })
         .catch(function(error) {
           console.log(error);
-        })
+        });
     },
 
     initialiseStore(context) {
@@ -92,7 +99,7 @@ const store = new Vuex.Store({
         this.replaceState(Object.assign(context.state, savedState));
 
         if (context.state.apiToken) {
-          context.dispatch("refreshMe")
+          context.dispatch("refreshMe");
         }
       }
     }
