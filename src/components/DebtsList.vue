@@ -1,41 +1,41 @@
 <template>
   <div v-if="this.$store.state.debts" style="margin: 1em 0">
-
     <p v-if="debts.length == 0">No debts yet!</p>
-    
-    <details 
-      v-for="(memberObject, idx) in debts"
-      v-bind:key="idx"
-    >
+
+    <details v-for="(memberObject, idx) in debts" v-bind:key="idx">
       <summary v-if="memberObject.net < 0">
-        You owe {{memberObject.member.name}} 
+        You owe {{memberObject.member.name}}
         <MoneyDisplay v-bind:amount="memberObject.net * -1" />
       </summary>
-      
+
       <summary v-if="memberObject.net > 0">
-        {{memberObject.member.name}} owes you 
+        {{memberObject.member.name}} owes you
         <MoneyDisplay v-bind:amount="memberObject.net" />
       </summary>
 
       <div class="expanded">
-        <p><button v-on:click="reconcile(memberObject.member.id)">Mark as Paid</button></p>
-        <h4>You owe {{memberObject.member.name}} <MoneyDisplay v-bind:amount="memberObject.owedTotal" /></h4>
-        <ul>
-          <li 
-            v-for="split in memberObject.owed"
-            v-bind:key="split.id"
-          >
-            <MoneyDisplay v-bind:amount="split.amount" />: {{split.transaction.description}}
+        <p>
+          <button v-on:click="reconcile(memberObject.member.id)">Mark as Paid</button>
+        </p>
+        <h4 v-if="memberObject.owedTotal > 0 && memberObject.createdTotal > 0">
+          You owe {{memberObject.member.name}}
+          <MoneyDisplay v-bind:amount="memberObject.owedTotal" />
+        </h4>
+        <ul v-if="memberObject.owedTotal > 0">
+          <li v-for="split in memberObject.owed" v-bind:key="split.id">
+            <MoneyDisplay v-bind:amount="split.amount" />:
+            {{split.transaction.description}}
           </li>
         </ul>
 
-        <h4>{{memberObject.member.name}} owes you <MoneyDisplay v-bind:amount="memberObject.createdTotal" /></h4>
-        <ul>
-          <li 
-            v-for="split in memberObject.created"
-            v-bind:key="split.id"
-          >
-            <MoneyDisplay v-bind:amount="split.amount" />: {{split.transaction.description}}
+        <h4 v-if="memberObject.createdTotal > 0 && memberObject.owedTotal > 0">
+          {{memberObject.member.name}} owes you
+          <MoneyDisplay v-bind:amount="memberObject.createdTotal" />
+        </h4>
+        <ul v-if="memberObject.createdTotal > 0">
+          <li v-for="split in memberObject.created" v-bind:key="split.id">
+            <MoneyDisplay v-bind:amount="split.amount" />:
+            {{split.transaction.description}}
           </li>
         </ul>
       </div>
@@ -52,16 +52,16 @@ export default {
     debts: function() {
       return Object.keys(this.$store.state.debts)
         .map(key => this.$store.state.debts[key])
-        .filter(debt => debt.net != 0)
+        .filter(debt => debt.net != 0);
     },
 
     groupMembers: function() {
-      return this.$store.state.currentGroup.members
+      return this.$store.state.currentGroup.members;
     },
 
     txns: function() {
-      return this.$store.state.currentGroup.transactions
-    },
+      return this.$store.state.currentGroup.transactions;
+    }
   },
 
   methods: {
@@ -98,6 +98,10 @@ summary {
 
 h4 {
   margin: 0;
+}
+
+ul {
+  margin-top: 0.2em;
 }
 
 p {
