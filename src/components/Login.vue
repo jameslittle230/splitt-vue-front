@@ -43,8 +43,8 @@ function firstWhereOrLast(collection, callback) {
 export default {
   data() {
     return {
-      email: "asdf",
-      password: "asdf",
+      email: "",
+      password: "",
       message: "",
       submitButtonDisabled: false
     };
