@@ -14,7 +14,7 @@ body {
   width: 90%; 
   max-width: 800px; 
   margin: 0 auto; 
-  background: rgb(237, 183, 89); 
+  background: hsl(38, 80%, 64%); 
 }
 
 input, select, textarea {
@@ -58,6 +58,18 @@ button:active, button.active {
   top: 2px;
 }
 
+.destructive-button, .destructive-button:active, .destructive-button .active {
+  background: hsl(11, 84%, 45%);
+}
+
+.destructive-button:hover {
+  background: hsl(11, 84%, 62%);
+}
+
+.destructive-button:active, .destructive-button .active {
+  background: hsl(11, 84%, 32%);
+}
+
 hr {
   border: none;
   border-top: 1px solid black;
@@ -73,7 +85,7 @@ hr {
 
   position: absolute;
   right: 0;
-  z-index: 1000;
+  z-index: 10;
 }
 
 .dropdown-item {
@@ -85,6 +97,14 @@ hr {
 
 .dropdown-item:hover {
   background: hsl(214, 29%, 73%);
+}
+
+.dropdown-item-no-action {
+  cursor: auto;
+}
+
+.dropdown-item-no-action:hover {
+  background: transparent;
 }
 
 .dropdown-wrapper {
@@ -109,4 +129,51 @@ tr:nth-of-type(2n) {
 
 td {
   padding: 0.1em 0.3em;
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: hsla(0, 0%, 0%, 0.7);
+  z-index: 20;
+}
+
+.modal {
+  z-index: 30;
+  background: hsl(38, 95%, 74%);
+  position: absolute;
+  width: 80vw;
+  left: 50%;
+  top: 50%;
+  max-width: 600px;
+  transform: translateX(-50%) translateY(-50%);
+  border: 2px solid black;
+  border-radius: 8px;
+  overflow: hidden; /* Needed so head and body follow border radius */
+  box-shadow: 0 0 6px hsla(0, 0%, 0%, 0.6), 0 0 20px hsla(0, 0%, 0%, 0.3);
+}
+
+.modal-head {
+  padding: 0.5rem 1rem;
+  background: hsl(213, 100%, 32%);
+  text-align: right;
+  border-bottom: 2px solid black;
+}
+
+.modal-body {
+  padding: 1rem;
+  max-height: 40vh;
+  overflow-y: scroll;
+}
+
+.modal-close-button {
+  cursor: pointer;
+  color: hsla(0, 0%, 100%, 0.7);
+}
+
+.modal-close-button:hover {
+  color: hsla(0, 0%, 100%, 1);
 }

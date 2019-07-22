@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import Networker from "../networking";
+import Networker from "../../networking";
 
 function firstWhereOrLast(collection, callback) {
   for (let index = 0; index < collection.length; index++) {

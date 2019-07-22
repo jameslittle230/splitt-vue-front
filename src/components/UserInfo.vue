@@ -16,8 +16,8 @@
 
 <script>
 import Networker from "../networking";
-import UserDropdown from "./UserDropdown.vue";
-import GroupDropdown from "./GroupDropdown.vue";
+import UserDropdown from "./dropdowns/UserDropdown.vue";
+import GroupDropdown from "./dropdowns/GroupDropdown.vue";
 
 export default {
   data() {

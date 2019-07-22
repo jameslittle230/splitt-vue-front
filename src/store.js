@@ -12,7 +12,6 @@ const store = new Vuex.Store({
     currentGroup: null,
     debts: null,
 
-    openDropdown: null,
     openModal: null
   },
 
@@ -48,6 +47,14 @@ const store = new Vuex.Store({
       state.currentGroup = null;
       state.currentGroupId = null;
       state.debts = null;
+    },
+
+    setOpenModal(state, component) {
+      state.openModal = component;
+    },
+
+    clearOpenModal(state) {
+      state.openModal = null;
     }
   },
 
@@ -62,7 +69,10 @@ const store = new Vuex.Store({
         ._getMe(context.state.apiToken)
         .then(function(response) {
           context.commit("setUserFromMe", response.data);
-          if (context.state.me.groups.length > 0) {
+          if (
+            context.state.me.groups.length > 0 &&
+            context.state.currentGroupId == null
+          ) {
             context.dispatch("setGroup", context.state.me.groups[0].id);
           }
         })
@@ -108,6 +118,7 @@ const store = new Vuex.Store({
       if (localStorage.getItem("store")) {
         var savedState = JSON.parse(localStorage.getItem("store"));
         this.replaceState(Object.assign(context.state, savedState));
+        this.commit("clearOpenModal");
 
         if (context.state.apiToken) {
           context.dispatch("refreshMe");

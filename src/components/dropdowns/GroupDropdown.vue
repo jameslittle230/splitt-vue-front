@@ -4,14 +4,15 @@
       v-on:click="menuIsVisible = !menuIsVisible"
       v-bind:class="{'active': menuIsVisible}"
     >{{ currentGroupName }} {{ menuIsVisible ? "&times;" : "&#9662;" }}</button>
-    <div class="dropdown" v-if="menuIsVisible">
-      <p class="dropdown-item">
+    <div class="dropdown" v-if="menuIsVisible" v-on-clickaway="clickaway">
+      <p class="dropdown-item dropdown-item-no-action">
         Group code:
         <code>{{ currentGroupCode }}</code>
       </p>
-      <p class="dropdown-item">Other group info</p>
+      <p class="dropdown-item" v-on:click="showGroupInfoModal">Other group info</p>
       <hr />
       <p class="dropdown-item" v-on:click="showNewGroupModal">+ New Group</p>
+      <p class="dropdown-item" v-on:click="showJoinGroupModal">Join Group</p>
       <hr v-if="nonCurrentGroups.length > 0" />
       <p
         class="dropdown-item"
@@ -24,7 +25,8 @@
 </template>
 
 <script>
-import Networker from "../networking";
+import Networker from "../../networking";
+import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   data() {
@@ -32,6 +34,8 @@ export default {
       menuIsVisible: false
     };
   },
+
+  mixins: [ clickaway ],
 
   computed: {
     nonCurrentGroups: function() {
@@ -57,13 +61,26 @@ export default {
       },
       set(newGroupId) {
         this.$store.dispatch("setGroup", newGroupId);
+        this.menuIsVisible = false;
       }
     }
   },
 
   methods: {
+    clickaway: function(event) {
+      this.menuIsVisible = false;
+    },
+
+    showGroupInfoModal: function() {
+      this.$store.commit('setOpenModal', 'GroupInfo')
+    },
+    
     showNewGroupModal: function() {
-      alert("To do");
+      this.$store.commit('setOpenModal', 'NewGroup')
+    },
+
+    showJoinGroupModal: function() {
+      this.$store.commit('setOpenModal', 'JoinGroup')
     }
   }
 };
