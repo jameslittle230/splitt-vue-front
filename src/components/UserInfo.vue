@@ -4,7 +4,7 @@
       <h1>Welcome, {{this.$store.state.me.name}}</h1>
       <p v-if="myGroups && myGroups.length == 0">
         <span style="margin-right: 0.5em">You're not a member of any groups.</span>
-        <button>Let's change that.</button>
+        <button v-on:click="showNewGroupModal">Let's change that.</button>
       </p>
     </div>
     <div class="userinfo">
@@ -27,6 +27,12 @@ export default {
   computed: {
     myGroups: function() {
       return this.$store.state.me.groups;
+    }
+  },
+
+  methods: {
+    showNewGroupModal: function() {
+      this.$store.commit("setOpenModal", "GroupModalContainer");
     }
   },
 

@@ -14,9 +14,19 @@
     </div>
 
     <div v-if="!this.loggedIn">
-      <Login />
+      <h1 class="title">Splitt</h1>
+      <p class="subtitle">
+        <i>By James Little</i>
+      </p>
       <hr />
-      <SignUp />
+      <div style="display: flex; justify-content: space-between;">
+        <div style="width: 48%">
+          <Login />
+        </div>
+        <div style="width: 48%;">
+          <SignUp />
+        </div>
+      </div>
     </div>
 
     <div v-if="this.loggedIn">
@@ -38,7 +48,9 @@ import DebtsList from "./components/DebtsList.vue";
 import NewGroup from "./components/modals/NewGroup.vue";
 import GroupInfo from "./components/modals/GroupInfo.vue";
 import JoinGroup from "./components/modals/JoinGroup.vue";
-import AccountSettings from './components/modals/AccountSettings.vue'
+import AccountSettings from "./components/modals/AccountSettings.vue";
+
+import GroupModalContainer from "./components/GroupModalContainer.vue";
 
 export default {
   name: "app",
@@ -67,7 +79,22 @@ export default {
     NewGroup,
     GroupInfo,
     JoinGroup,
-    AccountSettings
+    AccountSettings,
+    GroupModalContainer
   }
 };
 </script>
+
+<style scoped>
+.title {
+  margin-top: 0.25em;
+  font-size: 3rem;
+  text-align: center;
+}
+
+.subtitle {
+  margin: 0;
+  text-align: center;
+}
+</style>
+
