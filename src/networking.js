@@ -67,14 +67,16 @@ export default {
    * @param {[Object]} splits Array of split objects
    * @returns {AxiosPromise}
    */
-  createTransactionWithSplits: function(full_amount, description, splits) {
+  createTransactionWithSplits: function(full_amount, memo, long_description, date, splits) {
     const currentGroup = store.state.currentGroupId;
     return this.a.request({
       url: `/groups/${currentGroup}/transactions`,
       method: "post",
       data: {
         full_amount: full_amount,
-        description: description,
+        description: memo,
+        long_description: long_description,
+        altered_date: date,
         splits: splits
       },
       params: {

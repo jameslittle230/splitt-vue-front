@@ -21,19 +21,36 @@
           <p>
             <label for="memo">
               Memo:
-              <input type="text" name="memo" v-model="memo" />
+              <br />
+              <input
+                type="text"
+                name="memo"
+                v-model="memo"
+                style="font-size: 1.2em; min-width: 40%;"
+              />
             </label>
           </p>
 
-          <!-- <p>
+          <p>
             <label for="desc">
               <div style="margin-bottom: 0.2em;">
                 Description:
                 <small>(optional)</small>
               </div>
-              <textarea name="description" v-model="description" />
+              <textarea
+                name="description"
+                v-model="description"
+                style="padding: 0.8em; min-width: 40%; height: 5em;"
+              />
             </label>
-          </p> -->
+          </p>
+
+          <p>
+            <label for="date">
+              Date:
+              <datepicker v-model="date" name="date" format="D, MMM dd, yyyy"></datepicker>
+            </label>
+          </p>
         </div>
 
         <p>
@@ -48,7 +65,7 @@
 
           <label for="reimbursement">Reimbursement</label>
           <br />
-          
+
           <input type="radio" id="split" value="split" v-model="splitViewModel.type" />
           <label for="split">Split</label>
         </p>
@@ -74,7 +91,7 @@
                     v-model="splitViewModel['memberData'][member.email]['percentageString']"
                     v-on:blur="handlePercentageInput(member.email)"
                     output-type="String"
-                    style="width: 3em"
+                    style="width: 3.5em"
                     v-bind:class="{manuallySet: splitViewModel['memberData'][member.email]['percentageManuallySet']}"
                   />%
                 </td>
@@ -103,6 +120,7 @@
 <script>
 import Networker from "../networking";
 import VueNumeric from "vue-numeric";
+import Datepicker from "vuejs-datepicker";
 
 export default {
   data() {
@@ -110,6 +128,7 @@ export default {
       amount: 0,
       memo: "",
       description: "",
+      date: new Date(),
       active: false,
       splitViewModel: {}
     };
@@ -132,7 +151,7 @@ export default {
           sumSoFar += element.percentage;
         }
       }
-      
+
       return sumSoFar;
     },
 
@@ -159,14 +178,15 @@ export default {
     }
   },
 
-  components: { VueNumeric },
+  components: { VueNumeric, Datepicker },
 
   methods: {
     loseFocus: function() {
       this.amount = 0;
-      this.active = 0;
+      this.active = false;
       this.memo = "";
       this.description = "";
+      this.date = new Date();
       this.resetSplitViewModel();
     },
 
@@ -179,18 +199,21 @@ export default {
       Networker.createTransactionWithSplits(
         this.penceAmount,
         this.memo,
+        this.description,
+        this.date,
         this.splitNetworkObject
       )
         .then(function(response) {
           self.loseFocus();
-          self.$store.dispatch('refreshDebts');
+          self.active = true;
+          self.$store.dispatch("refreshDebts");
         })
         .catch(function(error) {
           Networker.log(error);
         });
     },
 
-    resetSplitViewModel: function(type="split") {
+    resetSplitViewModel: function(type = "split") {
       if (!this.groupMembers) {
         return null;
       }
@@ -329,8 +352,9 @@ export default {
 }
 
 .big-number-prefix {
-  color: hsla(0, 0%, 0%, 0.7);
+  color: hsla(0, 0%, 0%, 0.5);
   margin-right: 0.2em;
+  font-weight: 300;
 }
 
 .big-number-input {
