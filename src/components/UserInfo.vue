@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import Networker from "../networking";
 import UserDropdown from "./dropdowns/UserDropdown.vue";
 import GroupDropdown from "./dropdowns/GroupDropdown.vue";
 

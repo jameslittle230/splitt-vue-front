@@ -24,7 +24,7 @@ export default {
   mixins: [ clickaway ],
 
   methods: {
-    clickaway: function(event) {
+    clickaway: function() {
       this.menuIsVisible = false;
     },
 

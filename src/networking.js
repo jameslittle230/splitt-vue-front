@@ -136,10 +136,13 @@ export default {
     });
   },
 
+  /* eslint-disable no-unused-vars */
   log: function(object) {
     return true;
     // return this.a.post("/log", {
     //   object: object
     // })
   }
+
+  /* eslint-enable no-unused-vars */
 };

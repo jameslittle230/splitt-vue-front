@@ -203,7 +203,7 @@ export default {
         this.date,
         this.splitNetworkObject
       )
-        .then(function(response) {
+        .then(function() {
           self.loseFocus();
           self.active = true;
           self.$store.dispatch("refreshDebts");
@@ -218,7 +218,6 @@ export default {
         return null;
       }
       var memberData = {};
-      const self = this;
       this.groupMembers.forEach(function(member) {
         memberData[member.email] = {
           amount: 0,

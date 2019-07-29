@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import Networker from "../../networking";
 
 export default {
   data() {

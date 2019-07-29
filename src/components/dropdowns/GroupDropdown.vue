@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import Networker from "../../networking";
 import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
@@ -67,7 +66,7 @@ export default {
   },
 
   methods: {
-    clickaway: function(event) {
+    clickaway: function() {
       this.menuIsVisible = false;
     },
 
