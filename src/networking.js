@@ -145,4 +145,21 @@ export default {
   }
 
   /* eslint-enable no-unused-vars */
+  sendFeedback: function(msg) {
+    const data = {
+      "text": `>>> ${msg}`,
+    }
+    
+    axios.post(process.env.VUE_APP_FEEDBACK_WEBHOOK, JSON.stringify(data), {
+      withCredentials: false,
+      transformRequest: [(data, headers) => {
+        delete headers.post["Content-Type"]
+        return data
+      }]
+    }).catch(function(error) {
+      /* eslint-disable no-console */
+      console.log(error);
+      /* eslint-enable no-console */
+    })
+  }
 };

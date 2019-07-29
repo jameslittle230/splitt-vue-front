@@ -10,6 +10,7 @@
     <div class="userinfo">
       <GroupDropdown v-if="this.$store.state.currentGroup" />
       <UserDropdown />
+      <div class="infobutton" v-on:click="showInfoModal">i</div>
     </div>
   </div>
 </template>
@@ -32,6 +33,10 @@ export default {
   methods: {
     showNewGroupModal: function() {
       this.$store.commit("setOpenModal", "GroupModalContainer");
+    },
+
+    showInfoModal: function() {
+      this.$store.commit("setOpenModal", "AppInfo")
     }
   },
 
@@ -39,7 +44,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .layout-wrapper {
   display: flex;
   justify-content: space-between;
@@ -55,6 +60,25 @@ h1 {
   text-align: right;
   flex-grow: 2;
   display: flex;
+  align-items: center;
   justify-content: flex-end;
+}
+
+.infobutton {
+  height: 1.5rem;
+  width: 1.5rem;
+  background: hsla(0, 0%, 0%, 0.4);
+  text-align: center;
+  line-height: 1.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 50%;
+  margin-left: 0.2rem;
+  color: hsl(38, 80%, 64%);
+  cursor: pointer;
+}
+
+.infobutton:hover {
+  background: hsla(0, 0%, 0%, 0.7);
 }
 </style>

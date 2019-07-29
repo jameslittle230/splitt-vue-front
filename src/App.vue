@@ -49,6 +49,7 @@ import NewGroup from "./components/modals/NewGroup.vue";
 import GroupInfo from "./components/modals/GroupInfo.vue";
 import JoinGroup from "./components/modals/JoinGroup.vue";
 import AccountSettings from "./components/modals/AccountSettings.vue";
+import AppInfo from "./components/modals/AppInfo.vue";
 
 import GroupModalContainer from "./components/GroupModalContainer.vue";
 
@@ -80,7 +81,8 @@ export default {
     GroupInfo,
     JoinGroup,
     AccountSettings,
-    GroupModalContainer
+    GroupModalContainer,
+    AppInfo
   }
 };
 </script>
