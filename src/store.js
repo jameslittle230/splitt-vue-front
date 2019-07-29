@@ -83,18 +83,12 @@ const store = new Vuex.Store({
 
     setGroup(context, groupId) {
       context.commit("setCurrentGroupId", groupId);
+      context.dispatch("refreshGroup");
+    },
 
+    refreshDebts(context) {
       networking
-        ._getGroup(context.state.apiToken, groupId)
-        .then(function(response) {
-          context.commit("setGroupObject", response.data);
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-
-      networking
-        .getDebts(context.state.apiToken, groupId)
+        .getDebts(context.state.apiToken, context.state.currentGroupId)
         .then(function(response) {
           context.commit("setDebtsObject", response.data);
         })
@@ -103,7 +97,17 @@ const store = new Vuex.Store({
         });
     },
 
-    refreshDebts(context) {
+    refreshGroup(context) {
+      networking
+        ._getGroup(context.state.apiToken, context.state.currentGroupId)
+        .then(function(response) {
+          context.commit("setGroupObject", response.data);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+
+      /* @TODO: This block is the same as refreshDebts above. Needs refactor. */
       networking
         .getDebts(context.state.apiToken, context.state.currentGroupId)
         .then(function(response) {
@@ -122,6 +126,10 @@ const store = new Vuex.Store({
 
         if (context.state.apiToken) {
           context.dispatch("refreshMe");
+        }
+
+        if (context.state.currentGroupId) {
+          context.dispatch("refreshGroup");
         }
       }
     }
