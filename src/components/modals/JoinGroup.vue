@@ -32,11 +32,13 @@ export default {
             .then(function(response) {
               self.$store.dispatch("refreshMe");
               self.$store.dispatch("setGroup", response.data.group.id);
-              self.resetGroupCreationBox();
             })
             .catch(function(error) {
               console.log("Inner Error");
               console.log(error);
+            })
+            .finally(function() {
+              self.$store.commit("clearOpenModal");
             });
         })
         .catch(function(error) {
