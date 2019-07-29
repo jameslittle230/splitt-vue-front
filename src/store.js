@@ -77,7 +77,7 @@ const store = new Vuex.Store({
           }
         })
         .catch(function(error) {
-          console.log(error);
+          networking.log(error);
         });
     },
 
@@ -93,7 +93,7 @@ const store = new Vuex.Store({
           context.commit("setDebtsObject", response.data);
         })
         .catch(function(error) {
-          console.log(error);
+          networking.log(error);
         });
     },
 
@@ -104,7 +104,7 @@ const store = new Vuex.Store({
           context.commit("setGroupObject", response.data);
         })
         .catch(function(error) {
-          console.log(error);
+          networking.log(error);
         });
 
       /* @TODO: This block is the same as refreshDebts above. Needs refactor. */
@@ -114,7 +114,7 @@ const store = new Vuex.Store({
           context.commit("setDebtsObject", response.data);
         })
         .catch(function(error) {
-          console.log(error);
+          networking.log(error);
         });
     },
 

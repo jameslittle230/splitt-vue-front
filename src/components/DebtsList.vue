@@ -76,7 +76,7 @@ export default {
           self.$store.dispatch("refreshDebts");
         })
         .catch(function(error) {
-          console.error(error);
+          Networker.log(error);
         });
     }
   },

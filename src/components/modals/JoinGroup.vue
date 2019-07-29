@@ -34,15 +34,14 @@ export default {
               self.$store.dispatch("setGroup", response.data.group.id);
             })
             .catch(function(error) {
-              console.log("Inner Error");
-              console.log(error);
+              Networker.log(error);
             })
             .finally(function() {
               self.$store.commit("clearOpenModal");
             });
         })
         .catch(function(error) {
-          console.log(error);
+          Networker.log(error);
         });
     }
   }

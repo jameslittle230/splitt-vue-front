@@ -136,15 +136,29 @@ export default {
     });
   },
 
-  /* eslint-disable no-unused-vars */
   log: function(object) {
-    return true;
-    // return this.a.post("/log", {
-    //   object: object
-    // })
-  }
+    const data = {
+      "text": `>>> \`\`\`${JSON.stringify(object, null, 4)}\`\`\``,
+    }
+    
+    if(process.env.NODE_ENV === "production") {
+      axios.post(process.env.VUE_APP_ERROR_WEBHOOK, JSON.stringify(data), {
+        withCredentials: false,
+        transformRequest: [(data, headers) => {
+          delete headers.post["Content-Type"]
+          return data
+        }]
+      }).catch(function() {
+        // At this point we're in too deep
+      })
+    } else {
 
-  /* eslint-enable no-unused-vars */
+      /* eslint-disable no-console */
+      console.log(object);
+      /* eslint-enable no-console */
+    }
+  },
+
   sendFeedback: function(msg) {
     const data = {
       "text": `>>> ${msg}`,
