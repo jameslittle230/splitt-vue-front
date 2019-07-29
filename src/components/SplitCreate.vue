@@ -1,5 +1,6 @@
 <template>
-  <div v-if="this.$store.state.currentGroup" style="margin: 1em auto;">
+  <div v-if="this.$store.state.currentGroup">
+    <h4>Create a New Split</h4>
     <form v-on:submit.prevent="submit">
       <div class="big-number">
         <span class="big-number-prefix">$</span>

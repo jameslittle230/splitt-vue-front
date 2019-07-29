@@ -75,6 +75,13 @@ hr {
   border-top: 1px solid black;
 }
 
+h4 {
+  margin: 1em 0 0.2em;
+  text-transform: uppercase;
+  letter-spacing: 0.075em;
+  color: hsla(0, 0%, 0%, 0.4);
+}
+
 .dropdown {
   background: hsl(214, 29%, 83%);
   border: 2px solid hsla(0, 0%, 0%, 0.4);
