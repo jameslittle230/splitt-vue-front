@@ -1,17 +1,17 @@
 <template>
-  <div class="layout-wrapper">
-    <div class="name">
-      <h1>Welcome, {{this.$store.state.me.name}}</h1>
-      <p v-if="myGroups && myGroups.length == 0">
-        <span style="margin-right: 0.5em">You're not a member of any groups.</span>
-        <button v-on:click="showNewGroupModal">Let's change that.</button>
-      </p>
+  <div>
+    <div class="layout-wrapper">
+      <img src="/splitt-logo.svg" style="height: 2.5rem;" />
+      <div class="userinfo">
+        <GroupDropdown v-if="this.$store.state.currentGroup" />
+        <UserDropdown />
+        <img src="/info.svg" alt class="infobutton" v-on:click="showInfoModal" />
+      </div>
     </div>
-    <div class="userinfo">
-      <GroupDropdown v-if="this.$store.state.currentGroup" />
-      <UserDropdown />
-      <div class="infobutton" v-on:click="showInfoModal">i</div>
-    </div>
+    <p v-if="myGroups && myGroups.length == 0">
+      <span style="margin-right: 0.5em">You're not a member of any groups.</span>
+      <button v-on:click="showNewGroupModal">Let's change that.</button>
+    </p>
   </div>
 </template>
 
@@ -36,7 +36,7 @@ export default {
     },
 
     showInfoModal: function() {
-      this.$store.commit("setOpenModal", "AppInfo")
+      this.$store.commit("setOpenModal", "AppInfo");
     }
   },
 
@@ -48,7 +48,7 @@ export default {
 .layout-wrapper {
   display: flex;
   justify-content: space-between;
-  align-items: top;
+  align-items: center;
   padding-top: 1em;
 }
 
@@ -65,20 +65,13 @@ h1 {
 }
 
 .infobutton {
-  height: 1.5rem;
-  width: 1.5rem;
-  background: hsla(0, 0%, 0%, 0.4);
-  text-align: center;
-  line-height: 1.5rem;
-  font-weight: 700;
-  font-size: 1rem;
-  border-radius: 50%;
   margin-left: 0.2rem;
-  color: hsl(38, 80%, 64%);
   cursor: pointer;
+  width: 1.5em;
+  opacity: 0.5;
 }
 
 .infobutton:hover {
-  background: hsla(0, 0%, 0%, 0.7);
+  opacity: 0.8;
 }
 </style>
