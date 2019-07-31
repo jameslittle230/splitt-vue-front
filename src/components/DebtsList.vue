@@ -98,6 +98,7 @@ details {
 summary {
   font-size: 1.8em;
   font-weight: bold;
+  cursor: pointer;
 }
 
 h3 {

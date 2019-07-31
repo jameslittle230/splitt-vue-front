@@ -8,7 +8,7 @@
         </div>
 
         <div class="modal-body">
-          <component v-bind:is="modal">To Do</component>
+          <component v-bind:is="modal">View not available. You shouldn't be seeing this.</component>
         </div>
       </div>
     </div>
