@@ -55,7 +55,25 @@ export default {
   methods: {
     closeModal: function() {
       this.$store.commit("clearOpenModal");
+    },
+
+    refreshData: function() {
+      const self = this;
+      this.$store.dispatch("refreshMe").then(function() {
+        self.$store.dispatch("refreshGroup").then(function() {
+        })
+      })
     }
+  },
+
+  mounted: function() {
+    this.$nextTick(function() {
+      window.setInterval(() => {
+        if(this.loggedIn) {
+          this.refreshData();
+        }
+      }, 10000);
+    });
   },
 
   components: {
