@@ -31,6 +31,7 @@
       </div>
     </div>
     <p>&copy;2019 James Little. All rights reserved.</p>
+    <p>Apple, the Apple logo, iPhone, and iPad are trademarks of Apple Inc., registered in the U.S. and other countries and regions. App Store is a service mark of Apple Inc.</p>
   </div>
 </template>
 
