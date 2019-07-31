@@ -30,8 +30,8 @@ button {
   font-weight: 800;
   background: hsl(213, 100%, 42%);
   border: 2px solid hsla(0, 0%, 0%, 0.4);
-  padding: 5px 15px;
-  border-radius: 5px;
+  padding: 0.4em 1em;
+  border-radius: 0.5em;
   color: white;
   letter-spacing: 0.035em;
   position: relative;
@@ -78,6 +78,10 @@ h4 {
   color: hsla(0, 0%, 0%, 0.4);
 }
 
+img {
+  max-width: 100%;
+}
+
 .dropdown {
   background: hsl(214, 29%, 83%);
   border: 2px solid hsla(0, 0%, 0%, 0.4);
@@ -99,7 +103,7 @@ h4 {
 }
 
 .dropdown-item:hover {
-  background: hsl(214, 29%, 73%);
+  background: hsla(0, 0%, 0%, 0.1);
 }
 
 .dropdown-item-no-action {
@@ -152,12 +156,12 @@ td {
   width: 80vw;
   left: 50%;
   top: 50%;
-  max-width: 950px;
-  transform: translateX(-50%) translateY(-50%);
+  max-width: 600px;
+  transform: translateX(-50%) translateY(-70%);
   border: 2px solid black;
   border-radius: 8px;
   overflow: hidden; /* Needed so head and body follow border radius */
-  box-shadow: 0 0 6px hsla(0, 0%, 0%, 0.6), 0 0 20px hsla(0, 0%, 0%, 0.3);
+  box-shadow: 0 0 6px hsla(0, 0%, 0%, 0.6), 0 0 28px hsla(0, 0%, 0%, 0.3);
 }
 
 .modal-head {

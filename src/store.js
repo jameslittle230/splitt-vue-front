@@ -62,6 +62,7 @@ const store = new Vuex.Store({
     postLogin(context, data) {
       context.commit("setUserFromLogin", data);
       context.dispatch("refreshMe");
+      context.commit("clearOpenModal");
     },
 
     refreshMe(context) {

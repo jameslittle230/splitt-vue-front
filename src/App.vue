@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div v-if="this.modal">
-      <div class="backdrop" v-on:click="closeModal"></div>
+      <div class="backdrop" v-on:click="closeModal" v-on:keyup.esc="closeModal" tabindex="0"></div>
       <div class="modal">
         <div class="modal-head">
           <span v-on:click="closeModal" class="modal-close-button">&times;</span>
@@ -13,21 +13,7 @@
       </div>
     </div>
 
-    <div v-if="!this.loggedIn">
-      <h1 class="title">Splitt</h1>
-      <p class="subtitle">
-        <i>By James Little</i>
-      </p>
-      <hr />
-      <div style="display: flex; justify-content: space-between;">
-        <div style="width: 48%">
-          <Login />
-        </div>
-        <div style="width: 48%;">
-          <SignUp />
-        </div>
-      </div>
-    </div>
+    <PromoPage v-if="!this.loggedIn" />
 
     <div v-if="this.loggedIn">
       <UserInfo />
@@ -38,6 +24,7 @@
 </template>
 
 <script>
+import PromoPage from "./components/introscreens/PromoPage.vue";
 import Login from "./components/introscreens/Login.vue";
 import SignUp from "./components/introscreens/SignUp.vue";
 
@@ -72,6 +59,7 @@ export default {
   },
 
   components: {
+    PromoPage,
     Login,
     UserInfo,
     SplitCreate,

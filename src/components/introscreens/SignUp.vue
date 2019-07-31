@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <h2>Or Sign Up</h2>
+    <h2>Sign Up for Splitt</h2>
     <form v-on:submit.prevent="submit">
       <p>
         <label for="name">
@@ -105,6 +105,10 @@ export default {
           self.submitButtonDisabled = false;
         });
     }
+  },
+
+  mounted: function() {
+    this.$refs.name.focus();
   }
 };
 </script>

@@ -97,6 +97,10 @@ export default {
           self.submitButtonDisabled = false;
         });
     }
+  },
+
+  mounted: function() {
+    this.$refs.email.focus();
   }
 };
 </script>
