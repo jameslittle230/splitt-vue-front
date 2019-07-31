@@ -161,6 +161,7 @@ export default {
 
   sendFeedback: function(msg) {
     const data = {
+      "username": store.state.me.name,
       "text": `>>> ${msg}`,
     }
     

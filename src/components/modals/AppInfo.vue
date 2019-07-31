@@ -35,6 +35,7 @@ export default {
   methods: {
     submitFeedback: function() {
       Networker.sendFeedback(this.feedback);
+      this.feedback = ""
     }
   }
 };
