@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <h2>Log In</h2>
+    <h2>Log In to Splitt</h2>
     <p>Or <a href="#" v-on:click.prevent="showSignUpModal">sign up for an account</a></p>
     <form v-on:submit.prevent="submit">
       <p>
@@ -15,7 +15,7 @@
           <input type="password" name="password" v-model="password" ref="password" />
         </label>
       </p>
-      <p class="message" v-if="message">{{ message }}</p>
+      <p class="form-error-message" v-if="message">{{ message }}</p>
       <p>
         <button
           type="submit"
@@ -99,7 +99,6 @@ export default {
     },
 
     showSignUpModal: function() {
-      console.log("got here");
       this.$store.commit("setOpenModal", "SignUp");
     }
   },
@@ -109,15 +108,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.message {
-  background-color: rgb(155, 69, 68);
-  padding: 20px;
-  color: white;
-  text-shadow: 1px 1px 1px black;
-  font-weight: bold;
-  border-radius: 8px;
-  border: 2px solid black;
-}
-</style>

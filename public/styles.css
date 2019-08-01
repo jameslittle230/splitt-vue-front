@@ -211,3 +211,12 @@ td {
   color: hsla(0, 0%, 100%, 1);
 }
 
+.form-error-message {
+  background-color: rgb(155, 69, 68);
+  padding: 20px;
+  color: white;
+  text-shadow: 1px 1px 1px black;
+  font-weight: bold;
+  border-radius: 8px;
+  border: 2px solid black;
+}
