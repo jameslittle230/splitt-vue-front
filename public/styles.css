@@ -1,23 +1,30 @@
-@import url('https://rsms.me/inter/inter.css');
+@import url("https://rsms.me/inter/inter.css");
 
-html, input, button { 
-  font-family: 'Inter', sans-serif; 
+html,
+input,
+button {
+  font-family: "Inter", sans-serif;
 }
 
 @supports (font-variation-settings: normal) {
-  html, input, button, textarea { 
-    font-family: 'Inter var', sans-serif; 
+  html,
+  input,
+  button,
+  textarea {
+    font-family: "Inter var", sans-serif;
   }
 }
 
-body { 
-  width: 90%; 
-  max-width: 800px; 
-  margin: 0 auto; 
-  background: hsl(46, 100%, 83%); 
+body {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  background: hsl(46, 100%, 83%);
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
   background: hsla(0, 0%, 100%, 0.7);
   border: 2px solid hsla(0, 0%, 0%, 0.4);
   border-radius: 3px;
@@ -43,18 +50,23 @@ button:hover {
   background: hsl(213, 100%, 62%);
 }
 
-button:disabled, button:disabled:hover, button:disabled:active {
+button:disabled,
+button:disabled:hover,
+button:disabled:active {
   background: hsl(0, 0%, 62%);
   top: 0;
   opacity: 0.8;
 }
 
-button:active, button.active {
+button:active,
+button.active {
   background: hsl(213, 100%, 32%);
   top: 2px;
 }
 
-.destructive-button, .destructive-button:active, .destructive-button .active {
+.destructive-button,
+.destructive-button:active,
+.destructive-button .active {
   background: hsl(11, 84%, 45%);
 }
 
@@ -62,7 +74,8 @@ button:active, button.active {
   background: hsl(11, 84%, 62%);
 }
 
-.destructive-button:active, .destructive-button .active {
+.destructive-button:active,
+.destructive-button .active {
   background: hsl(11, 84%, 32%);
 }
 
@@ -82,7 +95,9 @@ img {
   max-width: 100%;
 }
 
-a, a:link, a:visited {
+a,
+a:link,
+a:visited {
   color: hsla(206, 83%, 39%, 1);
 }
 
@@ -136,12 +151,13 @@ thead {
   border-bottom: 1px solid hsla(0, 0%, 0%, 0.3);
 }
 
-tr, th {
+tr,
+th {
   padding: 0.5em;
 }
 
 tr:nth-of-type(2n) {
-  background: hsla(0, 0%, 0%, 0.05)
+  background: hsla(0, 0%, 0%, 0.05);
 }
 
 td {
@@ -194,3 +210,4 @@ td {
 .modal-close-button:hover {
   color: hsla(0, 0%, 100%, 1);
 }
+
