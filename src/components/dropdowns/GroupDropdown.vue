@@ -6,7 +6,7 @@
     >{{ currentGroupName }} {{ menuIsVisible ? "&times;" : "&#9662;" }}</button>
     <div class="dropdown" v-if="menuIsVisible" v-on-clickaway="clickaway">
       <p class="dropdown-item dropdown-item-no-action">
-        Group code:
+        Group code:<br>
         <code>{{ currentGroupCode }}</code>
       </p>
       <p class="dropdown-item" v-on:click="showGroupInfoModal">Other group info</p>
@@ -87,6 +87,6 @@ export default {
 
 <style scoped>
 .dropdown {
-  width: 200px;
+  width: 250px;
 }
 </style>

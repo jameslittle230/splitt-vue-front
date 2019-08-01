@@ -91,6 +91,7 @@ export default {
 
 .promo-text {
   font-size: 1.1em;
+  line-height: 1.6;
 }
 
 .promo-text p {
