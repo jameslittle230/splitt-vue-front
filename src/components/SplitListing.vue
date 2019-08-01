@@ -7,7 +7,7 @@
       {{split.transaction.description}}
     </p>
     <p class="txn-list-item-subtitle">
-      <DateDisplay v-bind:date="split.transaction.created_at" /> • <MoneyDisplay v-bind:amount="split.transaction.full_amount" /> total
+      <DateDisplay v-bind:date="getTxnDisplayDate(split.transaction)" /> • <MoneyDisplay v-bind:amount="split.transaction.full_amount" /> total
     </p>
     <div
       class="tooltip"
@@ -22,7 +22,12 @@ import DateDisplay from "./DateDisplay";
 
 export default {
   props: ["split"],
-  components: { MoneyDisplay, DateDisplay }
+  components: { MoneyDisplay, DateDisplay },
+  methods: {
+    getTxnDisplayDate: function(txn) {
+        return txn.altered_date ? txn.altered_date : txn.created_at
+    } 
+  }
 };
 </script>
 
