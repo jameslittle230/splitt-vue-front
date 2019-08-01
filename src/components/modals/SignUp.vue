@@ -1,7 +1,11 @@
 <template>
   <div class="login">
     <h2>Sign Up for Splitt</h2>
-    <form v-on:submit.prevent="submit">
+    <p>
+      Or
+      <a href="#" v-on:click.prevent="showLoginModal">Log In</a>
+    </p>
+    <form action="#" v-on:submit.prevent="submit">
       <p>
         <label for="name">
           Name:
@@ -104,6 +108,10 @@ export default {
         .finally(function() {
           self.submitButtonDisabled = false;
         });
+    },
+
+    showLoginModal: function() {
+      this.$store.commit("setOpenModal", "Login");
     }
   },
 

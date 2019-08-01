@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import JoinGroup from "./modals/JoinGroup";
-import NewGroup from "./modals/NewGroup";
+import JoinGroup from "./JoinGroup";
+import NewGroup from "./NewGroup";
 
 export default {
   components: { JoinGroup, NewGroup }

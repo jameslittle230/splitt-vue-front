@@ -19,19 +19,27 @@
         <div class="promo-text">
           <p>Splitt keeps track of expenses so you don't have to.</p>
           <p>Get rid of those complicated spreadsheets and start logging your payments and transactions with Splitt. Splitt will keep track of who owes each other money in your friend group, apartment, coworking team or relationship so you can reconcile debts and keep track of group expenses.</p>
-          <p style="opacity: 0.5">
-            <img src="/appstorebadge.svg" style="width: 12rem;" />
-            <br />
-            <span style="font-size: 0.8em;">iOS app coming soon.</span>
-          </p>
         </div>
         <p>
-          <button style="font-size: 1.4rem" v-on:click="showSignUpModal">Sign up today</button>
+          <button
+            style="font-size: 1.4rem"
+            v-on:click="showSignUpModal"
+          >Start using Splitt online today</button>
+        </p>
+        <p style="opacity: 0.5">
+          <img src="/appstorebadge.svg" style="width: 12rem;" />
+          <br />
+          <span style="font-size: 0.8em;">iOS app coming soon.</span>
         </p>
       </div>
     </div>
-    <p>&copy;2019 <a href="https://jameslittle.me">James Little</a>. All rights reserved.</p>
-    <p style="font-size: 0.8em">Apple, the Apple logo, iPhone, and iPad are trademarks of Apple Inc., registered in the U.S. and other countries and regions. App Store is a service mark of Apple Inc.</p>
+    <p>
+      &copy;2019
+      <a href="https://jameslittle.me">James Little</a>. All rights reserved.
+    </p>
+    <p
+      style="font-size: 0.8em"
+    >Apple, the Apple logo, iPhone, and iPad are trademarks of Apple Inc., registered in the U.S. and other countries and regions. App Store is a service mark of Apple Inc.</p>
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <h2>Log In</h2>
-
+    <p>Or <a href="#" v-on:click.prevent="showSignUpModal">sign up for an account</a></p>
     <form v-on:submit.prevent="submit">
       <p>
         <label for="email">
@@ -96,6 +96,11 @@ export default {
         .finally(function() {
           self.submitButtonDisabled = false;
         });
+    },
+
+    showSignUpModal: function() {
+      console.log("got here");
+      this.$store.commit("setOpenModal", "SignUp");
     }
   },
 

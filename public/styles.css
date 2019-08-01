@@ -82,6 +82,14 @@ img {
   max-width: 100%;
 }
 
+a, a:link, a:visited {
+  color: hsla(206, 83%, 39%, 1);
+}
+
+a:hover {
+  text-decoration: none;
+}
+
 .dropdown {
   background: hsl(46, 100%, 95%);
   border: 2px solid hsla(0, 0%, 0%, 0.7);
