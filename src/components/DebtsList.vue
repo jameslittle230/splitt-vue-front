@@ -1,7 +1,7 @@
 <template>
   <div v-if="this.$store.state.debts">
     <h4>Current Debts</h4>
-    <p v-if="debts.length == 0">No debts yet!</p>
+    <p v-if="debts.length == 0">No current debts!</p>
 
     <details v-for="(memberObject, idx) in debts" v-bind:key="idx">
       <summary v-if="memberObject.net < 0">
