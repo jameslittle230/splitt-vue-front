@@ -18,17 +18,14 @@
         <p>
           <button v-on:click="reconcile(memberObject.member.id)">Mark as Paid</button>
         </p>
-        
+
         <h3 v-if="memberObject.owedTotal > 0 && memberObject.createdTotal > 0">
           You owe {{memberObject.member.name}}
           <MoneyDisplay v-bind:amount="memberObject.owedTotal" />
         </h3>
 
         <ul v-if="memberObject.owedTotal > 0">
-          <li v-for="split in memberObject.owed" v-bind:key="split.id">
-            <MoneyDisplay v-bind:amount="split.amount" />:
-            {{split.transaction.description}}
-          </li>
+          <SplitListing v-for="split in memberObject.owed" v-bind:key="split.id" v-bind:split="split" />
         </ul>
 
         <h3 v-if="memberObject.createdTotal > 0 && memberObject.owedTotal > 0">
@@ -37,10 +34,7 @@
         </h3>
 
         <ul v-if="memberObject.createdTotal > 0">
-          <li v-for="split in memberObject.created" v-bind:key="split.id">
-            <MoneyDisplay v-bind:amount="split.amount" />:
-            {{split.transaction.description}}
-          </li>
+          <SplitListing v-for="split in memberObject.created" v-bind:key="split.id" v-bind:split="split" />
         </ul>
       </div>
     </details>
@@ -49,6 +43,7 @@
 
 <script>
 import Networker from "../networking";
+import SplitListing from "./SplitListing.vue"
 import MoneyDisplay from "./MoneyDisplay";
 
 export default {
@@ -81,7 +76,7 @@ export default {
     }
   },
 
-  components: { MoneyDisplay }
+  components: { SplitListing, MoneyDisplay }
 };
 </script>
 
@@ -107,9 +102,5 @@ h3 {
 
 ul {
   margin-top: 0.2em;
-}
-
-p {
-  margin-top: 0;
 }
 </style>
