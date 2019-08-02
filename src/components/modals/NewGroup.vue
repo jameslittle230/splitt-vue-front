@@ -85,11 +85,14 @@ export default {
           self.$store.dispatch("refreshMe").then(function() {
             self.$store.dispatch("setGroup", response.data.group.id);
             self.$store.commit("clearOpenModal");
-            // And toast?
+            self.$store.commit("presentNotification", {
+              body: `Group ${self.newGroupName} created.`,
+              timer: 10
+            });
           });
         })
         .catch(function(error) {
-          if(error.response.status == 400) {
+          if (error.response.status == 400) {
             self.reset();
             self.message = error.response.data.message;
           } else {
