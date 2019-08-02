@@ -7,7 +7,6 @@
       </div>
       <div
         class="action"
-        v-if="notification.actions"
         v-for="action in notification.actions"
         v-bind:key="action.label"
         v-on:click="action.fxn()"

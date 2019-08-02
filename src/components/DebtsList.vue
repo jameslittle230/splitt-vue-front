@@ -25,7 +25,11 @@
         </h3>
 
         <ul v-if="memberObject.owedTotal > 0">
-          <SplitListing v-for="split in memberObject.owed" v-bind:key="split.id" v-bind:split="split" />
+          <SplitListing
+            v-for="split in memberObject.owed"
+            v-bind:key="split.id"
+            v-bind:split="split"
+          />
         </ul>
 
         <h3 v-if="memberObject.createdTotal > 0 && memberObject.owedTotal > 0">
@@ -34,7 +38,11 @@
         </h3>
 
         <ul v-if="memberObject.createdTotal > 0">
-          <SplitListing v-for="split in memberObject.created" v-bind:key="split.id" v-bind:split="split" />
+          <SplitListing
+            v-for="split in memberObject.created"
+            v-bind:key="split.id"
+            v-bind:split="split"
+          />
         </ul>
       </div>
     </details>
@@ -43,7 +51,7 @@
 
 <script>
 import Networker from "../networking";
-import SplitListing from "./SplitListing.vue"
+import SplitListing from "./SplitListing.vue";
 import MoneyDisplay from "./MoneyDisplay";
 
 export default {
