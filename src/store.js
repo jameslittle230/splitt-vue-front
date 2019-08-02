@@ -12,7 +12,8 @@ const store = new Vuex.Store({
     currentGroup: null,
     debts: null,
 
-    openModal: null
+    openModal: null,
+    presentedNotifications: [],
   },
 
   mutations: {
@@ -55,6 +56,18 @@ const store = new Vuex.Store({
 
     clearOpenModal(state) {
       state.openModal = null;
+    },
+
+    presentNotification(state, notification) {
+      notification.timestamp = (new Date()).getTime();
+      if(state.presentedNotifications.unshift(notification) > 8) {
+        state.presentedNotifications.pop();
+      }
+    },
+
+    deletePresentedNotification(state, notification) {
+      const idx = state.presentedNotifications.indexOf(notification);
+      state.presentedNotifications.splice(idx, 1);
     }
   },
 
