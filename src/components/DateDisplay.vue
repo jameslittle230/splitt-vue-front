@@ -3,22 +3,28 @@
 </template>
 
 <script>
-import { parse, format, formatRelative } from "date-fns/esm";
+import { parse, format, formatDistance } from "date-fns/esm";
 
 export default {
-  props: ["date"],
+  props: {
+    date: String,
+    format: {
+      type: String,
+      default: "formatted"
+    }
+  },
 
   computed: {
     dateObject: function() {
       return parse(this.date, "yyyy-MM-dd HH:mm:ss", new Date());
     },
 
-    relative: function() {
-      return formatRelative(this.dateObject, new Date());
-    },
-
     formatted: function() {
-      return format(this.dateObject, 'EEE, MMM dd, yyyy');
+      if (this.format == "relative") {
+        return formatDistance(this.dateObject, new Date(), { addSuffix: true });
+      } else {
+        return format(this.dateObject, "EEE, MMM dd, yyyy");
+      }
     }
   }
 };
