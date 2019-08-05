@@ -3,22 +3,22 @@
     <h4>Current Debts</h4>
     <p v-if="debts.length == 0">No current debts!</p>
 
-    <details v-for="(memberObject, idx) in debts" v-bind:key="idx">
-      <summary v-if="memberObject.net < 0">
-        You owe {{memberObject.member.name}}
-        <MoneyDisplay v-bind:amount="memberObject.net * -1" />
-      </summary>
+    <div v-for="(memberObject, idx) in debts" v-bind:key="idx">
+      <h2>
+        <span v-if="memberObject.net < 0">
+          You owe {{memberObject.member.name}}
+          <MoneyDisplay v-bind:amount="memberObject.net * -1" />
+        </span>
 
-      <summary v-if="memberObject.net > 0">
-        {{memberObject.member.name}} owes you
-        <MoneyDisplay v-bind:amount="memberObject.net" />
-      </summary>
+        <span v-if="memberObject.net > 0">
+          {{memberObject.member.name}} owes you
+          <MoneyDisplay v-bind:amount="memberObject.net" />
+        </span>
+      </h2>
 
-      <div class="expanded">
-        <p>
-          <button v-on:click="reconcile(memberObject.member.id)">Mark as Paid</button>
-        </p>
-
+      <div class="details">
+        <p><button v-on:click="reconcile(memberObject.member.id)">Mark as Paid</button></p>
+        
         <h3 v-if="memberObject.owedTotal > 0 && memberObject.createdTotal > 0">
           You owe {{memberObject.member.name}}
           <MoneyDisplay v-bind:amount="memberObject.owedTotal" />
@@ -45,7 +45,7 @@
           />
         </ul>
       </div>
-    </details>
+    </div>
   </div>
 </template>
 
@@ -89,26 +89,31 @@ export default {
 </script>
 
 <style scoped>
-.expanded {
-  padding: 1em;
-  margin-left: 0.25em;
+.details {
+  margin-bottom: 3em;
+  padding-left: 1em;
+  border-left: 1px solid hsla(0, 0%, 0%, 0.3);
 }
 
-details {
-  margin-bottom: 1em;
-}
-
-summary {
+h2 {
   font-size: 1.8em;
-  font-weight: bold;
-  cursor: pointer;
+  margin: 0 0 0.3em;
+}
+
+h2 button {
+  font-size: 1rem;
+  margin-left: 1em;
+  position: relative;
+  top: -0.2em;
 }
 
 h3 {
-  margin: 0;
+  font-size: 1.4em;
+  margin: 0 0 0.7em;
 }
 
 ul {
-  margin-top: 0.2em;
+  margin: 0.2em 0 3em;
+  padding-left: 1em;
 }
 </style>

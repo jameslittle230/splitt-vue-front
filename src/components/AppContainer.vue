@@ -2,7 +2,10 @@
   <div>
     <UserInfo />
     <SplitCreate />
+    <div class="grid">
     <DebtsList />
+    <History />
+    </div>
   </div>
 </template>
 
@@ -10,12 +13,23 @@
 import UserInfo from "./UserInfo.vue";
 import SplitCreate from "./SplitCreate.vue";
 import DebtsList from "./DebtsList.vue";
+import History from "./History.vue";
 
 export default {
   components: {
     UserInfo,
     SplitCreate,
-    DebtsList
+    DebtsList,
+    History
   }
 };
 </script>
+
+<style scoped>
+.grid {
+  display: grid;
+  grid-template-columns: 60% 1fr;
+  grid-column-gap: 2em;
+}
+</style>
+
