@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="promo-page">
     <div class="top-bar">
       <div>
         <img src="/splitt-logo.svg" style="height: 3em;" />
@@ -33,17 +33,12 @@
         </p>
       </div>
     </div>
-    <p>
-      &copy;2019
-      <a href="https://jameslittle.me">James Little</a>. All rights reserved.
-    </p>
-    <p
-      style="font-size: 0.8em"
-    >Apple, the Apple logo, iPhone, and iPad are trademarks of Apple Inc., registered in the U.S. and other countries and regions. App Store is a service mark of Apple Inc.</p>
+    <Footer />
   </div>
 </template>
 
 <script>
+import Footer from "./Footer.vue";
 export default {
   methods: {
     showLoginModal: function() {
@@ -53,12 +48,19 @@ export default {
     showSignUpModal: function() {
       this.$store.commit("setOpenModal", "SignUp");
     }
-  }
+  },
+
+  components: { Footer }
 };
 </script>
 
 
 <style>
+.promo-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 .top-bar {
   display: flex;
   justify-content: space-between;
@@ -74,6 +76,16 @@ export default {
   flex-shrink: 0;
   width: 40%;
   padding-right: 1.5rem;
+}
+
+@media screen and (max-width: 40em) {
+  .main-promo-content {
+    display: block;
+  }
+
+  .phone-image-container {
+    display: none;
+  }
 }
 
 .title {

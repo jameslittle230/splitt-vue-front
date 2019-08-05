@@ -6,6 +6,7 @@
     <DebtsList />
     <History />
     </div>
+    <Footer />
   </div>
 </template>
 
@@ -14,13 +15,15 @@ import UserInfo from "./UserInfo.vue";
 import SplitCreate from "./SplitCreate.vue";
 import DebtsList from "./DebtsList.vue";
 import History from "./History.vue";
+import Footer from "./Footer.vue";
 
 export default {
   components: {
     UserInfo,
     SplitCreate,
     DebtsList,
-    History
+    History,
+    Footer,
   }
 };
 </script>
