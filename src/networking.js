@@ -11,6 +11,11 @@ export default {
       params: {
         api_token: apiToken
       }
+    }).catch(function(error) {
+      store.commit("presentNotification", {
+        body: "Split has encountered an error getting your profile. This error has been reported.",
+        timer: 10
+      });
     });
   },
 
@@ -19,6 +24,11 @@ export default {
       params: {
         api_token: apiToken
       }
+    }).catch(function(error) {
+      store.commit("presentNotification", {
+        body: "Splitt has encountered an error getting the current group. This error has been reported.",
+        timer: 10
+      });
     });
   },
 
@@ -27,6 +37,11 @@ export default {
       params: {
         api_token: apiToken
       }
+    }).catch(function(error) {
+      store.commit("presentNotification", {
+        body: "Splitt has encountered an error getting up-to-date information. This error has been reported.",
+        timer: 10
+      });
     });
   },
 
@@ -40,6 +55,11 @@ export default {
       params: {
         api_token: store.state.apiToken
       }
+    }).catch(function(error) {
+      store.commit("presentNotification", {
+        body: "Splitt has encountered an error reconciling these splits. This error has been reported.",
+        timer: 10
+      });
     });
   },
 
@@ -57,6 +77,11 @@ export default {
       params: {
         api_token: store.state.apiToken
       }
+    }).catch(function(error) {
+      store.commit("presentNotification", {
+        body: "Splitt has encountered an error reconciling this split. This error has been reported.",
+        timer: 10
+      });
     });
   },
 
@@ -82,6 +107,11 @@ export default {
       params: {
         api_token: store.state.apiToken
       }
+    }).catch(function(error) {
+      store.commit("presentNotification", {
+        body: "Splitt has encountered an error getting up-to-date data. This error has been reported.",
+        timer: 10
+      });
     });
   },
 
@@ -96,6 +126,11 @@ export default {
       params: {
         api_token: store.state.apiToken
       }
+    }).catch(function(error) {
+      store.commit("presentNotification", {
+        body: "Splitt has encountered an error creating a group. This error has been reported.",
+        timer: 10
+      });
     });
   },
 
@@ -105,6 +140,11 @@ export default {
         api_token: store.state.apiToken,
         q: q
       }
+    }).catch(function(error) {
+      store.commit("presentNotification", {
+        body: "Splitt has encountered an error searching for groups. This error has been reported.",
+        timer: 10
+      });
     });
   },
 
@@ -118,6 +158,11 @@ export default {
       params: {
         api_token: store.state.apiToken
       }
+    }).catch(function(error) {
+      store.commit("presentNotification", {
+        body: "Splitt has encountered an error adding members to groups. This error has been reported.",
+        timer: 10
+      });
     });
   },
 
@@ -126,6 +171,11 @@ export default {
       name: name,
       email: email,
       password: password
+    }).catch(function(error) {
+      store.commit("presentNotification", {
+        body: "Splitt has encountered an error creating this user. This error has been reported.",
+        timer: 10
+      });
     });
   },
 
@@ -148,8 +198,6 @@ export default {
           delete headers.post["Content-Type"]
           return data
         }]
-      }).catch(function() {
-        // At this point we're in too deep
       })
     } else {
 

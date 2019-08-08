@@ -27,7 +27,6 @@ export default {
   },
   mounted: function() {
     const self = this;
-    console.log(this.notification.timer);
     if (this.notification.timer) {
       setTimeout(function() {
         self.closeNotification();

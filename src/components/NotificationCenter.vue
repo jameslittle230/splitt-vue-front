@@ -65,7 +65,7 @@ export default {
 
 <style scoped>
 .notification-center {
-  position: absolute;
+  position: fixed;
   right: 1em;
   top: 1em;
   z-index: 50;
