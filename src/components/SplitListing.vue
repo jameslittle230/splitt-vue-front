@@ -1,5 +1,5 @@
 <template>
-  <li class="txn-list-item">
+  <li class="txn-list-item" v-on:mousemove="adjustTooltipPosition($event)">
     <p>
       <b>
         <MoneyDisplay v-bind:amount="split.amount" />
@@ -10,10 +10,15 @@
       <DateDisplay v-bind:date="getTxnDisplayDate(split.transaction)" format="relative" />&nbsp;•&nbsp;
       <MoneyDisplay v-bind:amount="split.transaction.full_amount" />&nbsp;total
     </p>
-    <div
-      class="tooltip"
-      v-if="split.transaction.long_description"
-    >{{split.transaction.long_description}}</div>
+    <div class="tooltip" ref="tooltip">
+      <h1 class="tooltip-title">{{split.transaction.description}}</h1>
+      <p>
+        Created on
+        <DateDisplay v-bind:date="getTxnDisplayDate(split.transaction)" />
+        by {{split.transaction.creator}}
+      </p>
+      <p v-html="longdesc_format(split.transaction.long_description)" />
+    </div>
   </li>
 </template>
 
@@ -27,6 +32,17 @@ export default {
   methods: {
     getTxnDisplayDate: function(txn) {
       return txn.altered_date ? txn.altered_date : txn.created_at;
+    },
+
+    longdesc_format: function(value) {
+      value = value.replace(/(?:\r\n|\r|\n)/g, "<br>");
+      return value;
+    },
+
+    adjustTooltipPosition: function(event) {
+      if (this.$refs.tooltip) {
+        this.$refs.tooltip.style.transform = `translateX(${event.clientX}px) translateY(${event.clientY}px)`;
+      }
     }
   }
 };
@@ -56,24 +72,34 @@ export default {
 }
 
 .tooltip {
-  position: absolute;
+  position: fixed;
   top: 0;
-  left: 10%;
+  left: 0;
   z-index: 5;
+  width: 25em;
+
   display: none;
 
   font-size: 0.8em;
-  background-color: hsl(213, 63%, 65%);
+  background-color: hsl(213, 63%, 85%);
   padding: 1em;
-  color: white;
-  text-shadow: 1px 1px 1px black;
+  color: black;
   box-shadow: 0 0 4px hsla(0, 0%, 0%, 0.7), 0 0 28px hsla(0, 0%, 0%, 0.3);
-  font-weight: bold;
+  font-weight: normal;
   border-radius: 8px;
   border: 2px solid black;
 }
 
 .txn-list-item:hover .tooltip {
   display: block;
+}
+
+.tooltip-title {
+  margin: 0.3em 0;
+  font-size: 1.4em;
+}
+
+.tooltip p {
+  margin-bottom: 0.8em;
 }
 </style>
