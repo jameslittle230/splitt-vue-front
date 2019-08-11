@@ -54,8 +54,11 @@ export default {
     },
 
     adjustTooltipPosition: function(event) {
+      const self = this;
       if (this.$refs.tooltip) {
-        this.$refs.tooltip.style.transform = `translateX(${event.clientX}px) translateY(${event.clientY}px)`;
+        requestAnimationFrame(function() {
+          self.$refs.tooltip.style.transform = `translateX(${event.clientX}px) translateY(${event.clientY}px)`;
+        });
       }
     }
   }

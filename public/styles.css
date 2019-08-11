@@ -7,11 +7,18 @@ button {
 }
 
 @supports (font-variation-settings: normal) {
+
   html,
   input,
   button,
   textarea {
     font-family: "Inter var", sans-serif;
+  }
+}
+
+@media screen and (max-width: 40rem) {
+  body {
+    font-size: 0.8em;
   }
 }
 
@@ -185,7 +192,8 @@ td {
   transform: translateX(-50%) translateY(-70%);
   border: 2px solid black;
   border-radius: 8px;
-  overflow: hidden; /* Needed so head and body follow border radius */
+  /* Following is needed so head and body follow border radius */
+  overflow: hidden;
   box-shadow: 0 0 6px hsla(0, 0%, 0%, 0.6), 0 0 28px hsla(0, 0%, 0%, 0.3);
 }
 

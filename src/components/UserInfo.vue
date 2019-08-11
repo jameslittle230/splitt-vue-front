@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="layout-wrapper">
-      <img src="/splitt-logo.svg" style="height: 2.5rem;" />
-      <div class="userinfo">
+      <img src="/splitt-logo.svg" class="logo" />
+      <div class="user-info">
         <GroupDropdown v-if="this.$store.state.currentGroup" />
         <UserDropdown />
-        <img src="/info.svg" alt class="infobutton" v-on:click="showInfoModal" />
+        <img src="/info.svg" alt class="info-button" v-on:click="showInfoModal" />
       </div>
     </div>
     <p v-if="myGroups && myGroups.length == 0" class="intro-text">
@@ -52,26 +52,36 @@ export default {
   padding-top: 1em;
 }
 
+.logo {
+  height: 2.5em;
+  margin-bottom: 0.4em;
+}
+
 h1 {
   margin: 0;
 }
 
-.userinfo {
+.user-info {
   text-align: right;
   flex-grow: 2;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  flex-wrap: wrap;
 }
 
-.infobutton {
+.user-info > * {
+  margin-bottom: 0.2em;
+}
+
+.info-button {
   margin-left: 0.2rem;
   cursor: pointer;
   width: 1.5em;
   opacity: 0.5;
 }
 
-.infobutton:hover {
+.info-button:hover {
   opacity: 0.8;
 }
 
@@ -85,5 +95,17 @@ h1 {
   display: block;
   margin-top: 0.3em;
   font-size: 0.8em;
+}
+
+@media screen and (max-width: 40rem) {
+  .layout-wrapper {
+    display: block;
+  }
+
+  .user-info {
+    /* display: block; */
+    text-align: left;
+    justify-content: flex-start;
+  }
 }
 </style>

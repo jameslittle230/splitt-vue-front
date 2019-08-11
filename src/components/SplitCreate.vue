@@ -12,6 +12,7 @@
           v-model="amount"
           v-on:focus="active = true"
           class="big-number-input"
+          type="text"
         />
         <button class="active-button" v-on:click="loseFocus" v-if="active" tabindex="18">&times;</button>
       </div>
@@ -342,7 +343,7 @@ export default {
 
 <style scoped>
 .big-number {
-  font-size: 3rem;
+  font-size: 3em;
   background: hsla(0, 0%, 0%, 0.05);
   border-radius: 8px;
   border: 2px solid hsla(0, 0%, 0%, 0.3);

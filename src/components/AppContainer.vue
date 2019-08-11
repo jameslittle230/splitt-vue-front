@@ -3,8 +3,8 @@
     <UserInfo />
     <SplitCreate />
     <div class="grid">
-    <DebtsList />
-    <History />
+      <DebtsList />
+      <History />
     </div>
     <Footer />
   </div>
@@ -23,7 +23,7 @@ export default {
     SplitCreate,
     DebtsList,
     History,
-    Footer,
+    Footer
   }
 };
 </script>
@@ -33,6 +33,12 @@ export default {
   display: grid;
   grid-template-columns: 60% 1fr;
   grid-column-gap: 2em;
+}
+
+@media screen and (max-width: 40rem) {
+  .grid {
+    display: block;
+  }
 }
 </style>
 
