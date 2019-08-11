@@ -17,7 +17,7 @@
     <div class="tooltip" ref="tooltip">
       <h1 class="tooltip-title">{{split.transaction.description}}</h1>
       <p>
-        Created on
+        {{ this.split.transaction.altered_date ? "Date adjusted to" : "Created on" }}
         <DateDisplay v-bind:date="txnDisplayDate" v-bind:timezoned="txnShouldBeZoned" />
         by {{getGroupMemberName(split.transaction.creator)}}
       </p>
@@ -54,6 +54,14 @@ export default {
       // adjusted for the time zone, since the altered date represents
       // the beginning of the listed day in whatever timezone the user is in
       return !this.split.transaction.altered_date;
+    },
+
+    longDescription: function() {
+      var value = this.split.transaction.longDescription;
+      var doc = new DOMParser().parseFromString(value, "text/html");
+      value = doc.body.textContent || "";
+      value = value.replace(/(?:\r\n|\r|\n)/g, "<br>");
+      return value;
     }
   },
 
