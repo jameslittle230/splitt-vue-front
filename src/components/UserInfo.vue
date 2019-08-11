@@ -8,7 +8,7 @@
         <img src="/info.svg" alt class="infobutton" v-on:click="showInfoModal" />
       </div>
     </div>
-    <p v-if="myGroups && myGroups.length == 0">
+    <p v-if="myGroups && myGroups.length == 0" class="intro-text">
       <span style="margin-right: 0.5em">You're not a member of any groups.</span>
       <button v-on:click="showNewGroupModal">Let's change that.</button>
     </p>
@@ -73,5 +73,17 @@ h1 {
 
 .infobutton:hover {
   opacity: 0.8;
+}
+
+.intro-text {
+  font-size: 2em;
+  margin: 2em 0;
+  font-weight: bold;
+}
+
+.intro-text button {
+  display: block;
+  margin-top: 0.3em;
+  font-size: 0.8em;
 }
 </style>

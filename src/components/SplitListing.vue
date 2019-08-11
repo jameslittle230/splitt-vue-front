@@ -15,9 +15,18 @@
       <p>
         Created on
         <DateDisplay v-bind:date="getTxnDisplayDate(split.transaction)" />
-        by {{split.transaction.creator}}
+        by {{getGroupMemberName(split.transaction.creator)}}
       </p>
-      <p v-html="longdesc_format(split.transaction.long_description)" />
+      <p>
+        Full amount:
+        <MoneyDisplay v-bind:amount="split.transaction.full_amount" />
+        ,
+        split as {{Math.round(split.percentage * 100)}}%
+      </p>
+      <p
+        class="tooltip-long-description"
+        v-html="formatLongDescription(split.transaction.long_description)"
+      />
     </div>
   </li>
 </template>
@@ -34,7 +43,12 @@ export default {
       return txn.altered_date ? txn.altered_date : txn.created_at;
     },
 
-    longdesc_format: function(value) {
+    getGroupMemberName: function(id) {
+      return this.$store.state.currentGroup.members.filter(m => m.id == id)[0]
+        .name;
+    },
+
+    formatLongDescription: function(value) {
       value = value.replace(/(?:\r\n|\r|\n)/g, "<br>");
       return value;
     },
@@ -100,6 +114,11 @@ export default {
 }
 
 .tooltip p {
-  margin-bottom: 0.8em;
+  margin-bottom: 0.6em;
+}
+
+.tooltip-long-description {
+  border-left: 2px solid rgba(0%, 0%, 0%, 60%);
+  padding-left: 0.8em;
 }
 </style>

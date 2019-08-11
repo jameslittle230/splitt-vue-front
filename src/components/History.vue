@@ -1,7 +1,9 @@
 <template>
-  <div>
+  <div v-if="this.$store.state.debts">
     <h4>Event History</h4>
-    <p><i>Coming soon!</i></p>
+    <p>
+      <i>Coming soon!</i>
+    </p>
   </div>
 </template>
 
@@ -9,12 +11,10 @@
 import Networker from "../networking";
 
 export default {
-  computed: {
-  },
+  computed: {},
 
-  methods: {
-  },
+  methods: {},
 
-  components: { }
+  components: {}
 };
 </script>

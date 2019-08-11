@@ -25,7 +25,7 @@ export default {
     return {
       joinCode: "",
       message: "",
-      submitButtonDisabled: false,
+      submitButtonDisabled: false
     };
   },
 
@@ -45,6 +45,7 @@ export default {
           Networker.addSelfToGroup(response.data[0].id).then(function(
             response
           ) {
+            self.$store.commit("clearOpenModal");
             self.$store.dispatch("refreshMe");
             self.$store.dispatch("setGroup", response.data.group.id);
           });
