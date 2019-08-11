@@ -3,7 +3,8 @@
 </template>
 
 <script>
-import { parse, format, formatDistance } from "date-fns/esm";
+import { parse, formatDistance } from "date-fns/esm";
+import { toDate, utcToZonedTime, format } from "date-fns-tz";
 
 export default {
   props: {
@@ -16,7 +17,12 @@ export default {
 
   computed: {
     dateObject: function() {
-      return parse(this.date, "yyyy-MM-dd HH:mm:ss", new Date());
+      const timezone = this.$store.state.me.timezone;
+      // This seems hacky?
+      const parsedDate = toDate(this.date, { timeZone: "UTC" });
+      const zonedDate = utcToZonedTime(parsedDate, timezone);
+      console.log(parsedDate);
+      return zonedDate;
     },
 
     formatted: function() {
