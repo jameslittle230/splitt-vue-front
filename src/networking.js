@@ -13,11 +13,11 @@ export default {
           api_token: apiToken
         }
       })
-      .catch(function(error) {
+      .catch(function() {
         store.commit("logout");
         store.commit("presentNotification", {
           body:
-            "Split has encountered an error getting your profile. This error has been reported.",
+            "Split has encountered an error getting your profile. You have been logged out.",
           timer: 10
         });
       });
@@ -30,7 +30,7 @@ export default {
           api_token: apiToken
         }
       })
-      .catch(function(error) {
+      .catch(function() {
         store.commit("presentNotification", {
           body:
             "Splitt has encountered an error getting the current group. This error has been reported.",
@@ -46,7 +46,7 @@ export default {
           api_token: apiToken
         }
       })
-      .catch(function(error) {
+      .catch(function() {
         store.commit("presentNotification", {
           body:
             "Splitt has encountered an error getting up-to-date information. This error has been reported.",
@@ -67,7 +67,7 @@ export default {
           api_token: store.state.apiToken
         }
       })
-      .catch(function(error) {
+      .catch(function() {
         store.commit("presentNotification", {
           body:
             "Splitt has encountered an error reconciling these splits. This error has been reported.",
@@ -92,7 +92,7 @@ export default {
           api_token: store.state.apiToken
         }
       })
-      .catch(function(error) {
+      .catch(function() {
         store.commit("presentNotification", {
           body:
             "Splitt has encountered an error reconciling this split. This error has been reported.",
@@ -131,7 +131,7 @@ export default {
           api_token: store.state.apiToken
         }
       })
-      .catch(function(error) {
+      .catch(function() {
         store.commit("presentNotification", {
           body:
             "Splitt has encountered an error getting up-to-date data. This error has been reported.",
@@ -162,7 +162,7 @@ export default {
           q: q
         }
       })
-      .catch(function(error) {
+      .catch(function() {
         store.commit("presentNotification", {
           body:
             "Splitt has encountered an error searching for groups. This error has been reported.",
@@ -183,7 +183,7 @@ export default {
           api_token: store.state.apiToken
         }
       })
-      .catch(function(error) {
+      .catch(function() {
         store.commit("presentNotification", {
           body:
             "Splitt has encountered an error adding members to groups. This error has been reported.",

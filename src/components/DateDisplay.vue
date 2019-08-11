@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { parse, formatDistance } from "date-fns/esm";
+import { formatDistance } from "date-fns/esm";
 import { toDate, utcToZonedTime, format } from "date-fns-tz";
 
 export default {
