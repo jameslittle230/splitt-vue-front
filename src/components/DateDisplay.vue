@@ -9,6 +9,10 @@ import { toDate, utcToZonedTime, format } from "date-fns-tz";
 export default {
   props: {
     date: String,
+    timezoned: {
+      type: Boolean,
+      default: true
+    },
     format: {
       type: String,
       default: "formatted"
@@ -18,11 +22,13 @@ export default {
   computed: {
     dateObject: function() {
       const timezone = this.$store.state.me.timezone;
-      // This seems hacky?
-      const parsedDate = toDate(this.date, { timeZone: "UTC" });
-      const zonedDate = utcToZonedTime(parsedDate, timezone);
-      console.log(parsedDate);
-      return zonedDate;
+      var parsedDate = toDate(this.date, {
+        timeZone: this.timezoned ? "UTC" : timezone
+      });
+      if (this.timezoned) {
+        parsedDate = utcToZonedTime(parsedDate, timezone);
+      }
+      return parsedDate;
     },
 
     formatted: function() {

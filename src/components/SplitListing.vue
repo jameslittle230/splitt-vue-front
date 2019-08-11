@@ -7,14 +7,18 @@
       {{split.transaction.description}}
     </p>
     <p class="txn-list-item-subtitle">
-      <DateDisplay v-bind:date="getTxnDisplayDate(split.transaction)" format="relative" />&nbsp;•&nbsp;
+      <DateDisplay
+        v-bind:date="txnDisplayDate"
+        format="relative"
+        v-bind:timezoned="txnShouldBeZoned"
+      />&nbsp;•&nbsp;
       <MoneyDisplay v-bind:amount="split.transaction.full_amount" />&nbsp;total
     </p>
     <div class="tooltip" ref="tooltip">
       <h1 class="tooltip-title">{{split.transaction.description}}</h1>
       <p>
         Created on
-        <DateDisplay v-bind:date="getTxnDisplayDate(split.transaction)" />
+        <DateDisplay v-bind:date="txnDisplayDate" v-bind:timezoned="txnShouldBeZoned" />
         by {{getGroupMemberName(split.transaction.creator)}}
       </p>
       <p>
@@ -38,11 +42,22 @@ import DateDisplay from "./DateDisplay";
 export default {
   props: ["split"],
   components: { MoneyDisplay, DateDisplay },
-  methods: {
-    getTxnDisplayDate: function(txn) {
+
+  computed: {
+    txnDisplayDate: function() {
+      const txn = this.split.transaction;
       return txn.altered_date ? txn.altered_date : txn.created_at;
     },
 
+    txnShouldBeZoned: function() {
+      // If there's an altered date, the transaction display should not be
+      // adjusted for the time zone, since the altered date represents
+      // the beginning of the listed day in whatever timezone the user is in
+      return !this.split.transaction.altered_date;
+    }
+  },
+
+  methods: {
     getGroupMemberName: function(id) {
       return this.$store.state.currentGroup.members.filter(m => m.id == id)[0]
         .name;
