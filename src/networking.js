@@ -56,13 +56,13 @@ export default {
   },
 
   reconcileDebt: function(groupID, memberID) {
-    var data = { reconciled: {} };
-    data["reconciled"][memberID] = 1;
     return this.a
       .request({
         url: `/groups/${groupID}/debts`,
         method: "put",
-        data: data,
+        data: {
+          reconciled_members: [memberID]
+        },
         params: {
           api_token: store.state.apiToken
         }
@@ -80,26 +80,26 @@ export default {
    * @param splitID {String} The ID of the split that gets reconciled
    * @returns {AxiosPromise}
    */
-  reconcileSplit: function(splitID) {
-    return this.a
-      .request({
-        url: `/splits/${splitID}`,
-        method: "put",
-        data: {
-          reconciled: 1
-        },
-        params: {
-          api_token: store.state.apiToken
-        }
-      })
-      .catch(function() {
-        store.commit("presentNotification", {
-          body:
-            "Splitt has encountered an error reconciling this split. This error has been reported.",
-          timer: 10
-        });
-      });
-  },
+  // reconcileSplit: function(splitID) {
+  //   return this.a
+  //     .request({
+  //       url: `/splits/${splitID}`,
+  //       method: "put",
+  //       data: {
+  //         reconciled: 1
+  //       },
+  //       params: {
+  //         api_token: store.state.apiToken
+  //       }
+  //     })
+  //     .catch(function() {
+  //       store.commit("presentNotification", {
+  //         body:
+  //           "Splitt has encountered an error reconciling this split. This error has been reported.",
+  //         timer: 10
+  //       });
+  //     });
+  // },
 
   /**
    *
