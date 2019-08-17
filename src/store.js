@@ -13,7 +13,7 @@ const store = new Vuex.Store({
     debts: null,
 
     openModal: null,
-    presentedNotifications: [],
+    presentedNotifications: []
   },
 
   mutations: {
@@ -26,19 +26,28 @@ const store = new Vuex.Store({
       state.me = userObject;
     },
 
-    // addTransaction(state, txnObject) {
-    //   state.currentGroup.transactions.push(txnObject);
-    // },
-
     setCurrentGroupId(state, groupId) {
       state.currentGroupId = groupId;
     },
 
     setGroupObject(state, groupObject) {
+      // @TODO: This might be better done on the server.
+      groupObject.members.map(function(m) {
+        m.displayName = m.name || m.email;
+        m.isActivated = !m.name && !m.self_created;
+        return m;
+      });
       state.currentGroup = groupObject;
     },
 
     setDebtsObject(state, debtsObject) {
+      Object.values(debtsObject).map(function(debtObject) {
+        debtObject.member.displayName =
+          debtObject.member.name || debtObject.member.email;
+        debtObject.member.isActivated =
+          !debtObject.member.name && !debtObject.member.self_created;
+        return debtObject;
+      });
       state.debts = debtsObject;
     },
 
@@ -59,8 +68,8 @@ const store = new Vuex.Store({
     },
 
     presentNotification(state, notification) {
-      notification.timestamp = (new Date()).getTime();
-      if(state.presentedNotifications.unshift(notification) > 8) {
+      notification.timestamp = new Date().getTime();
+      if (state.presentedNotifications.unshift(notification) > 8) {
         state.presentedNotifications.pop();
       }
     },

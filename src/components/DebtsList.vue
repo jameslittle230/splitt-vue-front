@@ -6,21 +6,28 @@
     <div v-for="(memberObject, idx) in debts" v-bind:key="idx">
       <h2>
         <span v-if="memberObject.net < 0">
-          You owe {{memberObject.member.name}}
+          You owe {{memberObject.member.displayName}}
           <MoneyDisplay v-bind:amount="memberObject.net * -1" />
         </span>
 
         <span v-if="memberObject.net > 0">
-          {{memberObject.member.name}} owes you
+          {{memberObject.member.displayName}} owes you
           <MoneyDisplay v-bind:amount="memberObject.net" />
         </span>
       </h2>
 
+      <p
+        class="inactive-account"
+        v-if="!memberObject.isActivated"
+      >This user has not logged into Splitt yet.</p>
+
       <div class="details">
-        <p><button v-on:click="reconcile(memberObject.member.id)">Mark as Paid</button></p>
-        
+        <p>
+          <button v-on:click="reconcile(memberObject.member.id)">Mark as Paid</button>
+        </p>
+
         <h3 v-if="memberObject.owedTotal > 0 && memberObject.createdTotal > 0">
-          You owe {{memberObject.member.name}}
+          You owe {{memberObject.member.displayName}}
           <MoneyDisplay v-bind:amount="memberObject.owedTotal" />
         </h3>
 
@@ -33,7 +40,7 @@
         </ul>
 
         <h3 v-if="memberObject.createdTotal > 0 && memberObject.owedTotal > 0">
-          {{memberObject.member.name}} owes you
+          {{memberObject.member.displayName}} owes you
           <MoneyDisplay v-bind:amount="memberObject.createdTotal" />
         </h3>
 
@@ -115,5 +122,13 @@ h3 {
 ul {
   margin: 0.2em 0 3em;
   padding-left: 1em;
+}
+
+.inactive-account {
+  text-transform: uppercase;
+  font-size: 0.9em;
+  letter-spacing: 0.1em;
+  font-style: italic;
+  color: hsla(0, 0%, 0%, 0.7);
 }
 </style>

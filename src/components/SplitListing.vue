@@ -19,7 +19,7 @@
       <p>
         {{ this.split.transaction.altered_date ? "Date adjusted to" : "Created on" }}
         <DateDisplay v-bind:date="txnDisplayDate" v-bind:timezoned="txnShouldBeZoned" />
-        by {{getGroupMemberName(split.transaction.creator)}}
+        by {{transactionCreatorDisplayName}}
       </p>
       <p>
         Full amount:
@@ -27,10 +27,7 @@
         ,
         split as {{Math.round(split.percentage * 100)}}%
       </p>
-      <p
-        class="tooltip-long-description"
-        v-html="formatLongDescription(split.transaction.long_description)"
-      />
+      <p class="tooltip-long-description" v-if="longDescription" v-html="longDescription" />
     </div>
   </li>
 </template>
@@ -58,24 +55,28 @@ export default {
 
     longDescription: function() {
       var value = this.split.transaction.longDescription;
+      if (!value) {
+        return "";
+      }
       var doc = new DOMParser().parseFromString(value, "text/html");
       value = doc.body.textContent || "";
       value = value.replace(/(?:\r\n|\r|\n)/g, "<br>");
       return value;
+    },
+
+    transactionCreatorDisplayName: function() {
+      const txnCreatorId = this.split.transaction.creator;
+      const creatorObject = this.$store.state.currentGroup.members.filter(
+        m => m.id == txnCreatorId
+      )[0];
+      if (creatorObject) {
+        return creatorObject.displayName;
+      }
+      return "";
     }
   },
 
   methods: {
-    getGroupMemberName: function(id) {
-      return this.$store.state.currentGroup.members.filter(m => m.id == id)[0]
-        .name;
-    },
-
-    formatLongDescription: function(value) {
-      value = value.replace(/(?:\r\n|\r|\n)/g, "<br>");
-      return value;
-    },
-
     adjustTooltipPosition: function(event) {
       const self = this;
       if (this.$refs.tooltip) {
