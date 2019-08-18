@@ -82,7 +82,7 @@
             </thead>
             <tbody>
               <tr v-for="(member, idx) in groupMembers" v-bind:key="idx">
-                <td>{{member.name}}</td>
+                <td>{{member.displayName}}</td>
                 <td>
                   <VueNumeric
                     separator=","
