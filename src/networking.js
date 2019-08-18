@@ -212,21 +212,7 @@ export default {
       text: `>>> \`\`\`${JSON.stringify(object, null, 4)}\`\`\``
     };
 
-    if (process.env.NODE_ENV === "production") {
-      axios.post(process.env.VUE_APP_ERROR_WEBHOOK, JSON.stringify(data), {
-        withCredentials: false,
-        transformRequest: [
-          (data, headers) => {
-            delete headers.post["Content-Type"];
-            return data;
-          }
-        ]
-      });
-    } else {
-      /* eslint-disable no-console */
-      console.log(object);
-      /* eslint-enable no-console */
-    }
+    console.log(object);
   },
 
   sendFeedback: function(msg) {
