@@ -51,6 +51,10 @@ const store = new Vuex.Store({
       state.debts = debtsObject;
     },
 
+    setHistoryObject(state, historyObject) {
+      state.history = historyObject;
+    },
+
     logout(state) {
       state.apiToken = null;
       state.me = null;
@@ -135,6 +139,15 @@ const store = new Vuex.Store({
         .getDebts(context.state.apiToken, context.state.currentGroupId)
         .then(function(response) {
           context.commit("setDebtsObject", response.data);
+        })
+        .catch(function(error) {
+          networking.log(error);
+        });
+
+      networking
+        .getHistory(context.state.apiToken, context.state.currentGroupId)
+        .then(function(response) {
+          context.commit("setHistoryObject", response.data);
         })
         .catch(function(error) {
           networking.log(error);

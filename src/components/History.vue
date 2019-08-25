@@ -1,18 +1,22 @@
 <template>
-  <div v-if="this.$store.state.debts">
+  <div v-if="this.$store.state.history">
     <h4>Event History</h4>
-    <p>
-      <i>Coming soon!</i>
-    </p>
+    <HistoryEntry
+      v-for="event in this.$store.state.history"
+      v-bind:key="event.id"
+      v-bind:entry="event"
+    />
   </div>
 </template>
 
 <script>
+import HistoryEntry from "./HistoryEntry.vue";
+
 export default {
   computed: {},
 
   methods: {},
 
-  components: {}
+  components: { HistoryEntry }
 };
 </script>

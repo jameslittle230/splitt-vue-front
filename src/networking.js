@@ -55,6 +55,22 @@ export default {
       });
   },
 
+  getHistory: function(apiToken, groupID) {
+    return this.a
+      .get(`/groups/${groupID}/events/`, {
+        params: {
+          api_token: apiToken
+        }
+      })
+      .catch(function() {
+        store.commit("presentNotification", {
+          body:
+            "Splitt has encountered an error getting recent activity. This error has been reported.",
+          timer: 10
+        });
+      });
+  },
+
   reconcileDebt: function(groupID, memberID) {
     return this.a
       .request({
@@ -208,11 +224,12 @@ export default {
   },
 
   log: function(object) {
-    const data = {
-      text: `>>> \`\`\`${JSON.stringify(object, null, 4)}\`\`\``
-    };
-
+    // const data = {
+    //   text: `>>> \`\`\`${JSON.stringify(object, null, 4)}\`\`\``
+    // };
+    /* eslint-disable no-console */
     console.log(object);
+    /* eslint-enable no-console */
   },
 
   sendFeedback: function(msg) {
