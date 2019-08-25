@@ -42,10 +42,9 @@ const store = new Vuex.Store({
 
     setDebtsObject(state, debtsObject) {
       Object.values(debtsObject).map(function(debtObject) {
-        debtObject.member.displayName =
-          debtObject.member.name || debtObject.member.email;
-        debtObject.member.isActivated =
-          !debtObject.member.name && !debtObject.member.self_created;
+        m = debtsObject.member;
+        m.displayName = m.name || m.email;
+        m.isActivated = !m.name && !m.self_created;
         return debtObject;
       });
       state.debts = debtsObject;
