@@ -1,10 +1,10 @@
 <template>
   <div class="history-entry">
-    <div class="icon">Icon</div>
+    <!-- <div class="icon">Icon</div> -->
     <div class="info">
       <p>
         <b>{{entry.subject.name !== "" ? entry.subject.name : entry.subject.email}}</b>
-        {{readableVerb}} "{{readableObject}}"
+        {{readableVerb}}
       </p>
       <p class="date">
         <DateDisplay v-bind:date="entry.created_at" />
@@ -23,20 +23,10 @@ export default {
     readableVerb: function() {
       switch (this.entry.verb) {
         case "createdTransaction":
-          return "created transaction";
+          return `created transaction "${this.entry.object.description}"`;
           break;
         case "createdReconciliation":
-          return "reconciled splits";
-      }
-    },
-
-    readableObject: function() {
-      switch (this.entry.verb) {
-        case "createdTransaction":
-          return this.entry.object.description;
-          break;
-        case "createdReconciliation":
-          return this.entry.object.id;
+          return `reconciled ${this.entry.object.splits.length} splits`;
       }
     }
   },
@@ -59,10 +49,11 @@ export default {
 
 p {
   margin: 0;
+  color: hsla(0, 0%, 0%, 0.7);
 }
 
 .date {
   font-size: 0.9em;
-  color: hsla(0, 0%, 0%, 0.7);
+  color: hsla(0, 0%, 0%, 0.4);
 }
 </style>
