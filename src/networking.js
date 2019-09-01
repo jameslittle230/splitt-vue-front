@@ -7,68 +7,35 @@ export default {
   }),
 
   _getMe: function(apiToken) {
-    return this.a
-      .get("/me", {
-        params: {
-          api_token: apiToken
-        }
-      })
-      .catch(function() {
-        store.commit("logout");
-        store.commit("presentNotification", {
-          body:
-            "Split has encountered an error getting your profile. You have been logged out.",
-          timer: 10
-        });
-      });
+    return this.a.get("/me", {
+      params: {
+        api_token: apiToken
+      }
+    });
   },
 
   _getGroup: function(apiToken, groupID) {
-    return this.a
-      .get(`/groups/${groupID}`, {
-        params: {
-          api_token: apiToken
-        }
-      })
-      .catch(function() {
-        store.commit("presentNotification", {
-          body:
-            "Splitt has encountered an error getting the current group. This error has been reported.",
-          timer: 10
-        });
-      });
+    return this.a.get(`/groups/${groupID}`, {
+      params: {
+        api_token: apiToken
+      }
+    });
   },
 
-  getDebts: function(apiToken, groupID) {
-    return this.a
-      .get(`/groups/${groupID}/debts/`, {
-        params: {
-          api_token: apiToken
-        }
-      })
-      .catch(function() {
-        store.commit("presentNotification", {
-          body:
-            "Splitt has encountered an error getting up-to-date information. This error has been reported.",
-          timer: 10
-        });
-      });
+  _getDebts: function(apiToken, groupID) {
+    return this.a.get(`/groups/${groupID}/debts/`, {
+      params: {
+        api_token: apiToken
+      }
+    });
   },
 
-  getHistory: function(apiToken, groupID) {
-    return this.a
-      .get(`/groups/${groupID}/events/`, {
-        params: {
-          api_token: apiToken
-        }
-      })
-      .catch(function() {
-        store.commit("presentNotification", {
-          body:
-            "Splitt has encountered an error getting recent activity. This error has been reported.",
-          timer: 10
-        });
-      });
+  _getHistory: function(apiToken, groupID) {
+    return this.a.get(`/groups/${groupID}/events/`, {
+      params: {
+        api_token: apiToken
+      }
+    });
   },
 
   reconcileDebt: function(groupID, memberID) {
@@ -91,31 +58,6 @@ export default {
         });
       });
   },
-
-  /**
-   * @param splitID {String} The ID of the split that gets reconciled
-   * @returns {AxiosPromise}
-   */
-  // reconcileSplit: function(splitID) {
-  //   return this.a
-  //     .request({
-  //       url: `/splits/${splitID}`,
-  //       method: "put",
-  //       data: {
-  //         reconciled: 1
-  //       },
-  //       params: {
-  //         api_token: store.state.apiToken
-  //       }
-  //     })
-  //     .catch(function() {
-  //       store.commit("presentNotification", {
-  //         body:
-  //           "Splitt has encountered an error reconciling this split. This error has been reported.",
-  //         timer: 10
-  //       });
-  //     });
-  // },
 
   /**
    *
@@ -171,41 +113,25 @@ export default {
   },
 
   groupSearch: function(q) {
-    return this.a
-      .get(`/groupsearch`, {
-        params: {
-          api_token: store.state.apiToken,
-          q: q
-        }
-      })
-      .catch(function() {
-        store.commit("presentNotification", {
-          body:
-            "Splitt has encountered an error searching for groups. This error has been reported.",
-          timer: 10
-        });
-      });
+    return this.a.get(`/groupsearch`, {
+      params: {
+        api_token: store.state.apiToken,
+        q: q
+      }
+    });
   },
 
   addSelfToGroup: function(groupID) {
-    return this.a
-      .request({
-        url: `/groups/${groupID}`,
-        method: "put",
-        data: {
-          members: [store.state.me.email]
-        },
-        params: {
-          api_token: store.state.apiToken
-        }
-      })
-      .catch(function() {
-        store.commit("presentNotification", {
-          body:
-            "Splitt has encountered an error adding members to groups. This error has been reported.",
-          timer: 10
-        });
-      });
+    return this.a.request({
+      url: `/groups/${groupID}`,
+      method: "put",
+      data: {
+        members: [store.state.me.email]
+      },
+      params: {
+        api_token: store.state.apiToken
+      }
+    });
   },
 
   createUser: function(name, email, password) {

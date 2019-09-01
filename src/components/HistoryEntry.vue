@@ -24,10 +24,11 @@ export default {
       switch (this.entry.verb) {
         case "createdTransaction":
           return `created transaction "${this.entry.object.description}"`;
-          break;
         case "createdReconciliation":
           return `reconciled ${this.entry.object.splits.length} splits`;
       }
+
+      return "performed an action";
     }
   },
 

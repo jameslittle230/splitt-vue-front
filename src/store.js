@@ -11,6 +11,7 @@ const store = new Vuex.Store({
     currentGroupId: null,
     currentGroup: null,
     debts: null,
+    history: null,
 
     openModal: null,
     presentedNotifications: []
@@ -60,6 +61,7 @@ const store = new Vuex.Store({
       state.currentGroup = null;
       state.currentGroupId = null;
       state.debts = null;
+      state.history = null;
     },
 
     setOpenModal(state, component) {
@@ -109,12 +111,18 @@ const store = new Vuex.Store({
 
     setGroup(context, groupId) {
       context.commit("setCurrentGroupId", groupId);
+      context.dispatch("fullRefresh");
+    },
+
+    fullRefresh(context) {
       context.dispatch("refreshGroup");
+      context.dispatch("refreshDebts");
+      context.dispatch("refreshHistory");
     },
 
     refreshDebts(context) {
       networking
-        .getDebts(context.state.apiToken, context.state.currentGroupId)
+        ._getDebts(context.state.apiToken, context.state.currentGroupId)
         .then(function(response) {
           context.commit("setDebtsObject", response.data);
         })
@@ -128,28 +136,14 @@ const store = new Vuex.Store({
         ._getGroup(context.state.apiToken, context.state.currentGroupId)
         .then(function(response) {
           context.commit("setGroupObject", response.data);
-        })
-        .catch(function(error) {
-          networking.log(error);
         });
+    },
 
-      /* @TODO: This block is the same as refreshDebts above. Needs refactor. */
+    refreshHistory(context) {
       networking
-        .getDebts(context.state.apiToken, context.state.currentGroupId)
-        .then(function(response) {
-          context.commit("setDebtsObject", response.data);
-        })
-        .catch(function(error) {
-          networking.log(error);
-        });
-
-      networking
-        .getHistory(context.state.apiToken, context.state.currentGroupId)
+        ._getHistory(context.state.apiToken, context.state.currentGroupId)
         .then(function(response) {
           context.commit("setHistoryObject", response.data);
-        })
-        .catch(function(error) {
-          networking.log(error);
         });
     },
 
@@ -160,11 +154,11 @@ const store = new Vuex.Store({
         this.commit("clearOpenModal");
 
         if (context.state.apiToken) {
-          context.dispatch("refreshMe");
-        }
-
-        if (context.state.currentGroupId) {
-          context.dispatch("refreshGroup");
+          context.dispatch("refreshMe").then(() => {
+            if (context.state.currentGroupId) {
+              context.dispatch("fullRefresh");
+            }
+          });
         }
       }
     }
