@@ -18,7 +18,7 @@
 
       <p
         class="inactive-account"
-        v-if="!memberObject.isActivated"
+        v-if="!memberObject.member.isActivated"
       >This user has not logged into Splitt yet.</p>
 
       <div class="details">
@@ -104,7 +104,7 @@ export default {
 
 h2 {
   font-size: 1.8em;
-  margin: 0 0 0.3em;
+  margin: 1rem 0;
 }
 
 h2 button {

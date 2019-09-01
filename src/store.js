@@ -34,7 +34,7 @@ const store = new Vuex.Store({
       // @TODO: This might be better done on the server.
       groupObject.members.map(function(m) {
         m.displayName = m.name || m.email;
-        m.isActivated = !m.name && !m.self_created;
+        m.isActivated = !!m.name;
         return m;
       });
       state.currentGroup = groupObject;
@@ -44,7 +44,7 @@ const store = new Vuex.Store({
       Object.values(debtsObject).map(function(debtObject) {
         let m = debtObject.member;
         m.displayName = m.name || m.email;
-        m.isActivated = !m.name && !m.self_created;
+        m.isActivated = !!m.name;
         return debtObject;
       });
       state.debts = debtsObject;
