@@ -224,12 +224,31 @@ export default {
   },
 
   log: function(object) {
-    // const data = {
-    //   text: `>>> \`\`\`${JSON.stringify(object, null, 4)}\`\`\``
-    // };
-    /* eslint-disable no-console */
-    console.log(object);
-    /* eslint-enable no-console */
+    const data = {
+      text: `>>> \`\`\`${JSON.stringify(object, null, 4)}\`\`\``
+    };
+
+    if (process.env.NODE_ENV == "production") {
+      axios
+        .post(process.env.VUE_APP_ERROR_WEBHOOK, data, {
+          withCredentials: false,
+          transformRequest: [
+            (data, headers) => {
+              delete headers.post["Content-Type"];
+              return data;
+            }
+          ]
+        })
+        .catch(function(error) {
+          /* eslint-disable no-console */
+          console.log(object);
+          /* eslint-enable no-console */
+        });
+    } else {
+      /* eslint-disable no-console */
+      console.log(object);
+      /* eslint-enable no-console */
+    }
   },
 
   sendFeedback: function(msg) {
