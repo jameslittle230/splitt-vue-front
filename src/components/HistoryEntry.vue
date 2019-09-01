@@ -4,7 +4,7 @@
     <div class="info">
       <p>
         <b>{{entry.subject.name !== "" ? entry.subject.name : entry.subject.email}}</b>
-        {{readableVerb}}
+        {{readableAction}}
       </p>
       <p class="date">
         <DateDisplay v-bind:date="entry.created_at" />
@@ -20,7 +20,7 @@ export default {
   props: ["entry"],
 
   computed: {
-    readableVerb: function() {
+    readableAction: function() {
       switch (this.entry.verb) {
         case "createdTransaction":
           return `created transaction "${this.entry.object.description}"`;
@@ -40,6 +40,17 @@ export default {
   padding: 1em 0;
   border-bottom: 1px solid hsla(0, 0%, 0%, 0.3);
   display: flex;
+  font-size: 0.9em;
+  opacity: 0.7;
+  transition: opacity 0.2s ease-out;
+}
+
+.history-entry:hover {
+  opacity: 1;
+}
+
+.history-entry:last-of-type {
+  border-bottom: none;
 }
 
 .icon {
@@ -49,7 +60,6 @@ export default {
 
 p {
   margin: 0;
-  color: hsla(0, 0%, 0%, 0.7);
 }
 
 .date {
