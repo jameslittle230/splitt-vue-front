@@ -72,6 +72,46 @@ const store = new Vuex.Store({
       state.openModal = null;
     },
 
+    /**
+ * Notifications API:
+ * 
+ * Notification objects can have three properties:
+ * - body: string
+ * - actions (optional): [action object]
+ * - timer (optional): number representing seconds
+ * 
+ * The body is the text that gets presented in the main part of the notification.
+ * Actions are arbitrary functions and associated labels that get displayed below
+ * the "close" x. The timer, an optional property, indicates the lifespan of the
+ * alert. Without this property, the alert will be present until it is
+ * manually closed.
+ * 
+ * The notification center, through the data store, is set to hold 8 notifications
+ * in the stack at a time; once the ninth is pushed on, the oldest gets popped
+ * off the stack.
+ * 
+ * Action objects have two properties:
+ * - fxn: The function that gets called when the action is taken
+ * - label: The text displayed in the notification that the user presses.
+ * 
+ ******************************
+ * 
+ * Example:
+ * 
+    self.$store.commit("presentNotification", {
+      body: "Created your group.",
+      actions: [{
+        label: "Undo",
+        fxn: function() {
+          // undo code
+        }
+      }],
+      timer: 10
+    });
+ *
+ *
+ */
+
     presentNotification(state, notification) {
       notification.timestamp = new Date().getTime();
       if (state.presentedNotifications.unshift(notification) > 8) {
