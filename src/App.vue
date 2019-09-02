@@ -36,10 +36,4 @@ export default {
 };
 </script>
 
-<style>
-.page-wrap {
-  position: relative;
-}
-</style>
-
 

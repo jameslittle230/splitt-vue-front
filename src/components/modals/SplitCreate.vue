@@ -1,6 +1,5 @@
 <template>
-  <div v-if="this.$store.state.currentGroup">
-    <h4>Create a New Split</h4>
+  <div>
     <form v-on:submit.prevent="submit">
       <div class="big-number">
         <span class="big-number-prefix">$</span>
@@ -14,112 +13,103 @@
           class="big-number-input"
           type="text"
         />
-        <button class="active-button" v-on:click="loseFocus" v-if="active" tabindex="18">&times;</button>
+        <!-- <button class="active-button" v-on:click="loseFocus" v-if="active" tabindex="18">&times;</button> -->
       </div>
 
-      <div v-if="active">
-        <div>
-          <p>
-            <label for="memo">
-              Memo:
-              <br />
-              <input
-                type="text"
-                name="memo"
-                v-model="memo"
-                style="font-size: 1.2em; min-width: 40%;"
-              />
-            </label>
-          </p>
-
-          <p>
-            <label for="desc">
-              <div style="margin-bottom: 0.2em;">
-                Description:
-                <small>(optional)</small>
-              </div>
-              <textarea
-                name="description"
-                v-model="description"
-                style="padding: 0.8em; min-width: 40%; height: 5em;"
-              />
-            </label>
-          </p>
-
-          <p>
-            <label for="date">
-              Date:
-              <datepicker v-model="date" name="date" format="D, MMM dd, yyyy"></datepicker>
-            </label>
-          </p>
-        </div>
-
+      <!-- <div v-if="active"> -->
+      <div>
         <p>
-          <!-- <h4>Type</h4> -->
-
-          <input
-            type="radio"
-            id="reimbursement"
-            value="reimbursement"
-            v-model="splitViewModel.type"
-          />
-
-          <label for="reimbursement">Reimbursement</label>
-          <br />
-
-          <input type="radio" id="split" value="split" v-model="splitViewModel.type" />
-          <label for="split">Split</label>
+          <label for="memo">
+            Memo:
+            <br />
+            <input type="text" name="memo" v-model="memo" style="font-size: 1.2em; min-width: 40%;" />
+          </label>
         </p>
 
-        <div>
-          <!-- <h4>Splits</h4> -->
-
-          <table>
-            <thead>
-              <th>Group Member</th>
-              <th>Percentage</th>
-              <th>Amount Owed</th>
-            </thead>
-            <tbody>
-              <tr v-for="(member, idx) in groupMembers" v-bind:key="idx">
-                <td>{{member.displayName}}</td>
-                <td>
-                  <VueNumeric
-                    separator=","
-                    v-bind:precision="2"
-                    v-bind:min="0"
-                    v-bind:max="100"
-                    v-model="splitViewModel['memberData'][member.email]['percentageString']"
-                    v-on:blur="handlePercentageInput(member.email)"
-                    output-type="String"
-                    style="width: 3.5em"
-                    v-bind:class="{manuallySet: splitViewModel['memberData'][member.email]['percentageManuallySet']}"
-                  />%
-                </td>
-                <td
-                  v-bind:data-amount="splitViewModel['memberData'][member.email]['amount']"
-                >${{ (splitViewModel['memberData'][member.email]['amount'] / 100).toFixed(2) }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div v-if="active">
         <p>
-          <button
-            type="submit"
-            v-bind:disabled="percentageSum != 1"
-          >{{percentageSum == 1 ? "Create Split" : "Percentages must sum to 100%"}}</button>
+          <label for="desc">
+            <div style="margin-bottom: 0.2em;">
+              Description:
+              <small>(optional)</small>
+            </div>
+            <textarea
+              name="description"
+              v-model="description"
+              style="padding: 0.8em; min-width: 40%; height: 5em;"
+            />
+          </label>
         </p>
-        <hr />
+
+        <p>
+          <label for="date">
+            Date:
+            <datepicker v-model="date" name="date" format="D, MMM dd, yyyy"></datepicker>
+          </label>
+        </p>
       </div>
+
+      <p>
+        <!-- <h4>Type</h4> -->
+
+        <input type="radio" id="reimbursement" value="reimbursement" v-model="splitViewModel.type" />
+
+        <label for="reimbursement">Reimbursement</label>
+        <br />
+
+        <input type="radio" id="split" value="split" v-model="splitViewModel.type" />
+        <label for="split">Split</label>
+      </p>
+
+      <div>
+        <!-- <h4>Splits</h4> -->
+
+        <table>
+          <thead>
+            <th>Group Member</th>
+            <th>Percentage</th>
+            <th>Amount Owed</th>
+          </thead>
+          <tbody>
+            <tr v-for="(member, idx) in groupMembers" v-bind:key="idx">
+              <td>{{member.displayName}}</td>
+              <td>
+                <VueNumeric
+                  separator=","
+                  v-bind:precision="2"
+                  v-bind:min="0"
+                  v-bind:max="100"
+                  v-model="splitViewModel['memberData'][member.email]['percentageString']"
+                  v-on:blur="handlePercentageInput(member.email)"
+                  output-type="String"
+                  style="width: 3.5em"
+                  v-bind:class="{manuallySet: splitViewModel['memberData'][member.email]['percentageManuallySet']}"
+                />%
+              </td>
+              <td
+                v-bind:data-amount="splitViewModel['memberData'][member.email]['amount']"
+              >${{ (splitViewModel['memberData'][member.email]['amount'] / 100).toFixed(2) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- </div>
+
+      <div v-if="active">-->
+      <p>
+        <button
+          type="submit"
+          v-bind:disabled="percentageSum != 1"
+        >{{percentageSum == 1 ? "Create Split" : "Percentages must sum to 100%"}}</button>
+        <button>Create &amp; Add Another</button>
+      </p>
+      <!-- <hr /> -->
+      <!-- </div> -->
     </form>
   </div>
 </template>
 
 <script>
-import Networker from "../networking";
+import Networker from "../../networking";
 import VueNumeric from "vue-numeric";
 import Datepicker from "vuejs-datepicker";
 

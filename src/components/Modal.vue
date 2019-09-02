@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="backdrop" v-on:click="closeModal" v-on:keyup.esc="closeModal" tabindex="0"></div>
-    <div class="modal">
+    <div class="modal" v-bind:style="{ maxWidth: modalWidth + 'px' }">
       <div class="modal-head">
         <span v-on:click="closeModal" class="modal-close-button">&times;</span>
       </div>
@@ -21,20 +21,31 @@ import GroupInfo from "./modals/GroupInfo.vue";
 import JoinGroup from "./modals/JoinGroup.vue";
 import AccountSettings from "./modals/AccountSettings.vue";
 import AppInfo from "./modals/AppInfo.vue";
-
+import SplitCreate from "./modals/SplitCreate.vue";
 import GroupModalContainer from "./modals/GroupModalContainer.vue";
 
 export default {
   computed: {
     modal: function() {
       return this.$store.state.openModal;
+    },
+
+    modalWidth: function() {
+      switch (this.$store.state.openModal) {
+        case "GroupModalContainer":
+          return 1200;
+        case "SplitCreate":
+          return 850;
+        default:
+          return 600;
+      }
     }
   },
 
   methods: {
     closeModal: function() {
       this.$store.commit("clearOpenModal");
-    },
+    }
   },
 
   components: {
@@ -45,7 +56,8 @@ export default {
     JoinGroup,
     AccountSettings,
     GroupModalContainer,
-    AppInfo
+    AppInfo,
+    SplitCreate
   }
 };
 </script>

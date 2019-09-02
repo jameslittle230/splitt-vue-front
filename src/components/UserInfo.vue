@@ -1,17 +1,11 @@
 <template>
-  <div>
-    <div class="layout-wrapper">
-      <img src="/splitt-logo.svg" class="logo" />
-      <div class="user-info">
-        <GroupDropdown v-if="this.$store.state.currentGroup" />
-        <UserDropdown />
-        <img src="/info.svg" alt class="info-button" v-on:click="showInfoModal" />
-      </div>
+  <div class="layout-wrapper">
+    <img src="/splitt-logo.svg" class="logo" />
+    <div class="user-info">
+      <GroupDropdown v-if="this.$store.state.currentGroup" />
+      <UserDropdown />
+      <img src="/info.svg" alt class="info-button" v-on:click="showInfoModal" />
     </div>
-    <p v-if="myGroups && myGroups.length == 0" class="intro-text">
-      <span style="margin-right: 0.5em">You're not a member of any groups.</span>
-      <button v-on:click="showNewGroupModal">Let's change that.</button>
-    </p>
   </div>
 </template>
 
@@ -22,12 +16,6 @@ import GroupDropdown from "./dropdowns/GroupDropdown.vue";
 export default {
   data() {
     return {};
-  },
-
-  computed: {
-    myGroups: function() {
-      return this.$store.state.me.groups;
-    }
   },
 
   methods: {
@@ -83,18 +71,6 @@ h1 {
 
 .info-button:hover {
   opacity: 0.8;
-}
-
-.intro-text {
-  font-size: 2em;
-  margin: 2em 0;
-  font-weight: bold;
-}
-
-.intro-text button {
-  display: block;
-  margin-top: 0.3em;
-  font-size: 0.8em;
 }
 
 @media screen and (max-width: 40rem) {
