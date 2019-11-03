@@ -9,14 +9,13 @@
           v-bind:min="0"
           v-bind:max="100000"
           v-model="amount"
-          v-on:focus="active = true"
           class="big-number-input"
           type="text"
+          ref="bigInput"
+          placeholder="52.52"
         />
-        <!-- <button class="active-button" v-on:click="loseFocus" v-if="active" tabindex="18">&times;</button> -->
       </div>
 
-      <!-- <div v-if="active"> -->
       <div>
         <p>
           <label for="memo">
@@ -28,10 +27,9 @@
 
         <p>
           <label for="desc">
-            <div style="margin-bottom: 0.2em;">
-              Description:
-              <small>(optional)</small>
-            </div>
+            Description:
+            <small>(optional)</small>
+            <br />
             <textarea
               name="description"
               v-model="description"
@@ -49,8 +47,6 @@
       </div>
 
       <p>
-        <!-- <h4>Type</h4> -->
-
         <input type="radio" id="reimbursement" value="reimbursement" v-model="splitViewModel.type" />
 
         <label for="reimbursement">Reimbursement</label>
@@ -96,11 +92,8 @@
 
       <div v-if="active">-->
       <p>
-        <button
-          type="submit"
-          v-bind:disabled="percentageSum != 1"
-        >{{percentageSum == 1 ? "Create Split" : "Percentages must sum to 100%"}}</button>
-        <button>Create &amp; Add Another</button>
+        <button v-on:click.prevent="submit(); closeModal();">Create Split</button>
+        <button v-on:click.prevent="submit(); refreshBigInput();">Create &amp; Add Another</button>
       </p>
       <!-- <hr /> -->
       <!-- </div> -->
@@ -120,7 +113,6 @@ export default {
       memo: "",
       description: "",
       date: new Date(),
-      active: false,
       splitViewModel: {}
     };
   },
@@ -182,8 +174,19 @@ export default {
     },
 
     submit: function() {
-      if (this.penceAmount == 0 || this.memo == "") {
-        alert("You need a memo (or you need to make a split that's >$0)");
+      if (this.penceAmount === 0) {
+        this.$store.commit("presentNotification", {
+          body: "Your split can't be $0."
+        });
+
+        return;
+      }
+
+      if (this.memo === "") {
+        this.$store.commit("presentNotification", {
+          body: "Your memo can't be blank."
+        });
+
         return;
       }
       var self = this;
@@ -198,10 +201,20 @@ export default {
           self.loseFocus();
           self.active = true;
           self.$store.dispatch("refreshDebts");
+          self.$store.dispatch("refreshHistory");
         })
         .catch(function(error) {
           Networker.log(error);
         });
+    },
+
+    closeModal: function() {
+      this.$store.commit("clearOpenModal");
+    },
+
+    refreshBigInput: function() {
+      this.amount = 0;
+      this.$refs.bigInput.$refs.numeric.focus();
     },
 
     resetSplitViewModel: function(type = "split") {
@@ -303,6 +316,7 @@ export default {
 
   mounted: function() {
     this.resetSplitViewModel("split");
+    this.refreshBigInput();
   },
 
   watch: {

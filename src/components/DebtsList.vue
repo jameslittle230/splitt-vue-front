@@ -1,64 +1,34 @@
 <template>
-  <div v-if="this.$store.state.debts">
-    <h4>Current Debts</h4>
-    <p v-if="debts.length == 0">No current debts!</p>
-
-    <div v-for="(memberObject, idx) in debts" v-bind:key="idx">
-      <h2>
-        <span v-if="memberObject.net < 0">
-          You owe {{memberObject.member.displayName}}
-          <MoneyDisplay v-bind:amount="memberObject.net * -1" />
+  <div v-if="this.$store.state.debts" class="debt-listing-container">
+    <div
+      v-for="(debt, idx) in debts"
+      v-bind:key="idx"
+      class="card hover"
+      v-bind:class="(debt.net < 0) ? 'red' : 'green'"
+      v-on:click="showDebtDetailModal(debt)"
+    >
+      <div>
+        <span v-if="debt.net < 0">
+          You owe {{debt.member.displayName}}
+          <span class="amount">
+            <MoneyDisplay v-bind:amount="debt.net * -1" />
+          </span>
         </span>
 
-        <span v-if="memberObject.net > 0">
-          {{memberObject.member.displayName}} owes you
-          <MoneyDisplay v-bind:amount="memberObject.net" />
+        <span v-if="debt.net > 0">
+          {{debt.member.displayName}} owes you
+          <span class="amount">
+            <MoneyDisplay v-bind:amount="debt.net" />
+          </span>
         </span>
-      </h2>
-
-      <p
-        class="inactive-account"
-        v-if="!memberObject.member.isActivated"
-      >This user has not logged into Splitt yet.</p>
-
-      <div class="details">
-        <p>
-          <button v-on:click="reconcile(memberObject.member.id)">Mark as Paid</button>
-        </p>
-
-        <h3 v-if="memberObject.owedTotal > 0 && memberObject.createdTotal > 0">
-          You owe {{memberObject.member.displayName}}
-          <MoneyDisplay v-bind:amount="memberObject.owedTotal" />
-        </h3>
-
-        <ul v-if="memberObject.owedTotal > 0">
-          <SplitListing
-            v-for="split in memberObject.owed"
-            v-bind:key="split.id"
-            v-bind:split="split"
-          />
-        </ul>
-
-        <h3 v-if="memberObject.createdTotal > 0 && memberObject.owedTotal > 0">
-          {{memberObject.member.displayName}} owes you
-          <MoneyDisplay v-bind:amount="memberObject.createdTotal" />
-        </h3>
-
-        <ul v-if="memberObject.createdTotal > 0">
-          <SplitListing
-            v-for="split in memberObject.created"
-            v-bind:key="split.id"
-            v-bind:split="split"
-          />
-        </ul>
       </div>
+      <p class="subtitle">{{debt.created.length + debt.owed.length}} transactions</p>
     </div>
   </div>
 </template>
 
 <script>
 import Networker from "../networking";
-import SplitListing from "./SplitListing.vue";
 import MoneyDisplay from "./MoneyDisplay";
 
 export default {
@@ -79,56 +49,32 @@ export default {
   },
 
   methods: {
-    reconcile: function(memberId) {
-      var self = this;
-      Networker.reconcileDebt(this.$store.state.currentGroupId, memberId)
-        .then(function() {
-          self.$store.dispatch("refreshDebts");
-        })
-        .catch(function(error) {
-          Networker.log(error);
-        });
+    showDebtDetailModal: function(debt) {
+      this.$store.commit("setOpenModalWithProps", {
+        component: "DebtDetail",
+        props: { debt: debt }
+      });
     }
   },
 
-  components: { SplitListing, MoneyDisplay }
+  components: { MoneyDisplay }
 };
 </script>
 
 <style scoped>
-.details {
-  margin-bottom: 3em;
-  padding-left: 1em;
-  border-left: 1px solid hsla(0, 0%, 0%, 0.3);
+.amount {
+  font-weight: 900;
 }
 
-h2 {
-  font-size: 1.8em;
-  margin: 1rem 0;
-}
-
-h2 button {
-  font-size: 1rem;
-  margin-left: 1em;
+.debt-listing-container {
+  display: flex;
   position: relative;
-  top: -0.2em;
+  flex-basis: 100%;
 }
 
-h3 {
-  font-size: 1.4em;
-  margin: 0 0 0.7em;
-}
-
-ul {
-  margin: 0.2em 0 3em;
-  padding-left: 1em;
-}
-
-.inactive-account {
-  text-transform: uppercase;
-  font-size: 0.9em;
-  letter-spacing: 0.1em;
-  font-style: italic;
-  color: hsla(0, 0%, 0%, 0.7);
+.subtitle {
+  color: hsla(0, 0%, 100%, 0.6);
+  font-size: 0.6em;
+  margin-top: 0.4em;
 }
 </style>
