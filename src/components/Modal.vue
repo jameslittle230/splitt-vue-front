@@ -25,6 +25,7 @@ import JoinGroup from "./modals/JoinGroup.vue";
 import AccountSettings from "./modals/AccountSettings.vue";
 import AppInfo from "./modals/AppInfo.vue";
 import SplitCreate from "./modals/SplitCreate.vue";
+import DebtDetail from "./modals/DebtDetail.vue";
 
 export default {
   computed: {
@@ -60,7 +61,8 @@ export default {
     JoinGroup,
     AccountSettings,
     AppInfo,
-    SplitCreate
+    SplitCreate,
+    DebtDetail
   }
 };
 </script>
