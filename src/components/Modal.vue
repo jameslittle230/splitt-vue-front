@@ -7,7 +7,10 @@
       </div>
 
       <div class="modal-body">
-        <component v-bind:is="modal">View not available. You shouldn't be seeing this.</component>
+        <component
+          v-bind:is="modal"
+          v-bind="props"
+        >View not available. You shouldn't be seeing this.</component>
       </div>
     </div>
   </div>
@@ -27,6 +30,10 @@ export default {
   computed: {
     modal: function() {
       return this.$store.state.openModal;
+    },
+
+    props: function() {
+      return this.$store.state.openModalProps;
     },
 
     modalWidth: function() {

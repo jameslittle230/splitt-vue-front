@@ -14,7 +14,8 @@ const store = new Vuex.Store({
     history: null,
 
     openModal: null,
-    presentedNotifications: []
+    openModalProps: null,
+    presentedNotifications: [],
   },
 
   mutations: {
@@ -66,10 +67,17 @@ const store = new Vuex.Store({
 
     setOpenModal(state, component) {
       state.openModal = component;
+      state.openModalProps = null;
+    },
+
+    setOpenModalWithProps(state, payload) {
+      state.openModal = payload.component;
+      state.openModalProps = payload.props;
     },
 
     clearOpenModal(state) {
       state.openModal = null;
+      state.openModalProps = null;
     },
 
     /**
