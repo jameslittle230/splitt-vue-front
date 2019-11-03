@@ -48,6 +48,7 @@ button {
   border-radius: 0.5em;
   color: white;
   letter-spacing: 0.035em;
+  text-shadow: 2px 2px 0 hsla(0, 0%, 0%, 0.3);
   position: relative;
   cursor: pointer;
   margin: 0 0.2em;
@@ -89,16 +90,17 @@ button.active {
 .lowkey-button,
 .lowkey-button:active,
 .lowkey-button .active {
-  background: hsl(213, 15%, 37%);
+  background: hsl(213, 15%, 54%);
+  text-shadow: 2px 2px 0 hsla(0, 0%, 0%, 0.3);
 }
 
 .lowkey-button:hover {
-  background: hsl(213, 15%, 54%);
+  background: hsl(213, 15%, 63%);
 }
 
 .lowkey-button:active,
 .lowkey-button .active {
-  background: hsl(213, 15%, 21%);
+  background: hsl(213, 15%, 42%);
 }
 
 hr {

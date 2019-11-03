@@ -1,6 +1,12 @@
 <template>
   <div>
-    <h3>Join an Existing Group</h3>
+    <h2>Join an Existing Group</h2>
+    <p>
+      <em>
+        Or
+        <a href="#" v-on:click.prevent="openNewGroupModal">create a new group.</a>
+      </em>
+    </p>
     <form action="#" method="POST" v-on:submit.prevent="submit">
       <label for="name">
         Code:
@@ -61,6 +67,10 @@ export default {
         .finally(function() {
           self.submitButtonDisabled = false;
         });
+    },
+
+    openNewGroupModal: function() {
+      this.$store.commit("setOpenModal", "NewGroup");
     }
   },
 

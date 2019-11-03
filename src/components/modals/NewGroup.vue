@@ -1,6 +1,12 @@
 <template>
   <div>
-    <h3>Create a New Group</h3>
+    <h2 style="margin-bottom:">Create a New Group</h2>
+    <p>
+      <em>
+        Or
+        <a href v-on:click.prevent="openJoinGroupModal">join an existing group.</a>
+      </em>
+    </p>
     <form action="#" v-on:submit.prevent="submit">
       <p style="margin-bottom: 2em;">
         <label for="name">
@@ -23,6 +29,7 @@
           />
           <button
             type="button"
+            class="lowkey-button"
             style="font-size: 0.7em;"
             v-on:click="newGroupMembers.splice(idx, 1);"
             v-if="idx != 0"
@@ -30,7 +37,11 @@
         </label>
       </p>
       <p>
-        <button type="button" v-on:click="newGroupMembers.push('')">Add Someone Else</button>
+        <button
+          type="button"
+          class="lowkey-button"
+          v-on:click="newGroupMembers.push('')"
+        >Add Someone Else</button>
       </p>
       <p class="form-error-message" v-if="message">{{ message }}</p>
       <p>
@@ -102,6 +113,10 @@ export default {
         .finally(function() {
           self.submitButtonDisabled = false;
         });
+    },
+
+    openJoinGroupModal: function() {
+      this.$store.commit("setOpenModal", "JoinGroup");
     }
   },
 

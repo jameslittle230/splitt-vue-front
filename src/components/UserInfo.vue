@@ -20,7 +20,7 @@ export default {
 
   methods: {
     showNewGroupModal: function() {
-      this.$store.commit("setOpenModal", "GroupModalContainer");
+      this.$store.commit("setOpenModal", "NewGroup");
     },
 
     showInfoModal: function() {
