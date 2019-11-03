@@ -16,6 +16,8 @@ const store = new Vuex.Store({
     openModal: null,
     openModalProps: null,
     presentedNotifications: [],
+
+    undoableVerbs: null
   },
 
   mutations: {
@@ -78,6 +80,10 @@ const store = new Vuex.Store({
     clearOpenModal(state) {
       state.openModal = null;
       state.openModalProps = null;
+    },
+
+    setUndoableVerbs(state, array) {
+      state.undoableVerbs = array;
     },
 
     /**

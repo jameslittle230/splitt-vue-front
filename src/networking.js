@@ -130,6 +130,16 @@ function makeNetworker() {
         });
     },
 
+    undoEvent: function(eventId) {
+      return this.a.request({
+        url: `/events/${eventId}/undo`,
+        method: "post",
+        params: {
+          api_token: store.state.apiToken
+        }
+      });
+    },
+
     /**
      *
      * @param {number} full_amount The amount of the transaction
@@ -220,6 +230,10 @@ function makeNetworker() {
       });
     },
 
+    getUndoableVerbs: function() {
+      return this.a.get("/undoable_verbs");
+    },
+
     log: function(object) {
       const data = {
         text: `>>> \`\`\`${JSON.stringify(object, null, 4)}\`\`\``
@@ -238,7 +252,7 @@ function makeNetworker() {
           })
           .catch(function(error) {
             /* eslint-disable no-console */
-            console.log(object);
+            console.log(error);
             /* eslint-enable no-console */
           });
       } else {

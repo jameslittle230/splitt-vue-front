@@ -7,6 +7,9 @@
       v-bind:key="event.id"
       v-bind:entry="event"
     />
+    <!-- <div class="history-entry" style="padding: 1rem; text-align: center;">
+      <button>See more &rarr;</button>
+    </div>-->
   </div>
 </template>
 
