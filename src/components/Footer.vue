@@ -18,10 +18,8 @@
 <style scoped>
 .footer {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 5em auto 2em;
   text-align: center;
-  margin-bottom: 2em;
-  margin-top: 5em;
 }
 p {
   margin: 0 0 0.5em;
